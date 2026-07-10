@@ -1,13 +1,34 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CodeXml, Smartphone, Cpu, BrainCircuit, Database, GitBranch, Server, LayoutTemplate } from 'lucide-react';
+import { 
+  CodeXml, 
+  Smartphone, 
+  Cpu, 
+  BrainCircuit, 
+  Database, 
+  GitBranch, 
+  Server, 
+  LayoutTemplate,
+  Monitor,
+  Workflow,
+  Palette,
+  Layers,
+  Shield
+} from 'lucide-react';
 
 const skills = [
   { name: 'Core Languages', icon: <CodeXml className="h-10 w-10 text-accent" />, description: 'TypeScript, JavaScript, Python, Dart, PHP, C/C++' },
-  { name: 'Frontend & Frameworks', icon: <LayoutTemplate className="h-10 w-10 text-accent" />, description: 'Next.js, React, Tailwind CSS, HTML/CSS' },
-  { name: 'Mobile Development', icon: <Smartphone className="h-10 w-10 text-accent" />, description: 'Flutter, Dart, Cross-Platform Architecture' },
-  { name: 'Databases & Backend', icon: <Database className="h-10 w-10 text-accent" />, description: 'PostgreSQL, Firebase, Supabase, SQL' },
-  { name: 'AI & Machine Learning', icon: <BrainCircuit className="h-10 w-10 text-accent" />, description: 'TensorFlow Lite, YOLOv5/v8, Prompt Engineering' },
-  { name: 'DevOps & Tooling', icon: <GitBranch className="h-10 w-10 text-accent" />, description: 'Git/GitHub, AWS (Basics), Vercel' },
+  { name: 'Frontend & Frameworks', icon: <LayoutTemplate className="h-10 w-10 text-accent" />, description: 'Next.js, Remix, React, Tailwind CSS, HTML/CSS' },
+  { name: 'Mobile Development', icon: <Smartphone className="h-10 w-10 text-accent" />, description: 'Flutter, Dart, Cross-Platform Architecture, Mobile APIs' },
+  { name: 'Databases & Backend', icon: <Database className="h-10 w-10 text-accent" />, description: 'PostgreSQL, Firebase, Supabase, SQL Schema Normalization' },
+  { name: 'Edge AI & Computer Vision', icon: <BrainCircuit className="h-10 w-10 text-accent" />, description: 'TensorFlow Lite, YOLOv5/v8, ONNX Model Quantization, OCR Pipelines' },
+  { name: 'IoT & Embedded Systems', icon: <Cpu className="h-10 w-10 text-accent" />, description: 'Raspberry Pi, Hardware Integration, Sensor Interfaces, Actuators' },
+  { name: 'Desktop App Development', icon: <Monitor className="h-10 w-10 text-accent" />, description: 'Python Desktop Applications, PyQt/PySide GUI, Desktop Software Design' },
+  { name: 'IT Operations & Systems', icon: <Server className="h-10 w-10 text-accent" />, description: 'Linux Administration, Server Maintenance, Network Configuration, Asset Tracking Systems' },
+  { name: 'DevOps & Cloud Tooling', icon: <GitBranch className="h-10 w-10 text-accent" />, description: 'Git/GitHub, AWS (Basics), Vercel deployment, CI/CD environments' },
+  { name: 'API Design & Integration', icon: <Workflow className="h-10 w-10 text-accent" />, description: 'RESTful API Design, WebSockets, Webhooks, Third-party SDKs, API Integration' },
+  { name: 'UI/UX & Prototyping', icon: <Palette className="h-10 w-10 text-accent" />, description: 'Figma Prototyping, Component Design, Responsive Design, User Experience Optimization' },
+  { name: 'System Architecture', icon: <Layers className="h-10 w-10 text-accent" />, description: 'SOLID Principles, Design Patterns, Microservices, High-Availability Systems' },
+  { name: 'Security & Identity', icon: <Shield className="h-10 w-10 text-accent" />, description: 'OAuth 2.0, JWT Authentication, SSL/TLS Certificates, Secure Coding Best Practices' },
 ];
 
 export default function Skills() {
