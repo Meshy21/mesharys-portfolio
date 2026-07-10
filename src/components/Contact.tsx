@@ -38,7 +38,7 @@ export default function Contact() {
             </div>
             <div className="flex items-center justify-center gap-4">
               <FileText className="h-6 w-6 text-accent" />
-              <Link href="https://drive.google.com/file/d/1T3ZLckN9Y5X4B3OH9NnW5XwPFQl-BjGm/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="font-medium hover:underline">
+              <Link href="https://drive.google.com/file/d/13wPSD_cAZJsyvlSvDiP3Kb6JZ84Bo4MT/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="font-medium hover:underline">
                 Meshary's CV
               </Link>
             </div>
