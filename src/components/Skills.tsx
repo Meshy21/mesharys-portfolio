@@ -5,30 +5,40 @@ import {
   Cpu, 
   BrainCircuit, 
   Database, 
-  GitBranch, 
-  Server, 
-  LayoutTemplate,
-  Monitor,
-  Workflow,
-  Palette,
-  Layers,
-  Shield
+  Server
 } from 'lucide-react';
 
 const skills = [
-  { name: 'Core Languages', icon: <CodeXml className="h-10 w-10 text-accent" />, description: 'TypeScript, JavaScript, Python, Dart, PHP, C/C++' },
-  { name: 'Frontend & Frameworks', icon: <LayoutTemplate className="h-10 w-10 text-accent" />, description: 'Next.js, Remix, React, Tailwind CSS, HTML/CSS' },
-  { name: 'Mobile Development', icon: <Smartphone className="h-10 w-10 text-accent" />, description: 'Flutter, Dart, Cross-Platform Architecture, Mobile APIs' },
-  { name: 'Databases & Backend', icon: <Database className="h-10 w-10 text-accent" />, description: 'PostgreSQL, Firebase, Supabase, SQL Schema Normalization' },
-  { name: 'Edge AI & Computer Vision', icon: <BrainCircuit className="h-10 w-10 text-accent" />, description: 'TensorFlow Lite, YOLOv5/v8, ONNX Model Quantization, OCR Pipelines' },
-  { name: 'IoT & Embedded Systems', icon: <Cpu className="h-10 w-10 text-accent" />, description: 'Raspberry Pi, Hardware Integration, Sensor Interfaces, Actuators' },
-  { name: 'Desktop App Development', icon: <Monitor className="h-10 w-10 text-accent" />, description: 'Python Desktop Applications, PyQt/PySide GUI, Desktop Software Design' },
-  { name: 'IT Operations & Systems', icon: <Server className="h-10 w-10 text-accent" />, description: 'Linux Administration, Server Maintenance, Network Configuration, Asset Tracking Systems' },
-  { name: 'DevOps & Cloud Tooling', icon: <GitBranch className="h-10 w-10 text-accent" />, description: 'Git/GitHub, AWS (Basics), Vercel deployment, CI/CD environments' },
-  { name: 'API Design & Integration', icon: <Workflow className="h-10 w-10 text-accent" />, description: 'RESTful API Design, WebSockets, Webhooks, Third-party SDKs, API Integration' },
-  { name: 'UI/UX & Prototyping', icon: <Palette className="h-10 w-10 text-accent" />, description: 'Figma Prototyping, Component Design, Responsive Design, User Experience Optimization' },
-  { name: 'System Architecture', icon: <Layers className="h-10 w-10 text-accent" />, description: 'SOLID Principles, Design Patterns, Microservices, High-Availability Systems' },
-  { name: 'Security & Identity', icon: <Shield className="h-10 w-10 text-accent" />, description: 'OAuth 2.0, JWT Authentication, SSL/TLS Certificates, Secure Coding Best Practices' },
+  { 
+    name: 'Software & Web Architecture', 
+    icon: <CodeXml className="h-10 w-10 text-accent" />, 
+    description: 'Python, Dart, C/C++, C#, PHP, JavaScript, HTML5/CSS3, RESTful APIs, MVC Architecture, Bidirectional API Integration, Object-Oriented Programming (OOP).' 
+  },
+  { 
+    name: 'AI, Computer Vision & Agentic Workflows', 
+    icon: <BrainCircuit className="h-10 w-10 text-accent" />, 
+    description: 'YOLOv8, YOLOv5, TensorFlow Lite, ONNX, OpenCV, Optical Character Recognition (OCR), AI-Assisted IDEs (Cursor), Large Language Models (Claude, Google Gemini), LLM Prompt Engineering, Custom Image Annotation.' 
+  },
+  { 
+    name: 'Databases, Security & Cloud', 
+    icon: <Database className="h-10 w-10 text-accent" />, 
+    description: 'PostgreSQL, MySQL, MS SQL Server, Firebase, AWS, Relational Database Design, Role-Based Access Control (RBAC), Database Triggers & Audit Trails, ETL Data Automation.' 
+  },
+  { 
+    name: 'Mobile & Frameworks', 
+    icon: <Smartphone className="h-10 w-10 text-accent" />, 
+    description: 'Flutter, Offline-First Architecture, Local Data Caching, WebRTC Integration, PyQt6, CMake, UI/UX Design Implementation.' 
+  },
+  { 
+    name: 'Systems, Networking & IT Operations', 
+    icon: <Server className="h-10 w-10 text-accent" />, 
+    description: 'Git/GitHub, Windows/Linux Server Environments, Cisco Networking Fundamentals (TCP/IP, Routing/Switching), RAID 1 Mirroring & Storage Architectures, Advanced Motherboard Diagnostics, Technical IT Support, Enterprise SLA Management.' 
+  },
+  { 
+    name: 'Hardware & Electronics', 
+    icon: <Cpu className="h-10 w-10 text-accent" />, 
+    description: 'Raspberry Pi, Arduino, Custom Circuit Design, Component-Level Troubleshooting, Soldering, Micro-hydro Systems, Microcontrollers.' 
+  },
 ];
 
 export default function Skills() {
