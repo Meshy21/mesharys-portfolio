@@ -65,6 +65,66 @@ export default function ProjectPage() {
               ))}
             </div>
           </div>
+
+          {/* Project Metrics Section */}
+          {project.metrics && project.metrics.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm mb-8 shadow-sm">
+              {project.metrics.map((metric, i) => (
+                <div key={i} className="flex flex-col justify-between space-y-1">
+                  <div>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground block">
+                      {metric.label}
+                    </span>
+                    <span className="text-2xl font-headline font-bold text-accent block mt-1 tracking-tight">
+                      {metric.value}
+                    </span>
+                  </div>
+                  {metric.description && (
+                    <p className="text-xs text-muted-foreground/80 leading-relaxed pt-1 border-t border-border/20">
+                      {metric.description}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Project Timeline Section */}
+          {project.timeline && project.timeline.length > 0 && (
+            <div className="mb-12 p-6 rounded-xl border border-border bg-card/30 backdrop-blur-sm shadow-sm">
+              <h2 className="font-headline text-2xl font-bold tracking-tighter mb-8 flex items-center gap-2">
+                <span className="h-6 w-1 bg-accent rounded-full block"></span>
+                Development Journey & Milestones
+              </h2>
+              <div className="relative border-l border-border/60 ml-4 space-y-8">
+                {project.timeline.map((milestone, i) => (
+                  <div key={i} className="relative pl-8 group">
+                    {/* Circle marker centered on the vertical line */}
+                    <div className="absolute left-0 top-1.5 -translate-x-1/2 bg-background border border-accent rounded-full h-4 w-4 flex items-center justify-center transition-all duration-300 group-hover:scale-125 group-hover:bg-accent/10">
+                      <div className="h-1.5 w-1.5 rounded-full bg-accent"></div>
+                    </div>
+                    
+                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 mb-1">
+                      <span className="text-xs font-mono font-bold uppercase tracking-wider text-accent shrink-0">
+                        {milestone.phase}
+                      </span>
+                      <span className="text-xs text-muted-foreground/80 font-medium font-mono">
+                        {milestone.duration}
+                      </span>
+                    </div>
+                    
+                    <h3 className="font-headline text-lg font-bold text-foreground group-hover:text-accent transition-colors duration-200">
+                      {milestone.title}
+                    </h3>
+                    
+                    <p className="text-muted-foreground text-sm mt-1.5 leading-relaxed">
+                      {milestone.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
           
           <Image
             src={project.image}
