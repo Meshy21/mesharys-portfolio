@@ -34,6 +34,55 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: 'syncsolve-api',
+    title: 'SyncSolve API — Conflict Resolution Engine',
+    description: 'Engineered for offline-first bi-directional synchronization. Reconciles JSON payload collisions via Last-Write-Wins, Vector Clock causality graph analysis, and JSON Delta patches.',
+    longDescription: 'SyncSolve API is a high-performance, stateless, mathematical conflict-resolution service designed for offline-first mobile applications, collaborative tools, and distributed databases. When multiple users or devices edit the same record offline and synchronize at different times, conflicts inevitably occur. SyncSolve acts as a pure deterministic engine that reconciles data collisions using distributed systems algorithms.\n\nKey Core Engines & Capabilities:\n\n1. Last-Write-Wins (LWW) Engine (POST /api/v1/resolve/lww):\nMerges conflicting JSON payloads by timestamp at field-level granularity (e.g. User A updated title at 10:05, User B updated status at 10:06 -> keeps User A\'s title and User B\'s status). Handles nested JSON objects recursively with custom tie-breaker logic.\n\n2. Vector Clock Causality Evaluator (POST /api/v1/resolve/vector):\nUses version vectors (Va vs Vb) to mathematically evaluate causal relationships. Automatically selects the dominant state (200 OK) or detects simultaneous offline edits (Va || Vb) with no clear winner, returning an HTTP 409 Conflict response containing exact conflicting JSON dot-paths, delta diffs, and an LWW fallback proposal.\n\n3. JSON Delta & RFC 6902 Patch Engine (POST /api/v1/diff & POST /api/v1/patch):\nComputes minimal bandwidth diffs between any two JSON documents. Generates structured deltas (added, updated, deleted fields with dot-notation paths) and standard RFC 6902 JSON Patch operation arrays (add, replace, remove).\n\n4. Built-in Visual Dashboard UI:\nIncludes a responsive, glassmorphic Web Dashboard hosted at the root route (/) allowing developers to interactively test conflict resolution algorithms, select pre-built payload presets, and visually inspect JSON diffs.',
+    challenges: 'Designing a stateless mathematical reconciliation engine capable of handling deeply nested JSON trees while maintaining strict determinism required fine-tuned recursion and tie-breaker handling. Distinguishing between true causal dominance and simultaneous concurrent updates required rigorous vector clock comparison logic to safely issue HTTP 409 Conflict states with structured diff payloads without data loss.',
+    learnings: 'Built with Python 3.11/3.14 and FastAPI + Pydantic v2, this project honed my skills in distributed systems algorithms, vector clock causality graphs, field-level CRDT-like delta patching (RFC 6902), and writing 100% covered Pytest suites for deterministic backend APIs.',
+    image: 'https://i.ibb.co/d4ksWJ1w/syncsolve_thumbnail.png',
+    imageHint: 'SyncSolve API Web Dashboard UI',
+    gallery: [
+      { url: 'https://i.ibb.co/d4ksWJ1w/syncsolve_thumbnail.png', hint: 'SyncSolve API Web Dashboard & Visual JSON Diff Inspector' }
+    ],
+    tags: ['API', 'Web App', 'Python', 'FastAPI', 'Distributed Systems', 'Offline-First'],
+    github: null,
+    live: 'https://scratch-anye.onrender.com',
+    metrics: [
+      { label: 'Test Coverage', value: '100% Pytest', description: 'Comprehensive suite for all causality & delta edge cases' },
+      { label: 'Core Engines', value: '3 Modules', description: 'Field-level LWW, Vector Clock causality & RFC 6902 Patch' },
+      { label: 'Conflict Delta', value: 'Minimal Overhead', description: 'Field-level JSON dot-path diffing minimizes payload transfers' },
+      { label: 'Response Time', value: '<10ms', description: 'Stateless, lightweight deterministic mathematical reconciliation' },
+      { label: 'Complexity Score', value: '9.5 / 10', description: 'Vector clock causality graph math & recursive JSON delta patching' }
+    ],
+    timeline: [
+      {
+        phase: 'Phase 1: Causality Math & Vector Clocks',
+        duration: 'Week 1',
+        title: 'Vector Clock Causality Evaluator',
+        description: 'Implemented version vector comparison routines to evaluate causal dominance (Va > Vb) vs concurrency (Va || Vb) returning HTTP 409 Conflict payloads.'
+      },
+      {
+        phase: 'Phase 2: Field-Level LWW Merging',
+        duration: 'Week 2',
+        title: 'Recursive Last-Write-Wins Engine',
+        description: 'Engineered recursive field-level JSON merging algorithms with timestamp comparison and deterministic client_id tie-breakers.'
+      },
+      {
+        phase: 'Phase 3: RFC 6902 Patch Engine',
+        duration: 'Week 3',
+        title: 'JSON Dot-Path Diff & Patch Generator',
+        description: 'Built diff calculations generating minimal dot-notation change arrays and compliant RFC 6902 add/replace/remove operations.'
+      },
+      {
+        phase: 'Phase 4: Dashboard UI & Deployment',
+        duration: 'Week 4',
+        title: 'FastAPI Web UI & Serverless Deployment',
+        description: 'Created a responsive glassmorphic web dashboard for live payload testing and deployed the production service to Render.'
+      }
+    ]
+  },
+  {
     slug: 'learnmate',
     title: 'LearnMate (Mobile-Based Android App)',
     description:
@@ -44,7 +93,9 @@ export const projects: Project[] = [
     learnings: 'This project was a deep dive into cross-platform mobile development with Flutter and Dart. I gained significant experience with real-time communication technologies and third-party SDK integration. I also learned a lot about UX/UI design for mobile applications and the importance of user feedback in the development cycle.',
     image: images.learnmateMain,
     imageHint: 'mobile learning',
-    gallery: [],
+    gallery: [
+      { url: 'https://i.ibb.co/zTCvzWd6/signaling_flow.png', hint: 'Learnmate WebRTC & Agora signaling flow diagram' }
+    ],
     videos: [
       'https://youtu.be/FhnaQuVrfIk',
       'https://youtu.be/aFihW9-FOl4'
@@ -101,7 +152,7 @@ export const projects: Project[] = [
       { url: 'https://i.ibb.co/HptFPfhG/5d8825e2-1fc8-4619-8909-2d53a9ece1c1.jpg', hint: 'real-time model inference' }
     ],
     tags: ['Mobile App', 'AI', 'Flutter', 'Dart', 'TensorFlow Lite', 'YOLOv8'],
-    github: null,
+    github: 'https://github.com/Meshy21/woodknot',
     live: null,
     metrics: [
       { label: 'Dataset Size', value: '10,000+ Images', description: 'Custom-annotated lumber surface images' },
@@ -149,7 +200,8 @@ export const projects: Project[] = [
     gallery: [
       { url: 'https://i.ibb.co/zWdb3tRW/image-2026-07-10-150400735.png', hint: 'braille reader physical prototype' },
       { url: 'https://i.ibb.co/67KX0cSP/image-2026-07-10-150441522.png', hint: 'OCR extraction processing interface' },
-      { url: 'https://i.ibb.co/qMYv8Bc2/image-2026-07-10-150507050.png', hint: 'on-device translation flow' }
+      { url: 'https://i.ibb.co/qMYv8Bc2/image-2026-07-10-150507050.png', hint: 'on-device translation flow' },
+      { url: 'https://i.ibb.co/BKYSs021/pipeline.png', hint: 'ConBraillient system pipeline architecture diagram' }
     ],
     tags: ['AI', 'IoT', 'Python', 'Raspberry Pi', 'YOLOv5', 'OCR'],
     github: null,

@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { projects } from '@/lib/projects';
 
-const categories = ['All', 'Web App', 'Mobile App', 'Desktop App', 'AI', 'IoT'];
+const categories = ['All', 'Web App', 'API', 'Mobile App', 'Desktop App', 'AI', 'IoT'];
 
 export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState('All');
