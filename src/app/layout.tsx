@@ -1,23 +1,25 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
-import { Inter, Space_Grotesk } from 'next/font/google';
+import { Plus_Jakarta_Sans, Outfit } from 'next/font/google';
 import Chatbot from '@/components/Chatbot';
 
-const inter = Inter({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
+  display: 'swap',
 });
 
-const spaceGrotesk = Space_Grotesk({
+const outfit = Outfit({
   subsets: ['latin'],
   variable: '--font-headline',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: 'Meshary A. Aquino | IT Specialist & Software Developer',
+  title: 'Meshary A. Aquino | Computer Engineer & Full-Stack Developer',
   description:
-    'Portfolio of Meshary A. Aquino, a Computer Engineer specializing in full-stack web development, mobile apps, and database architecture.',
+    'Portfolio of Meshary A. Aquino, Computer Engineer specializing in backend APIs, mobile development, edge AI, and database architecture.',
 };
 
 export default function RootLayout({
@@ -26,8 +28,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
-      <body className="font-body antialiased">
+    <html lang="en" className={`${plusJakartaSans.variable} ${outfit.variable}`}>
+      <body className="font-body antialiased bg-background text-foreground">
         {children}
         <Toaster />
         <Chatbot />

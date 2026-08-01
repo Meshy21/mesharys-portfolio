@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
 import { projects } from '@/lib/projects';
 
 const categories = ['All', 'Web App', 'API', 'Mobile App', 'Desktop App', 'AI', 'IoT'];
@@ -19,53 +19,80 @@ export default function Projects() {
       : projects.filter((project) => project.tags.includes(selectedCategory));
 
   return (
-    <section id="projects" className="w-full py-12 md:py-24 lg:py-32">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center">
-          <div className="space-y-2">
-            <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">My Projects</h2>
-            <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Here are a few projects I've worked on. They showcase my ability to tackle problems across different domains, from hardware to mobile and web. Click on a project to learn more.
-            </p>
+    <section id="projects" className="w-full py-16 md:py-24 bg-background">
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+        {/* Section Header */}
+        <div className="max-w-2xl mb-12 space-y-3">
+          <div className="inline-flex items-center gap-2 text-xs font-mono font-bold tracking-wider uppercase text-primary bg-primary/10 px-3 py-1 rounded-md border border-primary/20">
+            Engineering Showcase
           </div>
+          <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
+            Featured Systems & Projects
+          </h2>
+          <p className="text-muted-foreground text-base leading-relaxed">
+            Engineered systems across distributed conflict-resolution APIs, edge computer vision models, cross-platform mobile apps, and enterprise administrative platforms.
+          </p>
         </div>
 
-        <div className="flex justify-center flex-wrap gap-4 my-12">
+        {/* Category Filters */}
+        <div className="flex flex-wrap gap-2 mb-10">
           {categories.map((category) => (
             <Button
               key={category}
               variant={selectedCategory === category ? 'default' : 'outline'}
+              size="sm"
               onClick={() => setSelectedCategory(category)}
+              className={`text-xs font-medium ${
+                selectedCategory === category
+                  ? 'bg-primary text-primary-foreground shadow-sm'
+                  : 'bg-background hover:bg-muted text-muted-foreground'
+              }`}
             >
               {category}
             </Button>
           ))}
         </div>
 
-        <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-2 md:gap-12 lg:max-w-none lg:grid-cols-3">
+        {/* Unified Projects Grid */}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredProjects.map((project) => (
-            <Link key={project.slug} href={`/projects/${project.slug}`} className="group block h-full">
-              <Card className="flex flex-col h-full group-hover:border-accent group-hover:shadow-lg transform group-hover:-translate-y-1 transition-all duration-300">
-                <CardHeader>
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    width={600}
-                    height={400}
-                    className="mb-4 rounded-lg object-contain aspect-[3/2] bg-muted/50"
-                    data-ai-hint={project.imageHint}
-                  />
-                  <CardTitle className="font-headline">{project.title}</CardTitle>
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    {project.tags.map((tag) => (
-                      <Badge key={tag} variant="secondary">{tag}</Badge>
-                    ))}
-                  </div>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <p className="text-muted-foreground">{project.description}</p>
-                </CardContent>
-              </Card>
+            <Link
+              key={project.slug}
+              href={`/projects/${project.slug}`}
+              className="group flex flex-col bg-card rounded-xl border border-border/80 overflow-hidden shadow-sm hover:border-primary/50 hover:shadow-md transition-all duration-300"
+            >
+              <div className="relative aspect-[16/10] overflow-hidden bg-muted/40 border-b border-border/60">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                  data-ai-hint={project.imageHint}
+                />
+              </div>
+
+              <div className="flex flex-col flex-1 p-5 space-y-3">
+                <div className="flex flex-wrap gap-1.5">
+                  {project.tags.slice(0, 3).map((tag) => (
+                    <Badge key={tag} variant="secondary" className="text-[10px] px-2 py-0.5 bg-muted text-muted-foreground">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+
+                <h3 className="font-headline font-bold text-lg text-foreground group-hover:text-primary transition-colors">
+                  {project.title}
+                </h3>
+
+                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3 flex-1">
+                  {project.description}
+                </p>
+
+                <div className="pt-2 flex items-center justify-between text-xs font-semibold text-primary">
+                  <span>View Details</span>
+                  <ArrowRight className="h-3.5 w-3.5 transform group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
             </Link>
           ))}
         </div>

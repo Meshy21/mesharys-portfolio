@@ -1,27 +1,33 @@
 import Link from 'next/link';
-import { Github, Linkedin } from 'lucide-react';
+import { Github, Linkedin, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function Footer() {
   return (
-    <footer className="w-full border-t bg-secondary/50">
-      <div className="container mx-auto flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
-        <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-          <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            &copy; {new Date().getFullYear()} Meshary A. Aquino. All rights reserved.
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-            <Button asChild variant="ghost" size="icon">
-                <Link href="https://github.com/Meshy21" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
-                    <Github className="h-5 w-5" />
-                </Link>
-            </Button>
-            <Button asChild variant="ghost" size="icon">
-                <Link href="https://www.linkedin.com/in/mesharyaquino/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
-                    <Linkedin className="h-5 w-5" />
-                </Link>
-            </Button>
+    <footer className="w-full border-t border-border/80 bg-muted/20">
+      <div className="container mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4 py-8 px-4 md:px-6">
+        <p className="text-xs text-muted-foreground text-center sm:text-left">
+          &copy; {new Date().getFullYear()} Meshary A. Aquino. All rights reserved.
+        </p>
+
+        <div className="flex items-center gap-1">
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
+            <Link href="https://github.com/Meshy21" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+              <Github className="h-4 w-4" />
+            </Link>
+          </Button>
+
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
+            <Link href="https://www.linkedin.com/in/mesharyaquino" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+              <Linkedin className="h-4 w-4" />
+            </Link>
+          </Button>
+
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
+            <Link href="https://drive.google.com/file/d/1zgdQHeFZdbjkyfwAABfBjPgmxIqlUWqo/view?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Resume Google Drive">
+              <FileText className="h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </div>
     </footer>

@@ -12,60 +12,66 @@ const navLinks = [
 ];
 
 export default function Header() {
-
   return (
-    <>
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 items-center px-4 md:px-6">
-          <div className="mr-6 flex items-center space-x-2">
-            <Link href="/" className="font-headline font-bold sm:inline-block">
-              Meshary's Portfolio
-            </Link>
-          </div>
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="transition-colors hover:text-accent"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </nav>
-          <div className="flex flex-1 items-center justify-end space-x-4">
-            <div className="md:hidden">
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <Menu className="h-5 w-5" />
-                    <span className="sr-only">Open menu</span>
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="right">
-                  <div className="flex flex-col space-y-4 pt-6">
-                    <SheetClose asChild>
-                        <Link href="/" className="mb-4">
-                            <span className="font-headline font-bold text-lg">Meshary's Portfolio</span>
-                        </Link>
-                    </SheetClose>
-                    {navLinks.map((link) => (
-                      <SheetClose asChild key={link.name}>
-                        <Link
-                          href={link.href}
-                          className="text-lg transition-colors hover:text-accent"
-                        >
-                          {link.name}
-                        </Link>
-                      </SheetClose>
-                    ))}
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </div>
-          </div>
+    <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6 max-w-6xl">
+        <div className="flex items-center gap-2">
+          <Link href="/" className="font-headline font-bold text-lg text-foreground tracking-tight hover:text-primary transition-colors">
+            Meshary A. Aquino
+          </Link>
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20 hidden sm:inline-block">
+            Computer Engineer
+          </span>
         </div>
-      </header>
-    </>
+
+        <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
+              {link.name}
+            </Link>
+          ))}
+          
+          <Button asChild size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 text-xs">
+            <Link href="https://drive.google.com/file/d/1zgdQHeFZdbjkyfwAABfBjPgmxIqlUWqo/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+              CV
+            </Link>
+          </Button>
+        </nav>
+
+        <div className="md:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-9 w-9">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right">
+              <div className="flex flex-col space-y-5 pt-8">
+                <SheetClose asChild>
+                  <Link href="/" className="mb-2">
+                    <span className="font-headline font-bold text-lg">Meshary A. Aquino</span>
+                  </Link>
+                </SheetClose>
+                {navLinks.map((link) => (
+                  <SheetClose asChild key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="text-base font-medium text-foreground hover:text-primary transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  </SheetClose>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
+    </header>
   );
 }

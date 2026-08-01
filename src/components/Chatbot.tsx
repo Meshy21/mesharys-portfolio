@@ -107,11 +107,11 @@ export default function Chatbot() {
     ]);
   };
 
-  // Helper to simple-format bold & markdown links in text
+  // Helper to simple-format bold & markdown links safely in text
   const renderFormattedText = (text: string) => {
     const lines = text.split('\n');
     return lines.map((line, lIdx) => {
-      // Parse markdown links [Title](url)
+      // Parse markdown links [Title](url) and bold text **text**
       const parts = line.split(/(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*)/g);
       
       return (
@@ -123,19 +123,24 @@ export default function Chatbot() {
             if (part.startsWith('[') && part.includes('](') && part.endsWith(')')) {
               const match = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
               if (match) {
-                const [, linkText, url] = match;
-                return (
-                  <a
-                    key={pIdx}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-0.5 text-accent hover:underline font-medium"
-                  >
-                    {linkText}
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                );
+                const [, linkText, rawUrl] = match;
+                const cleanUrl = rawUrl.trim();
+                // Security check: Only permit safe http/https URLs to prevent javascript: XSS
+                const isSafeUrl = /^https?:\/\//i.test(cleanUrl);
+                if (isSafeUrl) {
+                  return (
+                    <a
+                      key={pIdx}
+                      href={cleanUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-0.5 text-primary hover:underline font-medium"
+                    >
+                      {linkText}
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  );
+                }
               }
             }
             return part;

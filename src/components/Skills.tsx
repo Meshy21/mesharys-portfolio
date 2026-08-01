@@ -1,69 +1,95 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { 
-  CodeXml, 
-  Smartphone, 
-  Cpu, 
-  BrainCircuit, 
-  Database, 
-  Server
-} from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
-const skills = [
-  { 
-    name: 'Software & Web Architecture', 
-    icon: <CodeXml className="h-10 w-10 text-accent" />, 
-    description: 'Python, Dart, C/C++, C#, PHP, JavaScript, HTML5/CSS3, RESTful APIs, MVC Architecture, Bidirectional API Integration, Object-Oriented Programming (OOP).' 
+interface SkillCategory {
+  title: string;
+  description: string;
+  skills: { name: string; highlight?: boolean }[];
+}
+
+const skillCategories: SkillCategory[] = [
+  {
+    title: 'Languages & Core Systems',
+    description: 'Programming languages and query systems for backend services, database operations, and desktop software.',
+    skills: [
+      { name: 'Python', highlight: true },
+      { name: 'TypeScript', highlight: true },
+      { name: 'Dart', highlight: true },
+      { name: 'PHP', highlight: true },
+      { name: 'SQL', highlight: true },
+      { name: 'FastAPI' },
+      { name: 'PyQt6' },
+    ],
   },
-  { 
-    name: 'AI, Computer Vision & Agentic Workflows', 
-    icon: <BrainCircuit className="h-10 w-10 text-accent" />, 
-    description: 'YOLOv8, YOLOv5, TensorFlow Lite, ONNX, OpenCV, Optical Character Recognition (OCR), AI-Assisted IDEs (Cursor), Large Language Models (Claude, Google Gemini), LLM Prompt Engineering, Custom Image Annotation.' 
+  {
+    title: 'Mobile Development & Frameworks',
+    description: 'Cross-platform mobile application architecture, local caching engines, and real-time media feeds.',
+    skills: [
+      { name: 'Flutter', highlight: true },
+      { name: 'Dart' },
+      { name: 'Offline-First Storage' },
+      { name: 'WebRTC & Agora RTC' },
+      { name: 'RESTful API Integration' },
+    ],
   },
-  { 
-    name: 'Databases, Security & Cloud', 
-    icon: <Database className="h-10 w-10 text-accent" />, 
-    description: 'PostgreSQL, MySQL, MS SQL Server, Firebase, AWS, Relational Database Design, Role-Based Access Control (RBAC), Database Triggers & Audit Trails, ETL Data Automation.' 
-  },
-  { 
-    name: 'Mobile & Frameworks', 
-    icon: <Smartphone className="h-10 w-10 text-accent" />, 
-    description: 'Flutter, Offline-First Architecture, Local Data Caching, WebRTC Integration, PyQt6, CMake, UI/UX Design Implementation.' 
-  },
-  { 
-    name: 'Systems, Networking & IT Operations', 
-    icon: <Server className="h-10 w-10 text-accent" />, 
-    description: 'Git/GitHub, Windows/Linux Server Environments, Cisco Networking Fundamentals (TCP/IP, Routing/Switching), RAID 1 Mirroring & Storage Architectures, Advanced Motherboard Diagnostics, Technical IT Support, Enterprise SLA Management.' 
-  },
-  { 
-    name: 'Hardware & Electronics', 
-    icon: <Cpu className="h-10 w-10 text-accent" />, 
-    description: 'Raspberry Pi, Arduino, Custom Circuit Design, Component-Level Troubleshooting, Soldering, Micro-hydro Systems, Microcontrollers.' 
+  {
+    title: 'Edge AI & Computer Vision',
+    description: 'On-device neural network deployment, custom dataset training, optical character recognition, and model quantization.',
+    skills: [
+      { name: 'YOLOv8', highlight: true },
+      { name: 'YOLOv5', highlight: true },
+      { name: 'TensorFlow Lite', highlight: true },
+      { name: 'ONNX', highlight: true },
+      { name: 'OpenCV', highlight: true },
+      { name: 'OCR Translation' },
+    ],
   },
 ];
 
 export default function Skills() {
   return (
-    <section id="skills" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/50">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center">
-          <div className="space-y-2">
-            <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">Technical Skills</h2>
-            <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              I have a diverse skill set that spans across software and hardware, allowing me to build comprehensive solutions from the ground up.
-            </p>
+    <section id="skills" className="w-full py-16 md:py-24 bg-muted/40 border-y border-border/60">
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+        <div className="max-w-2xl mb-12 space-y-3">
+          <div className="inline-flex items-center gap-2 text-xs font-mono font-bold tracking-wider uppercase text-primary bg-primary/10 px-3 py-1 rounded-md border border-primary/20">
+            Technical Matrix
           </div>
+          <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
+            Core Technologies & Stacks
+          </h2>
+          <p className="text-muted-foreground text-base leading-relaxed">
+            Core technologies and frameworks used across backend conflict-resolution APIs, cross-platform mobile apps, edge computer vision pipelines, and database systems.
+          </p>
         </div>
-        <div className="mx-auto grid max-w-5xl items-stretch gap-6 py-12 sm:grid-cols-2 lg:grid-cols-3">
-          {skills.map((skill) => (
-            <Card key={skill.name} className="flex flex-col text-center">
-              <CardHeader className="flex flex-col items-center gap-4 pb-4">
-                {skill.icon}
-                <CardTitle className="font-headline">{skill.name}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{skill.description}</p>
-              </CardContent>
-            </Card>
+
+        <div className="grid gap-8 md:grid-cols-3">
+          {skillCategories.map((category) => (
+            <div
+              key={category.title}
+              className="flex flex-col bg-card rounded-xl border border-border/80 p-6 shadow-sm hover:border-primary/40 transition-colors"
+            >
+              <h3 className="font-headline font-bold text-lg text-foreground mb-2">
+                {category.title}
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed mb-6">
+                {category.description}
+              </p>
+              
+              <div className="mt-auto flex flex-wrap gap-2">
+                {category.skills.map((skill) => (
+                  <Badge
+                    key={skill.name}
+                    variant={skill.highlight ? 'default' : 'secondary'}
+                    className={`text-xs px-3 py-1 font-medium ${
+                      skill.highlight 
+                        ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
+                        : 'bg-muted text-muted-foreground border border-border/60'
+                    }`}
+                  >
+                    {skill.name}
+                  </Badge>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </div>
