@@ -1,0 +1,6 @@
+{
+  "name": "Meshary Aquino Portfolio",
+  "description": "Portfolio of Meshary A. Aquino featuring interactive projects, resume, and Gemini AI assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
