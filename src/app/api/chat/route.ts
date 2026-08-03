@@ -84,14 +84,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!process.env.GEMINI_API_KEY) {
+    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+
+    if (!apiKey) {
       return NextResponse.json({
-        text: 'The Gemini API key is not currently configured on the server. Please configure GEMINI_API_KEY to enable live AI responses.',
+        text: 'The Gemini API key is not currently configured on the server. Please add GEMINI_API_KEY in your Vercel project environment variables to enable live AI responses.',
       });
     }
 
     const ai = new GoogleGenAI({
-      apiKey: process.env.GEMINI_API_KEY,
+      apiKey,
       httpOptions: {
         headers: {
           'User-Agent': 'aistudio-build',
