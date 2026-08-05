@@ -3,10 +3,11 @@
 import { useEffect, useRef } from 'react';
 
 /**
- * Observes an element and adds 'revealed' class when it enters the viewport.
- * Use with CSS classes 'reveal' or 'reveal-stagger' from globals.css.
+ * Bi-directional scroll reveal hook.
+ * Adds 'revealed' class when element enters the viewport,
+ * and removes 'revealed' when element exits the viewport (in either direction).
  */
-export function useScrollReveal<T extends HTMLElement>(threshold = 0.15) {
+export function useScrollReveal<T extends HTMLElement>(threshold = 0.1) {
   const ref = useRef<T>(null);
 
   useEffect(() => {
@@ -17,10 +18,11 @@ export function useScrollReveal<T extends HTMLElement>(threshold = 0.15) {
       ([entry]) => {
         if (entry.isIntersecting) {
           el.classList.add('revealed');
-          observer.unobserve(el);
+        } else {
+          el.classList.remove('revealed');
         }
       },
-      { threshold, rootMargin: '0px 0px -40px 0px' }
+      { threshold, rootMargin: '-30px 0px -30px 0px' }
     );
 
     observer.observe(el);
