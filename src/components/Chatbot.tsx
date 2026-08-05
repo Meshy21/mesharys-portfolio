@@ -153,25 +153,32 @@ export default function Chatbot() {
   return (
     <div className="fixed bottom-6 right-6 z-50">
       {/* Floating Toggle Button */}
-      {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="group relative flex items-center gap-2.5 bg-primary text-primary-foreground px-4 py-3 rounded-full shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 hover:scale-105 active:scale-95"
-          aria-label="Open AI Assistant Chat"
-        >
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-foreground/80 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary-foreground" />
-          </span>
-          <Bot className="h-5 w-5" />
-          <span className="font-medium text-sm pr-1 hidden sm:inline">Ask Meshary AI</span>
-          <Sparkles className="h-4 w-4 opacity-60 group-hover:opacity-100 transition-opacity" />
-        </button>
-      )}
+      <button
+        onClick={() => setIsOpen(true)}
+        className={`group relative flex items-center gap-2.5 bg-primary text-primary-foreground px-4 py-3 rounded-full shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-400 ease-out hover:scale-105 active:scale-95 ${
+          isOpen
+            ? 'opacity-0 scale-90 pointer-events-none absolute bottom-0 right-0'
+            : 'opacity-100 scale-100 pointer-events-auto'
+        }`}
+        aria-label="Open AI Assistant Chat"
+      >
+        <span className="relative flex h-2.5 w-2.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-foreground/80 opacity-75" />
+          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary-foreground" />
+        </span>
+        <Bot className="h-5 w-5" />
+        <span className="font-medium text-sm pr-1 hidden sm:inline">Ask Meshary AI</span>
+        <Sparkles className="h-4 w-4 opacity-60 group-hover:opacity-100 transition-opacity" />
+      </button>
 
       {/* Chat Window */}
-      {isOpen && (
-        <div className="flex flex-col w-[92vw] sm:w-[420px] h-[580px] max-h-[82vh] bg-card border border-border rounded-2xl shadow-2xl shadow-background/80 overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-200">
+      <div
+        className={`flex flex-col w-[92vw] sm:w-[420px] h-[580px] max-h-[82vh] bg-card border border-border rounded-2xl shadow-2xl shadow-background/80 overflow-hidden transition-all duration-400 ease-out ${
+          isOpen
+            ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
+            : 'opacity-0 scale-95 translate-y-6 pointer-events-none absolute bottom-0 right-0'
+        }`}
+      >
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3.5 bg-muted/40 border-b border-border/60">
             <div className="flex items-center gap-3">
@@ -314,7 +321,6 @@ export default function Chatbot() {
             </Button>
           </form>
         </div>
-      )}
     </div>
   );
 }

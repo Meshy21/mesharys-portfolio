@@ -22,7 +22,7 @@ export function useScrollReveal<T extends HTMLElement>(threshold = 0.1) {
           el.classList.remove('revealed');
         }
       },
-      { threshold, rootMargin: '-30px 0px -30px 0px' }
+      { threshold, rootMargin: '0px 0px -8% 0px' }
     );
 
     observer.observe(el);
