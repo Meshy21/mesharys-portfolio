@@ -1,15 +1,19 @@
-import { Badge } from '@/components/ui/badge';
+'use client';
+
+import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 
 interface SkillCategory {
   title: string;
   description: string;
+  count: number;
   skills: { name: string; highlight?: boolean }[];
 }
 
 const skillCategories: SkillCategory[] = [
   {
-    title: 'Languages & Core Systems',
+    title: 'Languages & Core',
     description: 'Programming languages and query systems for backend services, database operations, and desktop software.',
+    count: 7,
     skills: [
       { name: 'Python', highlight: true },
       { name: 'TypeScript', highlight: true },
@@ -21,8 +25,9 @@ const skillCategories: SkillCategory[] = [
     ],
   },
   {
-    title: 'Mobile Development & Frameworks',
+    title: 'Mobile & Frameworks',
     description: 'Cross-platform mobile application architecture, local caching engines, and real-time media feeds.',
+    count: 5,
     skills: [
       { name: 'Flutter', highlight: true },
       { name: 'Dart' },
@@ -32,8 +37,9 @@ const skillCategories: SkillCategory[] = [
     ],
   },
   {
-    title: 'Edge AI & Computer Vision',
-    description: 'On-device neural network deployment, custom dataset training, optical character recognition, and model quantization.',
+    title: 'Edge AI & Vision',
+    description: 'On-device neural network deployment, custom dataset training, OCR, and model quantization.',
+    count: 6,
     skills: [
       { name: 'YOLOv8', highlight: true },
       { name: 'YOLOv5', highlight: true },
@@ -46,47 +52,60 @@ const skillCategories: SkillCategory[] = [
 ];
 
 export default function Skills() {
+  const sectionRef = useScrollReveal<HTMLElement>(0.1);
+
   return (
-    <section id="skills" className="w-full py-16 md:py-24 bg-muted/40 border-y border-border/60">
+    <section id="skills" ref={sectionRef} className="reveal w-full py-20 md:py-32 relative">
+      {/* Top edge line */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
-        <div className="max-w-2xl mb-12 space-y-3">
-          <div className="inline-flex items-center gap-2 text-xs font-mono font-bold tracking-wider uppercase text-primary bg-primary/10 px-3 py-1 rounded-md border border-primary/20">
-            Technical Matrix
-          </div>
-          <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
-            Core Technologies & Stacks
+        <div className="max-w-2xl mb-16 space-y-4">
+          <span className="text-xs font-mono font-semibold tracking-widest uppercase text-primary">
+            {'// Technical Matrix'}
+          </span>
+          <h2 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
+            Core Stack
           </h2>
-          <p className="text-muted-foreground text-base leading-relaxed">
-            Core technologies and frameworks used across backend conflict-resolution APIs, cross-platform mobile apps, edge computer vision pipelines, and database systems.
-          </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-3">
-          {skillCategories.map((category) => (
+        {/* Horizontal layout — category label left, skills right */}
+        <div className="space-y-0">
+          {skillCategories.map((category, idx) => (
             <div
               key={category.title}
-              className="flex flex-col bg-card rounded-xl border border-border/80 p-6 shadow-sm hover:border-primary/40 transition-colors"
+              className={`grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 py-10 ${
+                idx !== skillCategories.length - 1 ? 'border-b border-border/40' : ''
+              }`}
             >
-              <h3 className="font-headline font-bold text-lg text-foreground mb-2">
-                {category.title}
-              </h3>
-              <p className="text-xs text-muted-foreground leading-relaxed mb-6">
-                {category.description}
-              </p>
-              
-              <div className="mt-auto flex flex-wrap gap-2">
+              {/* Category info — left column */}
+              <div className="md:col-span-4 space-y-2">
+                <div className="flex items-baseline gap-3">
+                  <h3 className="font-headline font-bold text-xl text-foreground">
+                    {category.title}
+                  </h3>
+                  <span className="text-xs font-mono text-muted-foreground">
+                    ({category.count})
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {category.description}
+                </p>
+              </div>
+
+              {/* Skills — right column */}
+              <div className="md:col-span-8 flex flex-wrap items-start gap-2.5">
                 {category.skills.map((skill) => (
-                  <Badge
+                  <span
                     key={skill.name}
-                    variant={skill.highlight ? 'default' : 'secondary'}
-                    className={`text-xs px-3 py-1 font-medium ${
-                      skill.highlight 
-                        ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
-                        : 'bg-muted text-muted-foreground border border-border/60'
+                    className={`inline-flex items-center px-3.5 py-1.5 rounded-md text-xs font-mono font-medium transition-all duration-300 ${
+                      skill.highlight
+                        ? 'bg-primary/10 text-primary border border-primary/25 border-glow-copper hover:bg-primary/15'
+                        : 'bg-secondary text-secondary-foreground border border-border/40 hover:border-border'
                     }`}
                   >
                     {skill.name}
-                  </Badge>
+                  </span>
                 ))}
               </div>
             </div>

@@ -4,14 +4,9 @@ import { projects } from '@/lib/projects';
 import Image from 'next/image';
 import { notFound, useParams } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Github, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Github, ExternalLink, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import Link from 'next/link';
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { useState, useCallback, useEffect } from 'react';
 
 function getYouTubeEmbedUrl(url: string) {
   let videoId = '';
@@ -33,54 +28,196 @@ function getYouTubeEmbedUrl(url: string) {
 export default function ProjectPage() {
   const params = useParams();
   const project = projects.find((p) => p.slug === params.slug);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   if (!project) {
     notFound();
   }
 
+  // Combine main image + gallery images for the hero slideshow
+  const allImages = [
+    { url: project.image, hint: project.imageHint },
+    ...(project.gallery || []),
+  ];
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % allImages.length);
+  }, [allImages.length]);
+
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev - 1 + allImages.length) % allImages.length);
+  }, [allImages.length]);
+
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = () => setLightboxOpen(false);
+
+  const nextLightbox = useCallback(() => {
+    setLightboxIndex((prev) => (prev + 1) % allImages.length);
+  }, [allImages.length]);
+
+  const prevLightbox = useCallback(() => {
+    setLightboxIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+  }, [allImages.length]);
+
+  // Keyboard navigation for lightbox
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') nextLightbox();
+      if (e.key === 'ArrowLeft') prevLightbox();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [lightboxOpen, nextLightbox, prevLightbox]);
+
   return (
     <div className="bg-background min-h-screen">
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 items-center px-4 md:px-6">
-            <Button asChild variant="ghost" size="icon">
-                <Link href="/#projects">
-                    <ArrowLeft />
-                    <span className="sr-only">Back to projects</span>
-                </Link>
-            </Button>
-            <div className="ml-4 flex items-center space-x-2">
-                <Link href="/" className="font-headline font-bold sm:inline-block">
-                Meshary's Portfolio
-                </Link>
-            </div>
+      {/* Minimal header */}
+      <header className="sticky top-0 z-50 w-full bg-background/90 backdrop-blur-xl border-b border-border/40">
+        <div className="container mx-auto flex h-14 items-center px-4 md:px-6 max-w-6xl">
+          <Link
+            href="/#projects"
+            className="flex items-center gap-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors group"
+          >
+            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
+            <span className="font-medium">Back</span>
+          </Link>
+          <div className="ml-auto">
+            <Link href="/" className="flex items-center gap-1.5">
+              <span className="font-code text-sm font-bold text-foreground">meshary</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+              <span className="font-headline text-sm font-semibold text-muted-foreground">dev</span>
+            </Link>
+          </div>
         </div>
       </header>
-      <main className="container mx-auto py-12 px-4 md:px-6">
-        <article className="mx-auto max-w-4xl">
-          <div className="space-y-4 mb-8">
-            <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl">{project.title}</h1>
+
+      {/* === GALLERY HERO — First thing visitors see === */}
+      <section className="w-full bg-muted/20 border-b border-border/30">
+        <div className="relative w-full" style={{ minHeight: '60vh', maxHeight: '80vh' }}>
+          {/* Main slideshow image — full picture, no crop */}
+          <div className="relative w-full h-[60vh] md:h-[70vh] max-h-[80vh] bg-background/50 flex items-center justify-center">
+            <Image
+              src={allImages[currentSlide].url}
+              alt={`${project.title} — ${allImages[currentSlide].hint || `Image ${currentSlide + 1}`}`}
+              fill
+              className="object-contain p-4 md:p-8"
+              priority={currentSlide === 0}
+              data-ai-hint={allImages[currentSlide].hint}
+            />
+          </div>
+
+          {/* Navigation arrows */}
+          {allImages.length > 1 && (
+            <>
+              <button
+                onClick={prevSlide}
+                className="absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-card/80 backdrop-blur-sm border border-border/60 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={nextSlide}
+                className="absolute right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-card/80 backdrop-blur-sm border border-border/60 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
+                aria-label="Next image"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </>
+          )}
+
+          {/* Slide indicators */}
+          {allImages.length > 1 && (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+              {allImages.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentSlide(idx)}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    idx === currentSlide
+                      ? 'w-6 bg-primary'
+                      : 'w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                  }`}
+                  aria-label={`Go to image ${idx + 1}`}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Gallery thumbnails strip */}
+        {allImages.length > 1 && (
+          <div className="container mx-auto max-w-6xl px-4 md:px-6 py-4">
+            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin">
+              {allImages.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => {
+                    setCurrentSlide(idx);
+                    openLightbox(idx);
+                  }}
+                  className={`relative shrink-0 w-20 h-14 md:w-24 md:h-16 rounded-md overflow-hidden border-2 transition-all duration-300 ${
+                    idx === currentSlide
+                      ? 'border-primary shadow-md shadow-primary/20'
+                      : 'border-border/40 opacity-60 hover:opacity-100 hover:border-border'
+                  }`}
+                >
+                  <Image
+                    src={img.url}
+                    alt={`Thumbnail ${idx + 1}`}
+                    fill
+                    className="object-contain bg-muted/30 p-0.5"
+                    data-ai-hint={img.hint}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* === PROJECT CONTENT === */}
+      <main className="container mx-auto py-12 md:py-16 px-4 md:px-6 max-w-4xl">
+        <article>
+          {/* Title & Tags */}
+          <div className="space-y-4 mb-10">
+            <h1 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
+              {project.title}
+            </h1>
             <div className="flex flex-wrap gap-2">
               {project.tags.map((tag) => (
-                <Badge key={tag} variant="secondary">{tag}</Badge>
+                <Badge
+                  key={tag}
+                  variant="secondary"
+                  className="text-xs font-mono bg-secondary text-secondary-foreground border-0"
+                >
+                  {tag}
+                </Badge>
               ))}
             </div>
           </div>
 
-          {/* Project Metrics Section */}
+          {/* Metrics */}
           {project.metrics && project.metrics.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm mb-8 shadow-sm">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-border/30 rounded-xl overflow-hidden border border-border/40 mb-12">
               {project.metrics.map((metric, i) => (
-                <div key={i} className="flex flex-col justify-between space-y-1">
-                  <div>
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground block">
-                      {metric.label}
-                    </span>
-                    <span className="text-2xl font-headline font-bold text-accent block mt-1 tracking-tight">
-                      {metric.value}
-                    </span>
-                  </div>
+                <div key={i} className="bg-card p-5 space-y-1.5">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground block">
+                    {metric.label}
+                  </span>
+                  <span className="text-xl font-headline font-bold text-primary block tracking-tight">
+                    {metric.value}
+                  </span>
                   {metric.description && (
-                    <p className="text-xs text-muted-foreground/80 leading-relaxed pt-1 border-t border-border/20">
+                    <p className="text-[11px] text-muted-foreground/70 leading-relaxed">
                       {metric.description}
                     </p>
                   )}
@@ -89,34 +226,59 @@ export default function ProjectPage() {
             </div>
           )}
 
-          {/* Project Timeline Section */}
-          {project.timeline && project.timeline.length > 0 && (
-            <div className="mb-12 p-6 rounded-xl border border-border bg-card/30 backdrop-blur-sm shadow-sm">
-              <h2 className="font-headline text-2xl font-bold tracking-tighter mb-8 flex items-center gap-2">
-                <span className="h-6 w-1 bg-accent rounded-full block"></span>
-                Development Journey & Milestones
+          {/* About, Challenges, Learnings */}
+          <div className="space-y-10">
+            <div>
+              <h2 className="font-headline text-2xl font-bold tracking-tight mb-3 text-foreground flex items-center gap-3">
+                <span className="h-5 w-1 bg-primary rounded-full" />
+                About the Project
               </h2>
-              <div className="relative border-l border-border/60 ml-4 space-y-8">
+              <p className="text-muted-foreground text-base leading-relaxed">{project.longDescription}</p>
+            </div>
+
+            <div>
+              <h2 className="font-headline text-2xl font-bold tracking-tight mb-3 text-foreground flex items-center gap-3">
+                <span className="h-5 w-1 bg-primary rounded-full" />
+                Challenges
+              </h2>
+              <p className="text-muted-foreground text-base leading-relaxed">{project.challenges}</p>
+            </div>
+
+            <div>
+              <h2 className="font-headline text-2xl font-bold tracking-tight mb-3 text-foreground flex items-center gap-3">
+                <span className="h-5 w-1 bg-primary rounded-full" />
+                Learnings
+              </h2>
+              <p className="text-muted-foreground text-base leading-relaxed">{project.learnings}</p>
+            </div>
+          </div>
+
+          {/* Timeline */}
+          {project.timeline && project.timeline.length > 0 && (
+            <div className="mt-16">
+              <h2 className="font-headline text-2xl font-bold tracking-tight mb-10 text-foreground flex items-center gap-3">
+                <span className="h-5 w-1 bg-primary rounded-full" />
+                Development Journey
+              </h2>
+              <div className="relative border-l border-border/50 ml-3 space-y-10">
                 {project.timeline.map((milestone, i) => (
                   <div key={i} className="relative pl-8 group">
-                    {/* Circle marker centered on the vertical line */}
-                    <div className="absolute left-0 top-1.5 -translate-x-1/2 bg-background border border-accent rounded-full h-4 w-4 flex items-center justify-center transition-all duration-300 group-hover:scale-125 group-hover:bg-accent/10">
-                      <div className="h-1.5 w-1.5 rounded-full bg-accent"></div>
-                    </div>
-                    
-                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 mb-1">
-                      <span className="text-xs font-mono font-bold uppercase tracking-wider text-accent shrink-0">
+                    {/* Timeline dot */}
+                    <div className="absolute left-0 top-1 -translate-x-1/2 h-3 w-3 rounded-full border-2 border-primary bg-background group-hover:bg-primary/20 transition-colors" />
+
+                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-1.5">
+                      <span className="text-xs font-mono font-bold uppercase tracking-wider text-primary">
                         {milestone.phase}
                       </span>
-                      <span className="text-xs text-muted-foreground/80 font-medium font-mono">
+                      <span className="text-xs text-muted-foreground/60 font-mono">
                         {milestone.duration}
                       </span>
                     </div>
-                    
-                    <h3 className="font-headline text-lg font-bold text-foreground group-hover:text-accent transition-colors duration-200">
+
+                    <h3 className="font-headline text-lg font-bold text-foreground group-hover:text-primary transition-colors">
                       {milestone.title}
                     </h3>
-                    
+
                     <p className="text-muted-foreground text-sm mt-1.5 leading-relaxed">
                       {milestone.description}
                     </p>
@@ -125,76 +287,21 @@ export default function ProjectPage() {
               </div>
             </div>
           )}
-          
-          <Image
-            src={project.image}
-            alt={project.title}
-            width={1200}
-            height={675}
-            className="mb-8 rounded-lg object-contain w-full aspect-video bg-muted/50"
-            data-ai-hint={project.imageHint}
-          />
-          
-          <div className="space-y-8">
-            <div>
-                <h2 className="font-headline text-3xl font-bold tracking-tighter mb-2">About the Project</h2>
-                <p className="text-muted-foreground text-lg">{project.longDescription}</p>
-            </div>
-            
-            <div>
-                <h2 className="font-headline text-3xl font-bold tracking-tighter mb-2">Challenges</h2>
-                <p className="text-muted-foreground text-lg">{project.challenges}</p>
-            </div>
 
-            <div>
-                <h2 className="font-headline text-3xl font-bold tracking-tighter mb-2">Learnings</h2>
-                <p className="text-muted-foreground text-lg">{project.learnings}</p>
-            </div>
-          </div>
-
-          {project.gallery && project.gallery.length > 0 && (
-            <div className="mt-12">
-              <h2 className="font-headline text-3xl font-bold tracking-tighter mb-4">Gallery</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {project.gallery.map((item, index) => (
-                  <Dialog key={index}>
-                    <DialogTrigger asChild>
-                      <div className="overflow-hidden rounded-lg cursor-pointer bg-muted/50">
-                        <Image
-                          src={item.url}
-                          alt={`${project.title} gallery image ${index + 1}`}
-                          width={800}
-                          height={600}
-                          className="rounded-lg object-contain aspect-[4/3] transition-transform duration-300 hover:scale-105"
-                          data-ai-hint={item.hint}
-                        />
-                      </div>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-4xl p-0 bg-transparent border-0">
-                      <Image
-                        src={item.url}
-                        alt={`${project.title} gallery image ${index + 1}`}
-                        width={1200}
-                        height={900}
-                        className="rounded-lg object-contain w-full h-auto"
-                      />
-                    </DialogContent>
-                  </Dialog>
-                ))}
-              </div>
-            </div>
-          )}
-
+          {/* Videos */}
           {project.videos && project.videos.length > 0 && (
-            <div className="mt-12" id="project-videos">
-              <h2 className="font-headline text-3xl font-bold tracking-tighter mb-4">Demo Videos</h2>
+            <div className="mt-16" id="project-videos">
+              <h2 className="font-headline text-2xl font-bold tracking-tight mb-6 text-foreground flex items-center gap-3">
+                <span className="h-5 w-1 bg-primary rounded-full" />
+                Demo Videos
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {project.videos.map((videoUrl, index) => {
                   const embedUrl = getYouTubeEmbedUrl(videoUrl);
                   if (!embedUrl) return null;
                   return (
                     <div key={index} className="flex flex-col space-y-2">
-                      <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-border/40 bg-muted/50 shadow-sm">
+                      <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-border/40 bg-card shadow-sm">
                         <iframe
                           src={embedUrl}
                           title={`${project.title} video demo ${index + 1}`}
@@ -203,7 +310,9 @@ export default function ProjectPage() {
                           allowFullScreen
                         />
                       </div>
-                      <span className="text-sm text-muted-foreground text-center font-medium">Demo Video {index + 1}</span>
+                      <span className="text-xs text-muted-foreground text-center font-mono">
+                        Demo {index + 1}
+                      </span>
                     </div>
                   );
                 })}
@@ -211,26 +320,98 @@ export default function ProjectPage() {
             </div>
           )}
 
-          <div className="flex justify-end gap-2 mt-12">
+          {/* Action links */}
+          <div className="flex flex-wrap gap-3 mt-16 pt-8 border-t border-border/30">
+            <Link
+              href="/#projects"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              All Projects
+            </Link>
+
+            <div className="flex-1" />
+
             {project.github && (
-              <Button asChild variant="outline">
-                <Link href={project.github} target="_blank" rel="noopener noreferrer">
-                  <Github className="mr-2" />
-                  View on GitHub
-                </Link>
-              </Button>
+              <Link
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-border text-sm font-medium text-foreground hover:border-primary/40 hover:text-primary transition-all"
+              >
+                <Github className="h-4 w-4" />
+                Source Code
+              </Link>
             )}
             {project.live && (
-              <Button asChild>
-                <Link href={project.live} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="mr-2" />
-                  Live Demo
-                </Link>
-              </Button>
+              <Link
+                href={project.live}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-all"
+              >
+                <ExternalLink className="h-4 w-4" />
+                Live Demo
+              </Link>
             )}
           </div>
         </article>
       </main>
+
+      {/* === LIGHTBOX === */}
+      {lightboxOpen && (
+        <div
+          className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-md flex items-center justify-center"
+          onClick={closeLightbox}
+        >
+          {/* Close button */}
+          <button
+            onClick={closeLightbox}
+            className="absolute top-4 right-4 h-10 w-10 rounded-full bg-card/80 border border-border/60 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors z-10"
+            aria-label="Close lightbox"
+          >
+            <X className="h-5 w-5" />
+          </button>
+
+          {/* Image — full view, no crop */}
+          <div
+            className="relative w-[90vw] h-[85vh] max-w-6xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={allImages[lightboxIndex].url}
+              alt={`${project.title} — Full view ${lightboxIndex + 1}`}
+              fill
+              className="object-contain"
+            />
+          </div>
+
+          {/* Nav arrows */}
+          {allImages.length > 1 && (
+            <>
+              <button
+                onClick={(e) => { e.stopPropagation(); prevLightbox(); }}
+                className="absolute left-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-card/80 backdrop-blur-sm border border-border/60 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              <button
+                onClick={(e) => { e.stopPropagation(); nextLightbox(); }}
+                className="absolute right-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-card/80 backdrop-blur-sm border border-border/60 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
+                aria-label="Next image"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            </>
+          )}
+
+          {/* Counter */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs font-mono text-muted-foreground bg-card/80 px-3 py-1.5 rounded-full border border-border/40">
+            {lightboxIndex + 1} / {allImages.length}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

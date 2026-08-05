@@ -156,37 +156,37 @@ export default function Chatbot() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center gap-2.5 bg-accent text-accent-foreground px-4 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+          className="group relative flex items-center gap-2.5 bg-primary text-primary-foreground px-4 py-3 rounded-full shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 hover:scale-105 active:scale-95"
           aria-label="Open AI Assistant Chat"
         >
-          <span className="relative flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-foreground opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-accent-foreground"></span>
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-foreground/80 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary-foreground" />
           </span>
           <Bot className="h-5 w-5" />
           <span className="font-medium text-sm pr-1 hidden sm:inline">Ask Meshary AI</span>
-          <Sparkles className="h-4 w-4 text-accent-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity" />
+          <Sparkles className="h-4 w-4 opacity-60 group-hover:opacity-100 transition-opacity" />
         </button>
       )}
 
-      {/* Chat Window Dialog */}
+      {/* Chat Window */}
       {isOpen && (
-        <div className="flex flex-col w-[92vw] sm:w-[420px] h-[580px] max-h-[82vh] bg-card/95 backdrop-blur-md border border-border rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-200">
+        <div className="flex flex-col w-[92vw] sm:w-[420px] h-[580px] max-h-[82vh] bg-card border border-border rounded-2xl shadow-2xl shadow-background/80 overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-200">
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3.5 bg-muted/60 border-b border-border">
+          <div className="flex items-center justify-between px-4 py-3.5 bg-muted/40 border-b border-border/60">
             <div className="flex items-center gap-3">
-              <div className="h-9 w-9 rounded-full bg-accent/15 text-accent border border-accent/20 flex items-center justify-center">
+              <div className="h-9 w-9 rounded-full bg-primary/15 text-primary border border-primary/20 flex items-center justify-center">
                 <Bot className="h-5 w-5" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="font-headline font-bold text-sm text-foreground">Meshary AI</h3>
-                  <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-accent/10 text-accent border border-accent/20">
+                  <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
                     Gemini 3.6
                   </span>
                 </div>
                 <p className="text-[11px] text-muted-foreground flex items-center gap-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block"></span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block" />
                   Portfolio Assistant
                 </p>
               </div>
@@ -215,7 +215,7 @@ export default function Chatbot() {
           </div>
 
           {/* Messages Body */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 text-sm scrollbar-thin">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 text-sm">
             {messages.map((msg) => (
               <div
                 key={msg.id}
@@ -224,7 +224,7 @@ export default function Chatbot() {
                 }`}
               >
                 {msg.role === 'assistant' && (
-                  <div className="h-7 w-7 rounded-full bg-accent/10 text-accent flex items-center justify-center shrink-0 mt-0.5 border border-accent/20">
+                  <div className="h-7 w-7 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5 border border-primary/20">
                     <Bot className="h-4 w-4" />
                   </div>
                 )}
@@ -232,8 +232,8 @@ export default function Chatbot() {
                 <div
                   className={`max-w-[82%] px-3.5 py-2.5 rounded-2xl ${
                     msg.role === 'user'
-                      ? 'bg-accent text-accent-foreground rounded-br-xs'
-                      : 'bg-muted/80 text-foreground border border-border/50 rounded-bl-xs'
+                      ? 'bg-primary text-primary-foreground rounded-br-sm'
+                      : 'bg-muted/60 text-foreground border border-border/40 rounded-bl-sm'
                   }`}
                 >
                   <div className="leading-relaxed text-xs sm:text-sm">
@@ -242,8 +242,8 @@ export default function Chatbot() {
                   <span
                     className={`block text-[10px] mt-1 text-right ${
                       msg.role === 'user'
-                        ? 'text-accent-foreground/70'
-                        : 'text-muted-foreground/70'
+                        ? 'text-primary-foreground/60'
+                        : 'text-muted-foreground/60'
                     }`}
                   >
                     {msg.timestamp}
@@ -251,7 +251,7 @@ export default function Chatbot() {
                 </div>
 
                 {msg.role === 'user' && (
-                  <div className="h-7 w-7 rounded-full bg-muted text-muted-foreground flex items-center justify-center shrink-0 mt-0.5 border border-border">
+                  <div className="h-7 w-7 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center shrink-0 mt-0.5 border border-border/40">
                     <User className="h-4 w-4" />
                   </div>
                 )}
@@ -260,11 +260,11 @@ export default function Chatbot() {
 
             {isLoading && (
               <div className="flex gap-2.5 justify-start">
-                <div className="h-7 w-7 rounded-full bg-accent/10 text-accent flex items-center justify-center shrink-0 border border-accent/20">
+                <div className="h-7 w-7 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 border border-primary/20">
                   <Bot className="h-4 w-4" />
                 </div>
-                <div className="bg-muted/80 border border-border/50 px-4 py-3 rounded-2xl rounded-bl-xs flex items-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin text-accent" />
+                <div className="bg-muted/60 border border-border/40 px-4 py-3 rounded-2xl rounded-bl-sm flex items-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin text-primary" />
                   <span className="text-xs text-muted-foreground">Meshary AI is thinking...</span>
                 </div>
               </div>
@@ -275,12 +275,12 @@ export default function Chatbot() {
 
           {/* Preset Chips */}
           {messages.length <= 2 && !isLoading && (
-            <div className="px-3 py-2 bg-muted/30 border-t border-border/50 flex flex-wrap gap-1.5">
+            <div className="px-3 py-2 bg-muted/20 border-t border-border/40 flex flex-wrap gap-1.5">
               {PRESET_PROMPTS.map((prompt, i) => (
                 <button
                   key={i}
                   onClick={() => handleSend(prompt)}
-                  className="text-[11px] px-2.5 py-1 rounded-full bg-background border border-border hover:border-accent text-muted-foreground hover:text-foreground transition-colors text-left"
+                  className="text-[11px] px-2.5 py-1 rounded-full bg-card border border-border/50 hover:border-primary/40 text-muted-foreground hover:text-foreground transition-colors text-left"
                 >
                   {prompt}
                 </button>
@@ -294,7 +294,7 @@ export default function Chatbot() {
               e.preventDefault();
               handleSend();
             }}
-            className="p-3 bg-background border-t border-border flex items-center gap-2"
+            className="p-3 bg-card border-t border-border/40 flex items-center gap-2"
           >
             <input
               type="text"
@@ -302,13 +302,13 @@ export default function Chatbot() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask about skills, projects..."
               disabled={isLoading}
-              className="flex-1 bg-muted/50 border border-border rounded-xl px-3.5 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent placeholder:text-muted-foreground/60 disabled:opacity-50"
+              className="flex-1 bg-muted/40 border border-border/50 rounded-xl px-3.5 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/40 placeholder:text-muted-foreground/50 disabled:opacity-50"
             />
             <Button
               type="submit"
               size="icon"
               disabled={!input.trim() || isLoading}
-              className="h-9 w-9 bg-accent text-accent-foreground hover:bg-accent/90 rounded-xl shrink-0"
+              className="h-9 w-9 bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl shrink-0"
             >
               <Send className="h-4 w-4" />
             </Button>
