@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Menu } from 'lucide-react';
+import { Menu, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { useEffect, useState } from 'react';
@@ -34,11 +34,11 @@ export default function Header() {
           href="/"
           className="flex items-center gap-1.5 group"
         >
-          <span className="font-code text-sm font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
+          <span className="font-code text-base font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
             meshary
           </span>
           <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-          <span className="font-headline text-sm font-semibold text-muted-foreground group-hover:text-foreground transition-colors">
+          <span className="font-headline text-base font-semibold text-muted-foreground group-hover:text-foreground transition-colors">
             dev
           </span>
         </Link>
@@ -54,13 +54,15 @@ export default function Header() {
             </Link>
           ))}
 
+          {/* Glossy Copper Resume Button */}
           <Link
             href="https://drive.google.com/file/d/1zgdQHeFZdbjkyfwAABfBjPgmxIqlUWqo/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs font-mono font-semibold px-4 py-1.5 rounded-full border border-primary/40 text-primary hover:bg-primary/10 transition-all duration-300"
+            className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold px-4 py-2 rounded-full border border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-sm hover:shadow-primary/20 hover:scale-105"
           >
-            Resume
+            <Download className="h-3.5 w-3.5" />
+            <span>Resume</span>
           </Link>
         </nav>
 
@@ -96,9 +98,10 @@ export default function Header() {
                     href="https://drive.google.com/file/d/1zgdQHeFZdbjkyfwAABfBjPgmxIqlUWqo/view?usp=sharing"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm font-mono font-semibold px-4 py-2 rounded-full border border-primary/40 text-primary hover:bg-primary/10 transition-all text-center mt-4"
+                    className="inline-flex items-center justify-center gap-2 text-sm font-mono font-semibold px-4 py-2.5 rounded-full border border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground transition-all text-center mt-4"
                   >
-                    Resume
+                    <Download className="h-4 w-4" />
+                    <span>Download Resume</span>
                   </Link>
                 </SheetClose>
               </div>

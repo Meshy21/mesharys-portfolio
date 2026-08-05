@@ -1,6 +1,6 @@
 'use client';
 
-import { Mail, MapPin, Phone, Linkedin, Github } from 'lucide-react';
+import { Mail, MapPin, Phone, Linkedin, Github, FileText } from 'lucide-react';
 import Link from 'next/link';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 
@@ -37,6 +37,13 @@ const contactLinks: ContactLink[] = [
     label: 'GitHub',
     value: 'Meshy21',
     href: 'https://github.com/Meshy21',
+    external: true,
+  },
+  {
+    icon: FileText,
+    label: 'Resume',
+    value: 'Google Drive Document',
+    href: 'https://drive.google.com/file/d/1zgdQHeFZdbjkyfwAABfBjPgmxIqlUWqo/view?usp=sharing',
     external: true,
   },
 ];
