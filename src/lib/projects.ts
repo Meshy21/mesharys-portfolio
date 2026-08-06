@@ -34,6 +34,63 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: 'payroll-online-web',
+    title: 'Enterprise Online Secured Payroll Web Application',
+    description: 'A full-stack, enterprise-grade payroll web app with Next.js 14, FastAPI (Python), TailwindCSS, and PostgreSQL/SQLite. Automates BIR Withholding Tax calculations, statutory contribution tables (SSS 2025, PhilHealth 5%, Pag-IBIG Circular 460), AES-256 field encryption, and 1-payslip-per-page print exports.',
+    longDescription: 'Enterprise Online Secured Payroll Web Application is a full-stack, enterprise-grade payroll system engineered for modern Philippine corporate payroll management. Built using Next.js 14 (App Router, React 18, TypeScript) and FastAPI (Python 3.10+, Pydantic v2), it automates statutory contributions and tax calculations while delivering bank-grade security and print-ready reporting.\n\nKey Core System Architecture & Features:\n\n1. Philippine Statutory & BIR Tax Compliance Engine:\n- BIR TRAIN Law Tax Engine (2023 Revised Schedules): Automatically evaluates semi-monthly (₱10,417), weekly (₱4,808), and daily (₱685) tax-exemption thresholds.\n- 2025 SSS Contribution Schedule: Supports up to ₱35,000 Monthly Salary Credit (MSC) with exact EE/ER shares.\n- PhilHealth 5.0% Premium Rate: 50/50 split between employee and employer (₱10,000 floor to ₱100,000 ceiling).\n- Pag-IBIG Mandatory Contribution: Circular No. 460 standards (₱200/₱200 share).\n\n2. Printable Reports & Payslips:\n- 1-Payslip-Per-Page Printing: Clean @media print layout featuring company headers, rate basis, itemized earnings/deductions, net pay banner, and employee signature lines.\n- Location Breakdown Summary: Executive summary metrics and location-level payroll breakdown tables.\n\n3. Bank-Grade Security & Governance:\n- AES-256 Fernet Encryption: Sensitive employee identification (SSS, PhilHealth, Pag-IBIG, TIN, Bank account numbers) encrypted at rest in the database.\n- JWT & Role-Based Access Control (RBAC): Protected API endpoints with Admin and Manager permission checks.\n- Audit Logging: Every sensitive action (logins, payroll locks, profile updates) recorded in an immutable audit trail.\n\n4. Flexible Workflows:\n- Configurable Weekly Cycles: Custom start and cutoff day configurations (e.g. Wed-Tue) with dynamic live UI updates.\n- Location Management: Dynamic site assignment with safety guards preventing deletion of active branch locations.',
+    challenges: 'Engineered precise floating-point rounding for multi-tiered Philippine statutory compliance (BIR tax schedules, SSS 2025 MSC brackets, PhilHealth 5% ceilings, and Pag-IBIG Circular 460) while maintaining AES-256 field-level encryption for sensitive employee Identifiers without degrading database query performance or report generation speed.',
+    learnings: 'Mastered full-stack architecture combining Next.js 14 App Router with FastAPI and Pydantic v2. Gained deep expertise in cryptography (Fernet AES-256 field encryption at rest), statutory payroll math engine design, role-based JWT security, and CSS @media print optimization for single-page corporate payslips.',
+    image: 'https://i.ibb.co/Kz0TVHX4/image.png',
+    imageHint: 'Enterprise Secured Payroll Web Application Dashboard',
+    gallery: [
+      { url: 'https://i.ibb.co/Kz0TVHX4/image.png', hint: 'Main Executive Payroll Dashboard' },
+      { url: 'https://i.ibb.co/0V1C9f3p/image.png', hint: 'Employee Records & AES-256 Encrypted Profile Management' },
+      { url: 'https://i.ibb.co/rRL8KHW2/image.png', hint: 'Automated BIR & Statutory Tax Calculation Breakdown' },
+      { url: 'https://i.ibb.co/Vspkk0S/image.png', hint: 'Print-Ready Individual Payslip Export' },
+      { url: 'https://i.ibb.co/prySq3pj/image.png', hint: 'Location Breakdown & Branch Summary Report' },
+      { url: 'https://i.ibb.co/Z1SKm8Jc/image.png', hint: 'Configurable Weekly Payroll Cycle Settings' },
+      { url: 'https://i.ibb.co/WNy54PPL/image.png', hint: 'Role-Based Access Control & Security Settings' },
+      { url: 'https://i.ibb.co/65X0NDM/image.png', hint: 'Immutable Audit Trail & System Log Visualizer' },
+      { url: 'https://i.ibb.co/jkBNPxdf/image.png', hint: 'Interactive API Documentation & Endpoint Controller' }
+    ],
+    tags: ['Web App', 'Next.js', 'FastAPI', 'Python', 'Tailwind CSS', 'PostgreSQL', 'TypeScript', 'Security'],
+    github: 'https://github.com/Meshy21/payroll-online-web',
+    live: 'https://payroll-online-web.vercel.app/',
+    metrics: [
+      { label: 'Tax Compliance', value: '100% BIR TRAIN', description: 'Automated BIR TRAIN Law & 2025 statutory math engine' },
+      { label: 'Security Grade', value: 'AES-256 Fernet', description: 'Field-level encryption for SSS, PhilHealth, TIN & Bank IDs' },
+      { label: 'Stack Architecture', value: 'Next.js + FastAPI', description: 'Modern decoupled App Router & Pydantic v2 API backend' },
+      { label: 'Export Engine', value: '@media Print', description: '1-Payslip-per-page print layout & executive summary reports' },
+      { label: 'Complexity Score', value: '9.3 / 10', description: 'Multi-tiered statutory compliance, RBAC & immutable audit trails' }
+    ],
+    timeline: [
+      {
+        phase: 'Phase 1: Backend & Tax Engine',
+        duration: 'Weeks 1-2',
+        title: 'BIR TRAIN & Statutory Math Calculation Core',
+        description: 'Engineered FastAPI tax calculators for BIR TRAIN Law, SSS 2025 MSC brackets, PhilHealth 5% rates, and Pag-IBIG Circular 460.'
+      },
+      {
+        phase: 'Phase 2: Cryptography & Security',
+        duration: 'Week 3',
+        title: 'AES-256 Fernet Encryption & JWT RBAC Auth',
+        description: 'Implemented AES-256 field-level encryption for sensitive PII data and JWT authentication with Admin/Manager RBAC scope checks.'
+      },
+      {
+        phase: 'Phase 3: Next.js 14 Web Frontend',
+        duration: 'Weeks 4-5',
+        title: 'App Router Web Client & Glassmorphism System',
+        description: 'Constructed responsive dashboards, employee list management, location branch safety controls, and audit trail visualizers.'
+      },
+      {
+        phase: 'Phase 4: Print Layouts & Deployment',
+        duration: 'Week 6',
+        title: '@media Print Layouts & Railway/Vercel Pipelines',
+        description: 'Designed clean 1-payslip-per-page print layouts and deployed backend services to Railway PostgreSQL and web frontend to Vercel.'
+      }
+    ]
+  },
+  {
     slug: 'syncsolve-api',
     title: 'SyncSolve API — Conflict Resolution Engine',
     description: 'Engineered for offline-first bi-directional synchronization. Reconciles JSON payload collisions via Last-Write-Wins, Vector Clock causality graph analysis, and JSON Delta patches.',

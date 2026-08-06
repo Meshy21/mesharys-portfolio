@@ -123,7 +123,13 @@ Contact Information & Official Links:
 - GitHub: https://github.com/Meshy21
 
 Key Showcase Projects:
-1. SyncSolve API — Conflict Resolution Engine:
+1. Enterprise Online Secured Payroll Web Application:
+   - Full-stack corporate payroll system built with Next.js 14, FastAPI (Python), TailwindCSS, and PostgreSQL/SQLite.
+   - Features automated BIR TRAIN Law tax math, SSS 2025 (₱35k MSC), PhilHealth 5%, Pag-IBIG Circular 460 compliance, AES-256 Fernet field encryption, and 1-payslip-per-page print layouts.
+   - GitHub Repository: https://github.com/Meshy21/payroll-online-web
+   - Live Demo: https://payroll-online-web.vercel.app/
+
+2. SyncSolve API — Conflict Resolution Engine:
    - High-performance stateless API for offline-first applications.
    - Handles Last-Write-Wins (LWW), Vector Clock causality analysis, and RFC 6902 JSON Delta patches.
    - Live Demo: https://scratch-anye.onrender.com
