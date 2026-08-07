@@ -83,8 +83,8 @@ src/
 
 ```bash
 # Clone the repository
-git clone https://github.com/Meshy21/portfolio.git
-cd portfolio
+git clone https://github.com/Meshy21/mesharys-portfolio.git
+cd mesharys-portfolio
 
 # Install dependencies
 npm install

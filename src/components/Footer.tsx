@@ -8,12 +8,22 @@ export default function Footer() {
       <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
 
       <div className="container mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4 py-8 px-4 md:px-6">
-        <p className="text-xs text-muted-foreground text-center sm:text-left">
-          Designed &amp; Engineered by{' '}
-          <span className="text-foreground font-medium">Meshary A. Aquino</span>
-          {' · '}
-          &copy; {new Date().getFullYear()}
-        </p>
+        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+          <p className="text-xs text-muted-foreground text-center sm:text-left">
+            Designed &amp; Engineered by{' '}
+            <span className="text-foreground font-medium">Meshary A. Aquino</span>
+            {' · '}
+            &copy; {new Date().getFullYear()}
+          </p>
+          <Link
+            href="https://github.com/Meshy21/mesharys-portfolio"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[11px] font-mono text-muted-foreground/70 hover:text-primary transition-colors duration-300"
+          >
+            {'// Site Source'}
+          </Link>
+        </div>
 
         <div className="flex items-center gap-4">
           <Link
