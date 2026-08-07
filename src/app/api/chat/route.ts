@@ -134,27 +134,17 @@ Key Showcase Projects:
    - Handles Last-Write-Wins (LWW), Vector Clock causality analysis, and RFC 6902 JSON Delta patches.
    - Live Demo: https://scratch-anye.onrender.com
 
-2. Wood Knot Detection Mobile App:
+3. Wood Knot Detection Mobile App:
    - Real-time on-device lumber defect identification (<45ms latency).
    - Custom YOLOv8 model trained on 10,000+ images, quantized via ONNX to TensorFlow Lite in Flutter.
    - GitHub Repository: https://github.com/Meshy21/woodknot
 
-3. Capstone: Braille Haptic Reader (ConBraillient):
+4. Capstone: Braille Haptic Reader (ConBraillient):
    - Real-time OCR-to-Braille translation system on Raspberry Pi 4.
    - Features YOLOv5 text detection and custom solenoid pin driver hardware (97.82% OCR accuracy).
 
-4. LearnMate:
-   - Android tutoring app with Flutter, Dart, and Agora RTC live video conferencing & session scheduling.
-
-5. Couple Budget Tracker & Predictive Grocery List:
-   - Collaborative household financial ledger with 30-day predictive purchase forecasting built in Remix & SQL.
-   - Live Demo: https://remix-couple-budget-tracker-predictive-grocery-en-242891057226.asia-southeast1.run.app
-
-6. Custom Payroll Management System:
+5. Custom Payroll Management System:
    - Multi-threaded Python/PyQt6 desktop app with PostgreSQL for automated taxation calculations.
-
-7. Accountability & Inventory System:
-   - PHP & SQL 3NF normalized asset management engine with dynamic form rendering.
 
 Core Technical Skills:
 - Languages: Python, TypeScript, JavaScript, Dart, PHP, SQL

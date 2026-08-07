@@ -116,13 +116,11 @@ npm run start
 
 | Project | Category | Stack |
 |---------|----------|-------|
-| **SyncSolve API** — Conflict Resolution Engine | API / Web App | Python, FastAPI |
-| **LearnMate** — Remote Learning App | Mobile App | Flutter, Dart, Agora RTC |
-| **Wood Knot Detection** — On-Device AI | Mobile / AI | YOLOv8, TensorFlow Lite |
-| **Braille Haptic Reader** — Capstone | IoT / AI | YOLOv5, Raspberry Pi |
-| **Inventory System** — Asset Tracker | Web App | PHP, SQL |
-| **Payroll System** — Desktop App | Desktop | Python, PyQt6, PostgreSQL |
-| **Couple Budget Tracker** — Predictive Grocery | Web App | Remix, TypeScript, SQL |
+| **Enterprise Payroll Web App** — BIR & Statutory Compliance | Web App / Security | Next.js, FastAPI, PostgreSQL, Tailwind |
+| **SyncSolve API** — Conflict Resolution Engine | API / Web App | Python, FastAPI, Distributed Systems |
+| **Wood Knot Detection** — On-Device AI | Mobile / AI | YOLOv8, TensorFlow Lite, Flutter |
+| **Braille Haptic Reader** — Capstone | IoT / AI | YOLOv5, Raspberry Pi, Python |
+| **Custom Payroll System** — Desktop App | Desktop App | Python, PyQt6, PostgreSQL |
 
 ---
 
