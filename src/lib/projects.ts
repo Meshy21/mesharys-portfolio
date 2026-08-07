@@ -140,6 +140,110 @@ export const projects: Project[] = [
     ]
   },
   {
+    slug: 'wood-knot-detection',
+    title: 'Wood Knot Detection App',
+    description: 'An on-device, real-time app identifying wood knots using a YOLOv8 model trained on 10,000+ images, optimized via ONNX, and run on TensorFlow Lite.',
+    longDescription: 'This project involved building an on-device, real-time computer vision application for identifying wood knots. The core AI model was developed by training YOLOv8 on an extensive custom dataset of over 10,000 annotated wood images for under 75 epochs to achieve optimal feature convergence. To facilitate highly efficient deployment on mobile hardware, the trained YOLOv8 model was first exported to the ONNX (Open Neural Network Exchange) format and subsequently converted to a quantized TensorFlow Lite (TFLite) model. This robust pipeline enables high-accuracy, real-time, on-device inference without relying on external server resources.',
+    challenges: 'Optimizing a complex object detection model like YOLOv8 for real-time mobile execution was a multi-stage challenge. It required selecting the right model scale, converting the model architecture through ONNX with correct tensor layouts, and applying integer quantization in TensorFlow Lite to drastically reduce the memory footprint without degrading detection accuracy. Additionally, managing real-time camera frames and rendering bounding boxes with minimal latency on low-to-mid range mobile processors required writing highly efficient multi-threaded operations in Dart and Flutter.',
+    learnings: 'Through this project, I mastered the end-to-end edge AI pipeline. I gained deep experience in custom dataset curation (annotating over 10,000 images), hyperparameter tuning during YOLOv8 training across multiple epochs, cross-framework model translation using ONNX, and quantized hardware-accelerated inference with TFLite in Flutter. It proved that deep learning models can be effectively compacted and deployed directly to the edge with high reliability.',
+    image: images.woodKnotMain,
+    imageHint: 'wood detection',
+    gallery: [
+      { url: 'https://i.ibb.co/rNj98hm/57eddd60-ec3a-4c1e-bc25-80333fc1b024.jpg', hint: 'wood knot detection on device' },
+      { url: 'https://i.ibb.co/MX38mgH/ea13b409-af46-4562-a88e-947b801dcb4e.jpg', hint: 'model output visualization' },
+      { url: 'https://i.ibb.co/RTzy79HW/b7fd349a-1189-4f96-a9c1-15e27e0845f8.jpg', hint: 'custom dataset sample' },
+      { url: 'https://i.ibb.co/HptFPfhG/5d8825e2-1fc8-4619-8909-2d53a9ece1c1.jpg', hint: 'real-time model inference' }
+    ],
+    tags: ['Mobile App', 'AI', 'Flutter', 'Dart', 'TensorFlow Lite', 'YOLOv8'],
+    github: 'https://github.com/Meshy21/woodknot',
+    live: null,
+    metrics: [
+      { label: 'Dataset Size', value: '10,000+ Images', description: 'Custom-annotated lumber surface images' },
+      { label: 'Training Iterations', value: '75 Epochs', description: 'YOLOv8 custom feature convergence' },
+      { label: 'Inference Latency', value: '<45ms', description: 'Highly responsive real-time on-device execution' },
+      { label: 'Model Compaction', value: '85% Size Reduction', description: 'ONNX to quantized TensorFlow Lite format' },
+      { label: 'Complexity Score', value: '9.4 / 10', description: 'Edge device optimization & custom AI pipeline' }
+    ],
+    timeline: [
+      {
+        phase: 'Phase 1: Dataset Curation',
+        duration: 'Weeks 1-2',
+        title: 'Image Acquisition & Custom Labeling',
+        description: 'Sourced and manually annotated over 10,000 high-resolution wood surface samples, carefully highlighting wood knot defects.'
+      },
+      {
+        phase: 'Phase 2: YOLOv8 Training',
+        duration: 'Weeks 3-4',
+        title: 'Model Training & Validation Iterations',
+        description: 'Trained a custom YOLOv8 detection architecture for 75 epochs, achieving precise and optimal weight convergence.'
+      },
+      {
+        phase: 'Phase 3: Model Conversion',
+        duration: 'Week 5',
+        title: 'ONNX Translation & INT8 Quantization',
+        description: 'Exported weight states into intermediate ONNX format and applied structural integer quantization to reduce model weight by 85%.'
+      },
+      {
+        phase: 'Phase 4: Client Integration',
+        duration: 'Week 6',
+        title: 'Flutter Camera Frame Processing Loop',
+        description: 'Implemented an optimized camera thread in Dart that streams frames to TensorFlow Lite, rendering immediate overlay boxes under 45ms.'
+      }
+    ]
+  },
+  {
+    slug: 'braille-haptic-reader',
+    title: 'Capstone: Braille Haptic Reader',
+    description: "An OCR-to-Braille translation pipeline on Raspberry Pi using YOLOv5 for visually impaired users.",
+    longDescription: "As my capstone project, I developed an OCR-to-Braille translation pipeline running on a Raspberry Pi. The system uses a camera to capture text, which is then processed by a custom-trained YOLOv5-based AI model for accurate text detection. The detected text is run through an OCR engine and translated into Braille, which is then outputted to a haptic display. The system achieved a 97.82% OCR accuracy, enabling real-time translation for visually impaired users.",
+    challenges: 'Training a highly accurate text detection model for various fonts and lighting conditions was a significant challenge. Integrating the entire pipeline—camera capture, AI inference, OCR, and haptic output—on a resource-constrained device like the Raspberry Pi required extensive optimization. The real-time constraint meant every part of the process had to be as efficient as possible.',
+    learnings: 'This project taught me a great deal about the practical application of machine learning models on edge devices. I learned about optimizing deep learning models for performance, working with hardware interfaces, and building a complete, end-to-end system that serves a real-world purpose.',
+    image: images.brailleReaderMain,
+    imageHint: 'braille reader device',
+    gallery: [
+      { url: 'https://i.ibb.co/zWdb3tRW/image-2026-07-10-150400735.png', hint: 'braille reader physical prototype' },
+      { url: 'https://i.ibb.co/67KX0cSP/image-2026-07-10-150441522.png', hint: 'OCR extraction processing interface' },
+      { url: 'https://i.ibb.co/qMYv8Bc2/image-2026-07-10-150507050.png', hint: 'on-device translation flow' },
+      { url: 'https://i.ibb.co/BKYSs021/pipeline.png', hint: 'ConBraillient system pipeline architecture diagram' }
+    ],
+    tags: ['AI', 'IoT', 'Python', 'Raspberry Pi', 'YOLOv5', 'OCR'],
+    github: null,
+    live: null,
+    metrics: [
+      { label: 'OCR Accuracy', value: '97.82%', description: 'Custom translation accuracy under varied lighting' },
+      { label: 'Pipeline Latency', value: '~1.2s', description: 'Full image-to-haptic-pattern latency' },
+      { label: 'Codebase Scale', value: '~4,200 LOC', description: 'Python scripts, YOLOv5 integration, solenoid driver loops' },
+      { label: 'Hardware Nodes', value: '4 Components', description: 'Raspberry Pi 4, high-res camera, 3D-printed haptic cell array' },
+      { label: 'Complexity Score', value: '9.6 / 10', description: 'Deep tech integration pairing computer vision & physical solenoids' }
+    ],
+    timeline: [
+      {
+        phase: 'Phase 1: Physical R&D',
+        duration: 'Weeks 1-2',
+        title: 'Hardware Prototyping & Pin Mapping',
+        description: 'Sourced Raspberry Pi 4 board, configured custom-designed circuit connections, and soldered 3D-printed haptic cell solenoid relays.'
+      },
+      {
+        phase: 'Phase 2: Vision Model Training',
+        duration: 'Weeks 3-4',
+        title: 'YOLOv5 Character Box Detections',
+        description: 'Trained high-accuracy character and paragraph boundary detection anchors with YOLOv5 on various distinct printed fonts.'
+      },
+      {
+        phase: 'Phase 3: Translation Pipeline',
+        duration: 'Week 5',
+        title: 'Python Braille Mapping Core Engine',
+        description: 'Developed low-level Python scripts converting OCR string characters into 6-dot haptic grid arrays mapped directly to GPIO pin nodes.'
+      },
+      {
+        phase: 'Phase 4: Latency Calibration',
+        duration: 'Week 6',
+        title: 'Thread Tuning & Validation testing',
+        description: 'Streamlined image processing threads to cut pipeline lag to ~1.2 seconds, achieving solid 97.82% overall accuracy.'
+      }
+    ]
+  },
+  {
     slug: 'custom-payroll-system',
     title: 'Custom Payroll Management System',
     description: 'A bespoke desktop payroll system using Python and PyQt for precise, efficient financial management.',
