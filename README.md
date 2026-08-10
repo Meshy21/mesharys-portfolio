@@ -97,11 +97,24 @@ Open [http://localhost:3000](http://localhost:3000) to view the portfolio.
 
 ### Environment Variables
 
-Create a `.env.local` file for the AI chatbot:
+Create a `.env.local` file:
 
 ```env
+# Gemini AI Chatbot
 GOOGLE_GENAI_API_KEY=your_gemini_api_key_here
+
+# Umami User Analytics
+NEXT_PUBLIC_UMAMI_WEBSITE_ID=your_umami_website_id_here
+NEXT_PUBLIC_UMAMI_SCRIPT_URL=https://cloud.umami.is/script.js
 ```
+
+### Setting Up Umami Analytics
+
+1. Sign up or log into [Umami Cloud](https://cloud.umami.is) (or your self-hosted Umami dashboard).
+2. Click **Add Website** and enter your domain name (e.g. `meshary.dev`).
+3. Copy the **Website ID** (UUID format: `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`).
+4. Paste it into your `.env.local` or host environment variables as `NEXT_PUBLIC_UMAMI_WEBSITE_ID`.
+5. Re-deploy or restart `npm run dev`. Umami will automatically begin tracking page views and visitor metrics privacy-compliantly!
 
 ### Build for Production
 

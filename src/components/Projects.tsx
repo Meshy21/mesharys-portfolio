@@ -38,21 +38,23 @@ export default function Projects() {
           </p>
         </div>
 
-        {/* Category Filter — Toggle Bar */}
-        <div className="flex flex-wrap gap-1.5 mb-12 p-1 bg-card/50 border border-border/60 rounded-full w-fit">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${
-                selectedCategory === category
-                  ? 'bg-primary text-primary-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
+        {/* Category Filter — Touch-Swipeable Pill Bar */}
+        <div className="w-full max-w-full overflow-x-auto no-scrollbar pb-2 mb-12">
+          <div className="flex items-center gap-1.5 p-1 bg-card/50 border border-border/60 rounded-full w-max min-w-full sm:min-w-0">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-300 ${
+                  selectedCategory === category
+                    ? 'bg-primary text-primary-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Staggered Projects Grid */}

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Plus_Jakarta_Sans, Outfit } from 'next/font/google';
@@ -22,6 +23,9 @@ export const metadata: Metadata = {
     'Portfolio of Meshary A. Aquino, Computer Engineer specializing in backend APIs, mobile development, edge AI, and database architecture.',
 };
 
+const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
+const umamiScriptUrl = process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL || 'https://cloud.umami.is/script.js';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -29,6 +33,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${plusJakartaSans.variable} ${outfit.variable}`}>
+      <head>
+        {umamiWebsiteId && (
+          <Script
+            async
+            src={umamiScriptUrl}
+            data-website-id={umamiWebsiteId}
+            strategy="afterInteractive"
+          />
+        )}
+      </head>
       <body className="font-body antialiased bg-background text-foreground">
         {children}
         <Toaster />

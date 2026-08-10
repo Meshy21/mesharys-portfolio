@@ -32,6 +32,26 @@ export default function ProjectPage() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 40;
+    const isRightSwipe = distance < -40;
+    if (isLeftSwipe) nextSlide();
+    if (isRightSwipe) prevSlide();
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
   if (!project) {
     notFound();
   }
@@ -103,7 +123,12 @@ export default function ProjectPage() {
       <section className="w-full bg-muted/20 border-b border-border/30">
         <div className="relative w-full" style={{ minHeight: '60vh', maxHeight: '80vh' }}>
           {/* Main slideshow image — full picture, no crop */}
-          <div className="relative w-full h-[60vh] md:h-[70vh] max-h-[80vh] bg-background/50 flex items-center justify-center">
+          <div
+            className="relative w-full h-[60vh] md:h-[70vh] max-h-[80vh] bg-background/50 flex items-center justify-center select-none"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             <Image
               src={allImages[currentSlide].url}
               alt={`${project.title} — ${allImages[currentSlide].hint || `Image ${currentSlide + 1}`}`}
@@ -156,7 +181,7 @@ export default function ProjectPage() {
         {/* Gallery thumbnails strip */}
         {allImages.length > 1 && (
           <div className="container mx-auto max-w-6xl px-4 md:px-6 py-4">
-            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin">
+            <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar sm:scrollbar-thin overscroll-x-contain">
               {allImages.map((img, idx) => (
                 <button
                   key={idx}

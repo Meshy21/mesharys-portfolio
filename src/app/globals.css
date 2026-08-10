@@ -50,12 +50,14 @@
 @layer base {
   html {
     @apply scroll-smooth;
+    -webkit-tap-highlight-color: transparent;
   }
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground font-body antialiased;
+    touch-action: manipulation;
   }
 
   /* Custom scrollbar */
@@ -81,6 +83,15 @@
 }
 
 @layer utilities {
+  /* Hide scrollbar utility for touch swipe bars */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
   /* Copper gradient text */
   .text-gradient-copper {
     background: linear-gradient(135deg, hsl(29 90% 62%), hsl(35 95% 72%), hsl(29 85% 52%));
@@ -125,15 +136,28 @@
 /* Bi-directional scroll-reveal animation base */
 .reveal {
   opacity: 0;
-  transform: translateY(24px) scale(0.985);
-  transition: opacity 0.7s cubic-bezier(0.25, 1, 0.4, 1), transform 0.7s cubic-bezier(0.25, 1, 0.4, 1);
+  transform: translateY(20px) translateZ(0);
+  transition: opacity 0.6s cubic-bezier(0.25, 1, 0.4, 1), transform 0.6s cubic-bezier(0.25, 1, 0.4, 1);
   will-change: opacity, transform;
 }
 .reveal.revealed {
   opacity: 1;
-  transform: translateY(0) scale(1);
-  transition: opacity 0.9s cubic-bezier(0.25, 1, 0.4, 1), transform 0.9s cubic-bezier(0.25, 1, 0.4, 1);
+  transform: translateY(0) translateZ(0);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.4, 1), transform 0.8s cubic-bezier(0.25, 1, 0.4, 1);
 }
+
+/* Mobile GPU optimization for heavy blurs */
+@media (max-width: 768px) {
+  .blur-\[140px\],
+  .blur-\[120px\],
+  .blur-\[100px\] {
+    filter: blur(48px) !important;
+  }
+  .blur-2xl {
+    filter: blur(20px) !important;
+  }
+}
+
 
 /* Floating animation keyframes */
 @keyframes float-slow {

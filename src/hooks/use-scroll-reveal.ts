@@ -3,31 +3,42 @@
 import { useEffect, useRef } from 'react';
 
 /**
- * Bi-directional scroll reveal hook.
- * Adds 'revealed' class when element enters the viewport,
- * and removes 'revealed' when element exits the viewport (in either direction).
+ * Scroll reveal hook.
+ * Adds 'revealed' class when element enters the viewport.
+ * Once revealed, maintains revealed state to avoid mobile touch scroll stutter.
  */
-export function useScrollReveal<T extends HTMLElement>(threshold = 0.1) {
+export function useScrollReveal<T extends HTMLElement>(threshold = 0.05, once = true) {
   const ref = useRef<T>(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
+    // Check if reduced motion is preferred
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      el.classList.add('revealed');
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           el.classList.add('revealed');
-        } else {
+          if (once) {
+            observer.unobserve(el);
+          }
+        } else if (!once) {
           el.classList.remove('revealed');
         }
       },
-      { threshold, rootMargin: '0px 0px -8% 0px' }
+      { threshold, rootMargin: '0px 0px -5% 0px' }
     );
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [threshold]);
+  }, [threshold, once]);
 
   return ref;
 }
+
