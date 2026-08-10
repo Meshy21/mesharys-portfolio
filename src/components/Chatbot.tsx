@@ -151,13 +151,13 @@ export default function Chatbot() {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end">
+    <>
       {/* Floating Toggle Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className={`group relative flex items-center justify-center gap-2.5 bg-primary text-primary-foreground h-12 w-12 sm:h-auto sm:w-auto px-0 sm:px-4 py-0 sm:py-3 rounded-full shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 ease-out hover:scale-105 active:scale-95 ${
+        className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 group flex items-center justify-center gap-2.5 bg-primary text-primary-foreground h-12 w-12 sm:h-auto sm:w-auto px-0 sm:px-4 py-0 sm:py-3 rounded-full shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 ease-out hover:scale-105 active:scale-95 ${
           isOpen
-            ? 'opacity-0 scale-90 pointer-events-none absolute bottom-0 right-0'
+            ? 'opacity-0 scale-90 pointer-events-none'
             : 'opacity-100 scale-100 pointer-events-auto'
         }`}
         aria-label="Open AI Assistant Chat"
@@ -175,10 +175,10 @@ export default function Chatbot() {
 
       {/* Chat Window */}
       <div
-        className={`flex flex-col w-[calc(100vw-2rem)] sm:w-[420px] max-w-[calc(100vw-2rem)] h-[min(560px,80dvh)] max-h-[82dvh] bg-card border border-border rounded-2xl shadow-2xl shadow-background/90 overflow-hidden transition-all duration-300 ease-out origin-bottom-right ${
+        className={`fixed bottom-4 right-4 left-4 sm:left-auto sm:right-6 sm:bottom-6 z-50 flex flex-col sm:w-[420px] max-w-[calc(100vw-2rem)] h-[min(560px,80dvh)] max-h-[82dvh] bg-card border border-border rounded-2xl shadow-2xl shadow-background/90 overflow-hidden transition-all duration-300 ease-out origin-bottom-right ${
           isOpen
             ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
-            : 'opacity-0 scale-95 translate-y-4 pointer-events-none absolute bottom-0 right-0'
+            : 'opacity-0 scale-95 translate-y-4 pointer-events-none'
         }`}
       >
         {/* Header */}
@@ -324,6 +324,6 @@ export default function Chatbot() {
           </Button>
         </form>
       </div>
-    </div>
+    </>
   );
 }
