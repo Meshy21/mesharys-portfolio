@@ -4,10 +4,9 @@ import { useEffect, useRef } from 'react';
 
 /**
  * Scroll reveal hook.
- * Adds 'revealed' class when element enters the viewport.
- * Once revealed, maintains revealed state to avoid mobile touch scroll stutter.
+ * Adds 'revealed' class when element enters the viewport, and removes it when scrolling away.
  */
-export function useScrollReveal<T extends HTMLElement>(threshold = 0.05, once = true) {
+export function useScrollReveal<T extends HTMLElement>(threshold = 0.05, once = false) {
   const ref = useRef<T>(null);
 
   useEffect(() => {

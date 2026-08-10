@@ -9,7 +9,7 @@ export default function Footer() {
       {/* Copper gradient divider */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
 
-      <div className="container mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 pb-20 sm:pb-12 px-4 md:px-6">
+      <div className="container mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 pb-24 sm:pb-24 px-4 md:px-6">
         <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
           <p className="text-xs text-muted-foreground text-center sm:text-left">
             Designed &amp; Engineered by{' '}
@@ -27,7 +27,7 @@ export default function Footer() {
           </Link>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:pr-44">
           {/* Live Open Analytics Button */}
           {shareUrl && (
             <Link
