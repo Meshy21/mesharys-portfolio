@@ -60,7 +60,33 @@ export default function GithubActivity() {
     }
   };
 
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  // Dynamically compute month labels based on contribution column dates
+  const monthLabels: { label: string; colIndex: number }[] = [];
+  let lastMonth = '';
+
+  columns.forEach((col, cIdx) => {
+    const firstDay = col.find((d) => d && d.date);
+    if (firstDay) {
+      const parts = firstDay.date.split('-');
+      if (parts.length === 3) {
+        const year = parseInt(parts[0], 10);
+        const monthIdx = parseInt(parts[1], 10) - 1;
+        const dayNum = parseInt(parts[2], 10);
+        const dateObj = new Date(Date.UTC(year, monthIdx, dayNum));
+        const monthName = dateObj.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
+
+        if (monthName !== lastMonth) {
+          if (
+            monthLabels.length === 0 ||
+            cIdx - monthLabels[monthLabels.length - 1].colIndex >= 2
+          ) {
+            monthLabels.push({ label: monthName, colIndex: cIdx });
+          }
+          lastMonth = monthName;
+        }
+      }
+    }
+  });
 
   return (
     <section id="activity" ref={sectionRef} className="reveal w-full py-12 sm:py-16 md:py-20 relative">
@@ -186,42 +212,51 @@ export default function GithubActivity() {
             </div>
           ) : (
             <div className="overflow-x-auto pb-2 scrollbar-thin">
-              <div className="min-w-[720px]">
-                {/* Month labels */}
-                <div className="flex text-[10px] font-mono text-muted-foreground mb-2 pl-6 justify-between pr-2">
-                  {months.map((m) => (
-                    <span key={m}>{m}</span>
-                  ))}
-                </div>
-
-                <div className="flex gap-1.5">
+              <div className="min-w-[860px]">
+                <div className="flex gap-2">
                   {/* Day of Week Labels */}
-                  <div className="flex flex-col justify-between text-[9px] font-mono text-muted-foreground pr-1 select-none py-0.5">
+                  <div className="w-7 shrink-0 flex flex-col justify-between text-[9px] font-mono text-muted-foreground select-none pt-5 pb-0.5">
                     <span>Mon</span>
                     <span>Wed</span>
                     <span>Fri</span>
                   </div>
 
-                  {/* Columns of 7 days */}
-                  <div className="flex flex-1 gap-1">
-                    {columns.map((col, cIdx) => (
-                      <div key={cIdx} className="flex flex-col gap-1">
-                        {col.map((day, dIdx) => (
-                          <div
-                            key={`${day.date}-${dIdx}`}
-                            onMouseEnter={(e) => {
-                              setHoveredDay(day);
-                              const rect = e.currentTarget.getBoundingClientRect();
-                              setMousePos({ x: rect.left + rect.width / 2, y: rect.top - 10 });
-                            }}
-                            onMouseLeave={() => setHoveredDay(null)}
-                            className={`h-3 w-3 rounded-xs transition-all duration-200 cursor-pointer ${getLevelBg(
-                              day.level
-                            )} hover:scale-125 hover:z-10`}
-                          />
-                        ))}
-                      </div>
-                    ))}
+                  {/* Grid + Month Header */}
+                  <div className="flex-1 min-w-0">
+                    {/* Month labels positioned dynamically above columns */}
+                    <div className="relative h-4 mb-1 text-[10px] font-mono text-muted-foreground select-none">
+                      {monthLabels.map((m, idx) => (
+                        <span
+                          key={`${m.label}-${idx}`}
+                          className="absolute top-0"
+                          style={{ left: `${m.colIndex * 16}px` }}
+                        >
+                          {m.label}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Columns of 7 days */}
+                    <div className="flex gap-1">
+                      {columns.map((col, cIdx) => (
+                        <div key={cIdx} className="flex flex-col gap-1">
+                          {col.map((day, dIdx) => (
+                            <div
+                              key={`${day.date}-${dIdx}`}
+                              onMouseEnter={(e) => {
+                                setHoveredDay(day);
+                                const rect = e.currentTarget.getBoundingClientRect();
+                                setMousePos({ x: rect.left + rect.width / 2, y: rect.top - 10 });
+                              }}
+                              onMouseLeave={() => setHoveredDay(null)}
+                              className={`h-3 w-3 rounded-xs transition-all duration-200 cursor-pointer ${getLevelBg(
+                                day.level
+                              )} hover:scale-125 hover:z-10`}
+                            />
+                          ))}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
