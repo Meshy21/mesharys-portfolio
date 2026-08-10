@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { GitCommit, Flame, GitBranch, ExternalLink, Calendar, Sparkles, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
@@ -264,24 +265,27 @@ export default function GithubActivity() {
           )}
 
           {/* Tooltip on hover */}
-          {hoveredDay && (
-            <div
-              style={{
-                position: 'fixed',
-                left: `${mousePos.x}px`,
-                top: `${mousePos.y}px`,
-                transform: 'translate(-50%, -100%)',
-              }}
-              className="z-50 pointer-events-none bg-popover/95 backdrop-blur-md border border-border text-foreground text-xs font-mono py-1.5 px-3 rounded-lg shadow-xl animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap"
-            >
-              <div className="font-semibold text-emerald-400">
-                {hoveredDay.count === 0
-                  ? 'No contributions'
-                  : `${hoveredDay.count} contribution${hoveredDay.count > 1 ? 's' : ''}`}
-              </div>
-              <div className="text-[10px] text-muted-foreground">{hoveredDay.date}</div>
-            </div>
-          )}
+          {hoveredDay &&
+            typeof document !== 'undefined' &&
+            createPortal(
+              <div
+                style={{
+                  position: 'fixed',
+                  left: `${mousePos.x}px`,
+                  top: `${mousePos.y}px`,
+                  transform: 'translate(-50%, -100%)',
+                }}
+                className="z-50 pointer-events-none bg-popover/95 backdrop-blur-md border border-border text-foreground text-xs font-mono py-1.5 px-3 rounded-lg shadow-xl animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap"
+              >
+                <div className="font-semibold text-emerald-400">
+                  {hoveredDay.count === 0
+                    ? 'No contributions'
+                    : `${hoveredDay.count} contribution${hoveredDay.count > 1 ? 's' : ''}`}
+                </div>
+                <div className="text-[10px] text-muted-foreground">{hoveredDay.date}</div>
+              </div>,
+              document.body
+            )}
         </div>
 
         {/* Recent Repository Pushes Section */}
