@@ -21,6 +21,7 @@ A hand-crafted dark-themed portfolio built with **Next.js 15**, **TypeScript**, 
 
 ### Highlights
 
+- 💼 **Interactive Work Experience** — Career timeline with click-to-expand accomplishment bullet points and metrics
 - 🎨 **Custom dark theme** — Deep navy base with copper/amber accents, no generic templates
 - 🖼️ **Gallery-first project pages** — Full-viewport slideshow with touch swipe support
 - 🤖 **Meshary AI** — Interactive portfolio chatbot powered by Google Gemini 3.6
@@ -58,9 +59,10 @@ src/
 │   └── page.tsx            # Homepage
 ├── components/
 │   ├── ui/                 # Radix-based UI primitives
-│   ├── Header.tsx          # Scroll-aware sticky nav with Analytics link
+│   ├── Header.tsx          # Scroll-aware sticky nav with Experience & Analytics
 │   ├── Hero.tsx            # Gradient name + stats
 │   ├── Projects.tsx        # Filtered project grid + mobile swipe pill bar
+│   ├── Experience.tsx      # Interactive career timeline with click-to-expand details
 │   ├── Skills.tsx          # Horizontal skill matrix
 │   ├── AnalyticsSection.tsx# Dedicated live traffic & privacy shield section
 │   ├── Contact.tsx         # Clean contact rows
