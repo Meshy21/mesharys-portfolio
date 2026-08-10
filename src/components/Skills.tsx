@@ -55,12 +55,12 @@ export default function Skills() {
   const sectionRef = useScrollReveal<HTMLElement>(0.1);
 
   return (
-    <section id="skills" ref={sectionRef} className="reveal w-full py-20 md:py-32 relative">
+    <section id="skills" ref={sectionRef} className="reveal w-full py-12 sm:py-16 md:py-20 relative">
       {/* Top edge line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
-        <div className="max-w-2xl mb-16 space-y-4">
+        <div className="max-w-2xl mb-8 sm:mb-10 space-y-3">
           <span className="text-xs font-mono font-semibold tracking-widest uppercase text-primary">
             {'// Technical Matrix'}
           </span>
@@ -74,7 +74,7 @@ export default function Skills() {
           {skillCategories.map((category, idx) => (
             <div
               key={category.title}
-              className={`grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 py-10 ${
+              className={`grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-10 py-6 sm:py-8 ${
                 idx !== skillCategories.length - 1 ? 'border-b border-border/40' : ''
               }`}
             >

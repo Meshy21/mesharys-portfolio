@@ -20,13 +20,13 @@ export default function Projects() {
       : projects.filter((project) => project.tags.includes(selectedCategory));
 
   return (
-    <section id="projects" ref={sectionRef} className="reveal w-full py-20 md:py-32 relative">
+    <section id="projects" ref={sectionRef} className="reveal w-full py-12 sm:py-16 md:py-20 relative">
       {/* Ambient glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         {/* Section Header */}
-        <div className="max-w-2xl mb-14 space-y-4">
+        <div className="max-w-2xl mb-8 sm:mb-10 space-y-3">
           <span className="text-xs font-mono font-semibold tracking-widest uppercase text-primary">
             {'// Engineering Showcase'}
           </span>
@@ -39,7 +39,7 @@ export default function Projects() {
         </div>
 
         {/* Category Filter — Touch-Swipeable Pill Bar */}
-        <div className="w-full max-w-full overflow-x-auto no-scrollbar pb-2 mb-12">
+        <div className="w-full max-w-full overflow-x-auto no-scrollbar pb-2 mb-8">
           <div className="flex items-center gap-1.5 p-1 bg-card/50 border border-border/60 rounded-full w-max min-w-full sm:min-w-0">
             {categories.map((category) => (
               <button

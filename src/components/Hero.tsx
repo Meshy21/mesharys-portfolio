@@ -19,7 +19,7 @@ export default function Hero() {
     <section
       id="home"
       ref={sectionRef}
-      className="reveal w-full relative overflow-hidden bg-grid-pattern py-20 md:py-32 lg:py-40 border-b border-border/40"
+      className="reveal w-full relative overflow-hidden bg-grid-pattern py-12 sm:py-16 md:py-20 lg:py-24 border-b border-border/40"
     >
       {/* Ambient background glows */}
       <div className="absolute top-1/4 -right-20 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
@@ -74,10 +74,10 @@ export default function Hero() {
             </div>
 
             {/* EYE-CATCHING Action Buttons */}
-            <div className="flex flex-wrap gap-4 pt-2">
+            <div className="flex flex-wrap gap-3 sm:gap-4 pt-2">
               <Link
                 href="#projects"
-                className="group relative inline-flex items-center gap-2.5 bg-primary text-primary-foreground px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-primary/90 transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98]"
+                className="group relative inline-flex items-center justify-center gap-2.5 bg-primary text-primary-foreground px-6 sm:px-7 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm font-semibold hover:bg-primary/90 transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.97] touch-manipulation min-h-[44px]"
               >
                 <span>Explore Work</span>
                 <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -88,7 +88,7 @@ export default function Hero() {
                 href="https://drive.google.com/file/d/1zgdQHeFZdbjkyfwAABfBjPgmxIqlUWqo/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-semibold text-foreground bg-card border-2 border-primary/50 hover:border-primary transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] border-glow-copper overflow-hidden"
+                className="group relative inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm font-semibold text-foreground bg-card border-2 border-primary/50 hover:border-primary transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-primary/20 hover:scale-[1.02] active:scale-[0.97] border-glow-copper overflow-hidden touch-manipulation min-h-[44px]"
               >
                 <div className="absolute inset-0 shimmer opacity-50 pointer-events-none" />
                 <Download className="h-4 w-4 text-primary group-hover:translate-y-0.5 transition-transform" />
@@ -97,16 +97,16 @@ export default function Hero() {
             </div>
 
             {/* Quick Stats Grid */}
-            <div className="grid grid-cols-3 gap-3 pt-6 max-w-lg">
+            <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-6 max-w-lg">
               {stats.map((stat) => (
                 <div
                   key={stat.label}
-                  className="bg-card/70 border border-border/60 rounded-xl p-3.5 backdrop-blur-sm hover:border-primary/40 transition-colors"
+                  className="bg-card/70 border border-border/60 rounded-xl p-2.5 sm:p-3.5 backdrop-blur-sm hover:border-primary/40 transition-colors text-center sm:text-left"
                 >
-                  <span className="font-headline text-2xl sm:text-3xl font-bold text-foreground block tracking-tight">
+                  <span className="font-headline text-xl sm:text-2xl lg:text-3xl font-bold text-foreground block tracking-tight">
                     {stat.value}
                   </span>
-                  <span className="text-[10px] sm:text-[11px] font-mono text-muted-foreground uppercase tracking-wider block mt-0.5">
+                  <span className="text-[9px] sm:text-[11px] font-mono text-muted-foreground uppercase tracking-wider block mt-0.5 leading-tight">
                     {stat.label}
                   </span>
                 </div>
@@ -121,22 +121,22 @@ export default function Hero() {
               <div className="absolute -inset-4 rounded-3xl bg-gradient-to-r from-primary/30 via-amber-500/20 to-primary/30 blur-2xl opacity-70 pointer-events-none" />
 
               {/* Floating Tech Badges */}
-              <div className="absolute -top-6 -left-6 z-20 animate-float">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-card/90 border border-primary/40 shadow-xl backdrop-blur-md text-xs font-mono text-foreground">
-                  <Cpu className="h-3.5 w-3.5 text-primary" />
+              <div className="absolute -top-5 -left-4 sm:-top-6 sm:-left-6 z-20 animate-float">
+                <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-card/90 border border-primary/40 shadow-xl backdrop-blur-md text-[11px] sm:text-xs font-mono text-foreground">
+                  <Cpu className="h-3 sm:h-3.5 w-3 sm:w-3.5 text-primary" />
                   <span>Edge Vision AI</span>
                 </div>
               </div>
 
-              <div className="absolute -bottom-5 -right-5 z-20 animate-float-reverse">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-card/90 border border-primary/40 shadow-xl backdrop-blur-md text-xs font-mono text-foreground">
-                  <Sparkles className="h-3.5 w-3.5 text-amber-400" />
+              <div className="absolute -bottom-4 -right-4 sm:-bottom-5 sm:-right-5 z-20 animate-float-reverse">
+                <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-card/90 border border-primary/40 shadow-xl backdrop-blur-md text-[11px] sm:text-xs font-mono text-foreground">
+                  <Sparkles className="h-3 sm:h-3.5 w-3 sm:w-3.5 text-amber-400" />
                   <span>Flutter &amp; FastAPI</span>
                 </div>
               </div>
 
               {/* Photo Frame Container — Full photo, uncropped */}
-              <div className="relative w-72 h-88 sm:w-80 sm:h-96 lg:w-[350px] lg:h-[420px] rounded-2xl overflow-hidden bg-card/90 border-2 border-primary/30 p-2 shadow-2xl backdrop-blur-sm flex items-center justify-center group hover:border-primary/60 transition-colors">
+              <div className="relative w-64 h-80 sm:w-80 sm:h-96 lg:w-[350px] lg:h-[420px] rounded-2xl overflow-hidden bg-card/90 border-2 border-primary/30 p-2 shadow-2xl backdrop-blur-sm flex items-center justify-center group hover:border-primary/60 transition-colors">
                 <Image
                   alt="Meshary A. Aquino — Computer Engineer"
                   className="object-contain max-h-full max-w-full rounded-xl transition-transform duration-500 group-hover:scale-[1.01]"

@@ -87,12 +87,12 @@ export default function Contact() {
   const sectionRef = useScrollReveal<HTMLElement>(0.1);
 
   return (
-    <section id="contact" ref={sectionRef} className="reveal w-full py-20 md:py-32 relative">
+    <section id="contact" ref={sectionRef} className="reveal w-full py-12 sm:py-16 md:py-20 relative">
       {/* Top edge line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
       <div className="container mx-auto px-4 md:px-6 max-w-4xl">
-        <div className="text-center space-y-6 mb-16">
+        <div className="text-center space-y-4 mb-8 sm:mb-10">
           <span className="text-xs font-mono font-semibold tracking-widest uppercase text-primary">
             {"// Let's Connect"}
           </span>
@@ -105,7 +105,7 @@ export default function Contact() {
         </div>
 
         {/* Location badge */}
-        <div className="flex justify-center mb-12">
+        <div className="flex justify-center mb-8">
           <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-card border border-border/60">
             <MapPin className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium text-foreground">Makati City, Metro Manila</span>
