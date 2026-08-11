@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: '/((?!resume\\.pdf$).*)',
+        source: '/((?!resume\\.pdf$|api/resume$).*)',
         headers: [
           {
             key: 'X-Content-Type-Options',
