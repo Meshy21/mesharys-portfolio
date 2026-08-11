@@ -69,11 +69,40 @@ export default function ResumeModal({ children }: ResumeModalProps) {
 
         {/* Modal PDF Viewer Container */}
         <div className="flex-1 w-full h-full bg-neutral-950/60 p-2 sm:p-4 flex items-center justify-center relative">
-          <iframe
-            src="/resume.pdf#toolbar=1&navpanes=0"
+          <object
+            data="/resume.pdf#toolbar=1&navpanes=0"
+            type="application/pdf"
             className="w-full h-full rounded-xl border border-border/40 shadow-inner bg-card"
-            title="Meshary Aquino Resume PDF"
-          />
+            aria-label="Meshary Aquino Resume PDF"
+          >
+            <embed src="/resume.pdf#toolbar=1&navpanes=0" type="application/pdf" className="w-full h-full rounded-xl" />
+            <div className="flex flex-col items-center justify-center h-full p-6 text-center bg-card/95 rounded-xl border border-border/60">
+              <FileText className="h-14 w-14 text-primary/80 mb-4 animate-pulse" />
+              <h3 className="text-base font-bold text-foreground mb-1">Inline PDF Preview</h3>
+              <p className="text-xs text-muted-foreground max-w-sm mb-5 font-sans">
+                Your browser or device does not support inline PDF embedding. You can view or download the resume using the buttons below.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <a
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 text-xs font-mono font-semibold transition-all shadow-md"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  Open in New Tab
+                </a>
+                <a
+                  href="/resume.pdf"
+                  download="Meshary_Aquino_Resume.pdf"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-secondary text-secondary-foreground hover:bg-secondary/80 text-xs font-mono font-semibold transition-all border border-border/60"
+                >
+                  <Download className="h-4 w-4" />
+                  Download PDF
+                </a>
+              </div>
+            </div>
+          </object>
         </div>
       </DialogContent>
     </Dialog>
