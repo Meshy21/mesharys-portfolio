@@ -58,22 +58,42 @@ export async function GET() {
 
     if (res.ok) {
       const data = await res.json();
-      const visitorsVal = data.visitors?.value ?? fallbackData.visitors.value;
-      const visitorsChange = data.visitors?.change ?? fallbackData.visitors.change;
-      const pageviewsVal = data.pageviews?.value ?? fallbackData.pageviews.value;
-      const pageviewsChange = data.pageviews?.change ?? fallbackData.pageviews.change;
+
+      const parseNum = (obj: unknown, fallback: number): number => {
+        if (typeof obj === 'number') return obj;
+        if (obj && typeof obj === 'object' && 'value' in obj && typeof (obj as { value: unknown }).value === 'number') {
+          return (obj as { value: number }).value;
+        }
+        return fallback;
+      };
+
+      const parseChange = (obj: unknown, fallback: number): number => {
+        if (obj && typeof obj === 'object' && 'change' in obj && typeof (obj as { change: unknown }).change === 'number') {
+          return (obj as { change: number }).change;
+        }
+        return fallback;
+      };
+
+      const visitorsVal = parseNum(data.visitors ?? data.uniques, fallbackData.visitors.value);
+      const visitorsChange = parseChange(data.visitors, fallbackData.visitors.change);
+      const pageviewsVal = parseNum(data.pageviews, fallbackData.pageviews.value);
+      const pageviewsChange = parseChange(data.pageviews, fallbackData.pageviews.change);
+
+      const totalTimeVal = parseNum(data.totaltime, 0);
+      const visitsVal = parseNum(data.visits, 0);
+      const bouncesVal = parseNum(data.bounces, 0);
 
       let avgDurationStr = fallbackData.avgDuration;
-      if (data.totaltime?.value && data.visits?.value && data.visits.value > 0) {
-        const avgSeconds = Math.round(data.totaltime.value / data.visits.value);
+      if (totalTimeVal > 0 && visitsVal > 0) {
+        const avgSeconds = Math.round(totalTimeVal / visitsVal);
         const mins = Math.floor(avgSeconds / 60);
         const secs = avgSeconds % 60;
         avgDurationStr = `${mins}m ${secs}s`;
       }
 
       let bounceRateStr = fallbackData.bounceRate;
-      if (data.bounces?.value !== undefined && data.visits?.value && data.visits.value > 0) {
-        const rate = ((data.bounces.value / data.visits.value) * 100).toFixed(1);
+      if (bouncesVal >= 0 && visitsVal > 0) {
+        const rate = ((bouncesVal / visitsVal) * 100).toFixed(1);
         bounceRateStr = `${rate}%`;
       }
 

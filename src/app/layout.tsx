@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     'Portfolio of Meshary A. Aquino, Computer Engineer specializing in backend APIs, mobile development, edge AI, and database architecture.',
 };
 
-const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
+const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID || 'f54f12c9-a5ad-4282-a4d1-ad3621b88a8e';
 const umamiScriptUrl = process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL || 'https://cloud.umami.is/script.js';
 
 export default function RootLayout({
@@ -33,17 +33,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${plusJakartaSans.variable} ${outfit.variable}`}>
-      <head>
+      <body className="font-body antialiased bg-background text-foreground">
         {umamiWebsiteId && (
           <Script
-            async
             src={umamiScriptUrl}
             data-website-id={umamiWebsiteId}
             strategy="afterInteractive"
           />
         )}
-      </head>
-      <body className="font-body antialiased bg-background text-foreground">
         {children}
         <Toaster />
         <Chatbot />
