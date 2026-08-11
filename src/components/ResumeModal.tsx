@@ -69,37 +69,11 @@ export default function ResumeModal({ children }: ResumeModalProps) {
 
         {/* Modal PDF Viewer Container */}
         <div className="flex-1 w-full h-full bg-neutral-950/60 p-2 sm:p-4 flex items-center justify-center relative">
-          <object
-            data="/resume.pdf"
-            type="application/pdf"
+          <iframe
+            src="/resume.pdf#toolbar=1&navpanes=0"
             className="w-full h-full rounded-xl border border-border/40 shadow-inner bg-card"
-          >
-            <div className="flex flex-col items-center justify-center h-full space-y-4 p-6 text-center">
-              <FileText className="h-12 w-12 text-primary" />
-              <p className="text-sm text-muted-foreground max-w-sm">
-                Your browser doesn&apos;t support inline PDF preview. You can open or download the PDF directly below:
-              </p>
-              <div className="flex items-center gap-3">
-                <a
-                  href="/resume.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-semibold"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  <span>Open PDF in New Tab</span>
-                </a>
-                <a
-                  href="/resume.pdf"
-                  download="Meshary_Aquino_Resume.pdf"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-card border border-border text-xs font-semibold text-foreground"
-                >
-                  <Download className="h-4 w-4 text-primary" />
-                  <span>Download PDF</span>
-                </a>
-              </div>
-            </div>
-          </object>
+            title="Meshary Aquino Resume PDF"
+          />
         </div>
       </DialogContent>
     </Dialog>
