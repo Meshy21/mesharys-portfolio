@@ -42,8 +42,8 @@ const contactLinks: ContactLink[] = [
   {
     icon: FileText,
     label: 'Resume',
-    value: 'Google Drive Document',
-    href: 'https://drive.google.com/file/d/1zgdQHeFZdbjkyfwAABfBjPgmxIqlUWqo/view?usp=sharing',
+    value: 'View PDF Resume',
+    href: '/resume.pdf',
     external: true,
   },
 ];

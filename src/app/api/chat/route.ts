@@ -170,7 +170,7 @@ Contact Info & Links:
 - Location: Makati City, Metro Manila, Philippines
 - Phone: +63 995 480 6524
 - LinkedIn: https://www.linkedin.com/in/mesharyaquino
-- Resume: https://drive.google.com/file/d/1zgdQHeFZdbjkyfwAABfBjPgmxIqlUWqo/view?usp=sharing
+- Resume: /resume.pdf
 - GitHub: https://github.com/Meshy21
 
 Key Projects:

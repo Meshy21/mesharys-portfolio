@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Download, Terminal, Cpu, Sparkles } from 'lucide-react';
+import { ArrowRight, FileText, Terminal, Cpu, Sparkles } from 'lucide-react';
 import images from '@/app/lib/placeholder-images.json';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 
@@ -85,14 +85,14 @@ export default function Hero() {
 
               {/* EYE-CATCHING RESUME BUTTON */}
               <Link
-                href="https://drive.google.com/file/d/1zgdQHeFZdbjkyfwAABfBjPgmxIqlUWqo/view?usp=sharing"
+                href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm font-semibold text-foreground bg-card border-2 border-primary/50 hover:border-primary transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-primary/20 hover:scale-[1.02] active:scale-[0.97] border-glow-copper overflow-hidden touch-manipulation min-h-[44px]"
               >
                 <div className="absolute inset-0 shimmer opacity-50 pointer-events-none" />
-                <Download className="h-4 w-4 text-primary group-hover:translate-y-0.5 transition-transform" />
-                <span>Download Resume</span>
+                <FileText className="h-4 w-4 text-primary group-hover:translate-y-0.5 transition-transform" />
+                <span>View Resume</span>
               </Link>
             </div>
 

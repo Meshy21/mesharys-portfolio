@@ -1,7 +1,5 @@
 import Link from 'next/link';
-import { Github, Linkedin, FileText, BarChart3 } from 'lucide-react';
-
-const shareUrl = process.env.NEXT_PUBLIC_UMAMI_SHARE_URL || 'https://cloud.umami.is/share/f54f12c9-a5ad-4282-a4d1-ad3621b88a8e';
+import { Github, Linkedin, FileText, ShieldCheck } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -28,18 +26,14 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-4 sm:pr-44">
-          {/* Live Open Analytics Button */}
+          {/* Privacy Disclaimer Link */}
           <Link
             href="#analytics"
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-card/80 border border-border/60 hover:border-primary/40 text-[11px] font-mono text-muted-foreground hover:text-foreground transition-all duration-300 group"
-            title="View Live Visitor Analytics & Privacy Metrics"
+            title="View Privacy & Analytics Disclaimer"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-            </span>
-            <BarChart3 className="h-3 w-3 text-primary group-hover:scale-110 transition-transform" />
-            <span>Live Analytics</span>
+            <ShieldCheck className="h-3 w-3 text-emerald-400 group-hover:scale-110 transition-transform" />
+            <span>Privacy First</span>
           </Link>
 
           <div className="flex items-center gap-3.5 border-l border-border/40 pl-3">
@@ -64,10 +58,10 @@ export default function Footer() {
             </Link>
 
             <Link
-              href="https://drive.google.com/file/d/1zgdQHeFZdbjkyfwAABfBjPgmxIqlUWqo/view?usp=sharing"
+              href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Resume Google Drive"
+              aria-label="Resume PDF Document"
               className="text-muted-foreground hover:text-primary transition-colors duration-300"
             >
               <FileText className="h-4 w-4" />
