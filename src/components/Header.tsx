@@ -5,6 +5,7 @@ import { Menu, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { useEffect, useState } from 'react';
+import ResumeModal from '@/components/ResumeModal';
 
 const navLinks = [
   { name: 'Projects', href: '#projects' },
@@ -58,15 +59,15 @@ export default function Header() {
           ))}
 
           {/* Glossy Copper Resume Button */}
-          <Link
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold px-4 py-2 rounded-full border border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-sm hover:shadow-primary/20 hover:scale-105"
-          >
-            <FileText className="h-3.5 w-3.5" />
-            <span>Resume</span>
-          </Link>
+          <ResumeModal>
+            <button
+              type="button"
+              className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold px-4 py-2 rounded-full border border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-sm hover:shadow-primary/20 hover:scale-105 cursor-pointer"
+            >
+              <FileText className="h-3.5 w-3.5" />
+              <span>Resume</span>
+            </button>
+          </ResumeModal>
         </nav>
 
         <div className="md:hidden">
@@ -97,15 +98,15 @@ export default function Header() {
                   </SheetClose>
                 ))}
                 <SheetClose asChild>
-                  <Link
-                    href="/resume.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 text-sm font-mono font-semibold px-4 py-2.5 rounded-full border border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground transition-all text-center mt-4"
-                  >
-                    <FileText className="h-4 w-4" />
-                    <span>View Resume</span>
-                  </Link>
+                  <ResumeModal>
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center gap-2 text-sm font-mono font-semibold px-4 py-2.5 rounded-full border border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground transition-all text-center mt-4 w-full cursor-pointer"
+                    >
+                      <FileText className="h-4 w-4" />
+                      <span>View Resume</span>
+                    </button>
+                  </ResumeModal>
                 </SheetClose>
               </div>
             </SheetContent>

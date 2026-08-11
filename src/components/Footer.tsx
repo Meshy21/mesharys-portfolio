@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Github, Linkedin, FileText, ShieldCheck } from 'lucide-react';
+import ResumeModal from '@/components/ResumeModal';
 
 export default function Footer() {
   return (
@@ -57,15 +58,15 @@ export default function Footer() {
               <Linkedin className="h-4 w-4" />
             </Link>
 
-            <Link
-              href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Resume PDF Document"
-              className="text-muted-foreground hover:text-primary transition-colors duration-300"
-            >
-              <FileText className="h-4 w-4" />
-            </Link>
+            <ResumeModal>
+              <button
+                type="button"
+                aria-label="Resume PDF Document"
+                className="text-muted-foreground hover:text-primary transition-colors duration-300 cursor-pointer"
+              >
+                <FileText className="h-4 w-4" />
+              </button>
+            </ResumeModal>
           </div>
         </div>
       </div>

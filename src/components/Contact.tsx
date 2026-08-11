@@ -3,6 +3,7 @@
 import { Mail, MapPin, Phone, Linkedin, Github, FileText } from 'lucide-react';
 import Link from 'next/link';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
+import ResumeModal from '@/components/ResumeModal';
 
 interface ContactLink {
   icon: typeof Mail;
@@ -67,6 +68,16 @@ function ContactRow({ link, isLast }: { link: ContactLink; isLast: boolean }) {
   const className = `group flex items-center justify-between py-5 transition-colors ${
     !isLast ? 'border-b border-border/30' : ''
   }`;
+
+  if (link.label === 'Resume') {
+    return (
+      <ResumeModal>
+        <button type="button" className={`w-full text-left cursor-pointer ${className}`}>
+          {content}
+        </button>
+      </ResumeModal>
+    );
+  }
 
   if (link.external) {
     return (
