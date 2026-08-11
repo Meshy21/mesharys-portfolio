@@ -20,9 +20,9 @@ export default function Projects() {
       : projects.filter((project) => project.tags.includes(selectedCategory));
 
   return (
-    <section id="projects" ref={sectionRef} className="reveal w-full py-12 sm:py-16 md:py-20 relative">
+    <section id="projects" ref={sectionRef} className="reveal w-full py-12 sm:py-16 md:py-20 relative overflow-hidden">
       {/* Ambient glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[600px] h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         {/* Section Header */}

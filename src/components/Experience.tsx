@@ -66,9 +66,9 @@ export default function Experience() {
   };
 
   return (
-    <section id="experience" ref={sectionRef} className="reveal w-full py-12 sm:py-16 md:py-20 relative">
+    <section id="experience" ref={sectionRef} className="reveal w-full py-12 sm:py-16 md:py-20 relative overflow-hidden">
       {/* Top divider line */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[600px] h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         {/* Section Header */}

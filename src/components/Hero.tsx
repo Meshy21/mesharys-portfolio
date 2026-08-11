@@ -121,14 +121,14 @@ export default function Hero() {
               <div className="absolute -inset-4 rounded-3xl bg-gradient-to-r from-primary/30 via-amber-500/20 to-primary/30 blur-2xl opacity-70 pointer-events-none" />
 
               {/* Floating Tech Badges */}
-              <div className="absolute -top-5 -left-4 sm:-top-6 sm:-left-6 z-20 animate-float">
+              <div className="absolute -top-5 left-0 sm:-top-6 sm:-left-6 z-20 animate-float">
                 <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-card/90 border border-primary/40 shadow-xl backdrop-blur-md text-[11px] sm:text-xs font-mono text-foreground">
                   <Cpu className="h-3 sm:h-3.5 w-3 sm:w-3.5 text-primary" />
                   <span>Edge Vision AI</span>
                 </div>
               </div>
 
-              <div className="absolute -bottom-4 -right-4 sm:-bottom-5 sm:-right-5 z-20 animate-float-reverse">
+              <div className="absolute -bottom-4 right-0 sm:-bottom-5 sm:-right-5 z-20 animate-float-reverse">
                 <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-card/90 border border-primary/40 shadow-xl backdrop-blur-md text-[11px] sm:text-xs font-mono text-foreground">
                   <Sparkles className="h-3 sm:h-3.5 w-3 sm:w-3.5 text-amber-400" />
                   <span>Flutter &amp; FastAPI</span>

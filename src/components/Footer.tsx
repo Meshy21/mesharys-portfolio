@@ -29,22 +29,18 @@ export default function Footer() {
 
         <div className="flex flex-wrap items-center justify-center gap-4 sm:pr-44">
           {/* Live Open Analytics Button */}
-          {shareUrl && (
-            <Link
-              href={shareUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-card/80 border border-border/60 hover:border-primary/40 text-[11px] font-mono text-muted-foreground hover:text-foreground transition-all duration-300 group"
-              title="View Live Open Visitor Analytics powered by Umami"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-              </span>
-              <BarChart3 className="h-3 w-3 text-primary group-hover:scale-110 transition-transform" />
-              <span>Live Analytics</span>
-            </Link>
-          )}
+          <Link
+            href="#analytics"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-card/80 border border-border/60 hover:border-primary/40 text-[11px] font-mono text-muted-foreground hover:text-foreground transition-all duration-300 group"
+            title="View Live Visitor Analytics & Privacy Metrics"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+            </span>
+            <BarChart3 className="h-3 w-3 text-primary group-hover:scale-110 transition-transform" />
+            <span>Live Analytics</span>
+          </Link>
 
           <div className="flex items-center gap-3.5 border-l border-border/40 pl-3">
             <Link

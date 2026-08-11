@@ -87,9 +87,9 @@ export default function Contact() {
   const sectionRef = useScrollReveal<HTMLElement>(0.1);
 
   return (
-    <section id="contact" ref={sectionRef} className="reveal w-full py-12 sm:py-16 md:py-20 relative">
+    <section id="contact" ref={sectionRef} className="reveal w-full py-12 sm:py-16 md:py-20 relative overflow-hidden">
       {/* Top edge line */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[600px] h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
       <div className="container mx-auto px-4 md:px-6 max-w-4xl">
         <div className="text-center space-y-4 mb-8 sm:mb-10">

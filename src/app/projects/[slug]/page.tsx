@@ -98,7 +98,7 @@ export default function ProjectPage() {
   }, [lightboxOpen, nextLightbox, prevLightbox]);
 
   return (
-    <div className="bg-background min-h-screen">
+    <div className="bg-background min-h-screen overflow-x-hidden w-full max-w-full">
       {/* Minimal header */}
       <header className="sticky top-0 z-50 w-full bg-background/90 backdrop-blur-xl border-b border-border/40">
         <div className="container mx-auto flex h-14 items-center px-4 md:px-6 max-w-6xl">

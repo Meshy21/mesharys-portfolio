@@ -49,14 +49,14 @@
 
 @layer base {
   html {
-    @apply scroll-smooth;
+    @apply scroll-smooth overflow-x-hidden;
     -webkit-tap-highlight-color: transparent;
   }
   * {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply bg-background text-foreground font-body antialiased overflow-x-hidden max-w-full;
     touch-action: manipulation;
   }
 
