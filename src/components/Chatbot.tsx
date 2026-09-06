@@ -13,9 +13,9 @@ interface Message {
 
 const PRESET_PROMPTS = [
   'What are Meshary\'s main technical skills?',
+  'Tell me about the n8n automation workflows.',
   'Tell me about the SyncSolve API project.',
-  'What edge AI & vision projects has he built?',
-  'How can I contact Meshary for work?'
+  'What edge AI & vision projects has he built?'
 ];
 
 export default function Chatbot() {
@@ -24,7 +24,7 @@ export default function Chatbot() {
     {
       id: 'welcome',
       role: 'assistant',
-      text: "Hello! I'm **Meshary AI**, your interactive portfolio assistant powered by Gemini. Ask me anything about Meshary's projects, technical skills, or background!",
+      text: "Hello! I'm **Meshary AI**, your interactive portfolio assistant powered by Gemini. Ask me anything about Meshary's software projects, n8n automation workflows, or technical skills!",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -84,10 +84,11 @@ export default function Chatbot() {
 
       setMessages((prev) => [...prev, botMsg]);
     } catch (err: any) {
+      const errorText = err.message || "Sorry, I ran into an issue connecting to the AI assistant. Please try again in a moment.";
       const errorMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        text: "Sorry, I ran into an issue connecting to the AI assistant. Please try again in a moment.",
+        text: errorText,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       setMessages((prev) => [...prev, errorMsg]);
@@ -101,50 +102,64 @@ export default function Chatbot() {
       {
         id: 'welcome',
         role: 'assistant',
-        text: "Hello! I'm **Meshary AI**, your interactive portfolio assistant powered by Gemini. Ask me anything about Meshary's projects, technical skills, or background!",
+        text: "Hello! I'm **Meshary AI**, your interactive portfolio assistant powered by Gemini. Ask me anything about Meshary's software projects, n8n automation workflows, or technical skills!",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }
     ]);
   };
 
-  // Helper to simple-format bold & markdown links safely in text
+  // Helper to simple-format bold, markdown links, and lists safely in text
   const renderFormattedText = (text: string) => {
     const lines = text.split('\n');
     return lines.map((line, lIdx) => {
-      // Parse markdown links [Title](url) and bold text **text**
-      const parts = line.split(/(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*)/g);
-      
+      const isBullet = /^\s*[\-\*]\s+/.test(line);
+      const isNumber = /^\s*\d+\.\s+/.test(line);
+      const cleanLine = line.replace(/^\s*([\-\*]|\d+\.)\s+/, '');
+
+      const parts = cleanLine.split(/(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*)/g);
+
+      const content = parts.map((part, pIdx) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return <strong key={pIdx} className="font-semibold text-foreground">{part.slice(2, -2)}</strong>;
+        }
+        if (part.startsWith('[') && part.includes('](') && part.endsWith(')')) {
+          const match = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+          if (match) {
+            const [, linkText, rawUrl] = match;
+            const cleanUrl = rawUrl.trim();
+            const isSafeUrl = /^https?:\/\//i.test(cleanUrl) || cleanUrl.startsWith('/') || cleanUrl.startsWith('#');
+            if (isSafeUrl) {
+              const isExternal = /^https?:\/\//i.test(cleanUrl);
+              return (
+                <a
+                  key={pIdx}
+                  href={cleanUrl}
+                  target={isExternal ? "_blank" : "_self"}
+                  rel={isExternal ? "noopener noreferrer" : undefined}
+                  className="inline-flex items-center gap-0.5 text-primary hover:underline font-medium"
+                >
+                  {linkText}
+                  {isExternal && <ExternalLink className="h-3 w-3 inline" />}
+                </a>
+              );
+            }
+          }
+        }
+        return part;
+      });
+
+      if (isBullet || isNumber) {
+        return (
+          <div key={lIdx} className="flex gap-2 items-start mt-1 pl-1">
+            <span className="text-primary font-bold text-xs">{isBullet ? '•' : line.match(/^\s*\d+\./)?.[0]}</span>
+            <div className="flex-1">{content}</div>
+          </div>
+        );
+      }
+
       return (
         <p key={lIdx} className={lIdx > 0 ? 'mt-2' : ''}>
-          {parts.map((part, pIdx) => {
-            if (part.startsWith('**') && part.endsWith('**')) {
-              return <strong key={pIdx} className="font-semibold text-foreground">{part.slice(2, -2)}</strong>;
-            }
-            if (part.startsWith('[') && part.includes('](') && part.endsWith(')')) {
-              const match = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
-              if (match) {
-                const [, linkText, rawUrl] = match;
-                const cleanUrl = rawUrl.trim();
-                // Security check: Only permit safe http/https URLs to prevent javascript: XSS
-                const isSafeUrl = /^https?:\/\//i.test(cleanUrl);
-                if (isSafeUrl) {
-                  return (
-                    <a
-                      key={pIdx}
-                      href={cleanUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-0.5 text-primary hover:underline font-medium"
-                    >
-                      {linkText}
-                      <ExternalLink className="h-3 w-3" />
-                    </a>
-                  );
-                }
-              }
-            }
-            return part;
-          })}
+          {content}
         </p>
       );
     });

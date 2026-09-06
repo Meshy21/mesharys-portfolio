@@ -1,0 +1,779 @@
+{
+  "name": "Gmail Labels → Sheets & Drive",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 15,
+              "unit": "minutes"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {
+          "q": "(label:PDS-Assessment OR label:Client-Inquiries OR label:Support-Tickets)",
+          "readStatus": "unread"
+        },
+        "options": {
+          "dataPropertyAttachmentsPrefixName": "attachment_",
+          "downloadAttachments": true
+        }
+      },
+      "id": "49cbf0c5-48da-46fb-8d42-40cb7129090d",
+      "name": "Gmail Trigger",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -640,
+        144
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QL2sMwJHO5iKukxP",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "=Email Subject: {{ $json.subject }}\nEmail Body: {{ $json.text }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "senderName",
+              "description": "The full name of the sender."
+            },
+            {
+              "name": "senderEmail",
+              "description": "The email address of the sender."
+            },
+            {
+              "name": "subject",
+              "description": "The subject line of the email."
+            },
+            {
+              "name": "dateReceived",
+              "description": "The date the email was received."
+            },
+            {
+              "name": "category",
+              "description": "Determine if the content relates to \"PDS-Assessment\", \"Client-Inquiries\", or \"Support-Tickets\". Return exactly one of these three values."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ed8e19ff-3e9e-40cd-b829-b8762a42aa86",
+      "name": "Extract Email Info",
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        -368,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "id": "914f244b-7fda-4fdf-b08f-a4402c2c4502",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -288,
+        368
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "Gateway credits",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const triggerItems = $('Gmail Trigger').all();\nconst items = $input.all();\nconst out = [];\n\nfor (let i = 0; i < items.length; i++) {\n  // AI-extracted fields (Information Extractor nests result under 'output')\n  const src = items[i].json || {};\n  const ex = src.output || src;\n\n  // Original email + binary from the trigger, paired by index\n  const t = (triggerItems[i] && triggerItems[i].json) || {};\n  const bin = (triggerItems[i] && triggerItems[i].binary) || {};\n\n  // --- Sender: prefer AI, fall back to parsing the raw From header ---\n  let senderName = (ex.senderName || '').trim();\n  let senderEmail = (ex.senderEmail || '').trim();\n  if (!senderName || !senderEmail) {\n    let fromRaw = t.from || t.From || '';\n    if (fromRaw && typeof fromRaw === 'object') {\n      if (Array.isArray(fromRaw.value) && fromRaw.value.length) {\n        senderName = senderName || (fromRaw.value[0].name || '');\n        senderEmail = senderEmail || (fromRaw.value[0].address || '');\n      } else {\n        senderName = senderName || (fromRaw.name || '');\n        senderEmail = senderEmail || (fromRaw.address || '');\n      }\n    } else if (typeof fromRaw === 'string') {\n      const m = fromRaw.match(/^\\s*\"?([^\"<]*?)\"?\\s*<([^>]+)>/);\n      if (m) {\n        senderName = senderName || (m[1] || '').trim();\n        senderEmail = senderEmail || (m[2] || '').trim();\n      } else {\n        senderEmail = senderEmail || fromRaw.trim();\n      }\n    }\n  }\n  if (!senderName) senderName = (senderEmail.split('@')[0] || 'Unknown Sender');\n\n  // --- Category from AI classification ---\n  const category = (ex.category || 'Uncategorized').trim() || 'Uncategorized';\n\n  // --- Subject ---\n  const subject = (ex.subject || t.subject || t.Subject || '').toString();\n\n  // --- Date received: use the actual email date, normalized to YYYY-MM-DD ---\n  const rawDate = t.date || t.internalDate || t.Date || ex.dateReceived || null;\n  let dt;\n  if (rawDate !== null && rawDate !== undefined && rawDate !== '') {\n    dt = new Date(isNaN(rawDate) ? rawDate : Number(rawDate));\n  } else {\n    dt = new Date();\n  }\n  const dateStr = isNaN(dt.getTime()) ? new Date().toISOString().slice(0, 10) : dt.toISOString().slice(0, 10);\n\n  // --- Sanitize names for Drive folders ---\n  const clean = (s) => String(s || '').replace(/[\\\\/:*?\"<>|]/g, '_').replace(/\\s+/g, ' ').trim();\n  const safeSender = clean(senderName) || 'Unknown Sender';\n  const safeCategory = clean(category) || 'Uncategorized';\n  // Parent folder grouped by category + date; sender-named subfolder underneath\n  const parentFolderName = safeCategory + ' - ' + dateStr;\n  const senderFolderName = safeSender;\n  const folderName = parentFolderName + ' / ' + senderFolderName;\n\n  // --- Attachments ---\n  const attachmentCount = Object.keys(bin).length;\n\n  out.push({\n    json: {\n      messageId: t.id || t.messageId || '',\n      threadId: t.threadId || '',\n      senderName: senderName,\n      senderEmail: senderEmail,\n      subject: subject,\n      dateReceived: dateStr,\n      category: category,\n      parentFolderName: parentFolderName,\n      senderFolderName: senderFolderName,\n      folderName: folderName,\n      attachmentCount: attachmentCount,\n    },\n    binary: bin,\n  });\n}\nreturn out;"
+      },
+      "id": "e39e73f7-eca7-44e0-8216-44e0ead6a9dd",
+      "name": "Prepare Email Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -16,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1RxP2ptYI_vQIZT4pYdM_KMzcSxDUNERk2X7JrnSY5tY",
+          "mode": "list",
+          "cachedResultName": "PDS Workflow 1 Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RxP2ptYI_vQIZT4pYdM_KMzcSxDUNERk2X7JrnSY5tY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "First Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RxP2ptYI_vQIZT4pYdM_KMzcSxDUNERk2X7JrnSY5tY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Message ID": "={{ $json.messageId }}",
+            "Thread ID": "={{ $json.threadId }}",
+            "Sender Name": "={{ $json.senderName }}",
+            "Sender Email": "={{ $json.senderEmail }}",
+            "Subject": "={{ $json.subject }}",
+            "Date Received": "={{ $json.dateReceived }}",
+            "Category": "={{ $json.category }}",
+            "Folder Name": "={{ $json.folderName }}",
+            "Attachment Count": "={{ $json.attachmentCount }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Message ID",
+              "displayName": "Message ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Thread ID",
+              "displayName": "Thread ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "Sender Name",
+              "displayName": "Sender Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "Sender Email",
+              "displayName": "Sender Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "Subject",
+              "displayName": "Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "Date Received",
+              "displayName": "Date Received",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "Folder Name",
+              "displayName": "Folder Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "Attachment Count",
+              "displayName": "Attachment Count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "32d9abd8-16d1-40ef-81de-bb4f90770f45",
+      "name": "Append Sender Info",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        432,
+        -160
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "P95crowaBDRJszxo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $(\"Prepare Email Data\").item.json.messageId }}"
+      },
+      "id": "c5ab9b04-5faa-4008-b71f-603eee54c709",
+      "name": "Mark as Read",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        656,
+        -160
+      ],
+      "webhookId": "183a9c9d-7fce-4a77-b42b-7ae24fd6384e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QL2sMwJHO5iKukxP",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "label",
+        "returnAll": true
+      },
+      "id": "3e9b425f-19fa-48ec-a2b3-0d68fc51eb80",
+      "name": "Get Labels",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        432,
+        592
+      ],
+      "executeOnce": true,
+      "webhookId": "b65dc392-6f00-4a12-b942-08eb395b353e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QL2sMwJHO5iKukxP",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Map existing Gmail label names -> ids (case-insensitive)\nconst labels = $('Get Labels').all().map(l => l.json || {});\nconst nameToId = {};\nfor (const l of labels) {\n  if (l && l.name) nameToId[String(l.name).toLowerCase()] = l.id;\n}\n\n// Re-pair with each prepared email and attach the resolved label id (or '' if it must be created)\nconst prepared = $('Prepare Email Data').all();\nconst out = [];\nfor (const p of prepared) {\n  const j = p.json || {};\n  const cat = (j.category || '').trim();\n  const labelId = cat ? (nameToId[cat.toLowerCase()] || '') : '';\n  out.push({ json: Object.assign({}, j, { categoryLabelId: labelId }) });\n}\nreturn out;"
+      },
+      "id": "de339f96-391f-4a31-9944-f734c564cafa",
+      "name": "Resolve Category Label",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        656,
+        592
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "label-check",
+              "leftValue": "={{ $json.categoryLabelId }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "77a23d52-3711-4cef-a1fc-eb7b8f812554",
+      "name": "Label Exists?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        592
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "thread",
+        "operation": "addLabels",
+        "threadId": "={{ $json.threadId }}",
+        "labelIds": [
+          "={{ $json.categoryLabelId }}"
+        ]
+      },
+      "id": "125e646b-3144-420b-adb0-9abe6f8b8f6b",
+      "name": "Apply Existing Label",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1104,
+        208
+      ],
+      "webhookId": "defc3b8b-a97c-45a9-8dc6-9c1d3f9c5cae",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QL2sMwJHO5iKukxP",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "label",
+        "operation": "create",
+        "name": "={{ $json.category }}",
+        "options": {}
+      },
+      "id": "2a9c8857-e1ca-4ac7-8585-a42472730a35",
+      "name": "Create Label",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1104,
+        592
+      ],
+      "webhookId": "87cd89db-9c65-4801-9e0a-ed3909ee959e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QL2sMwJHO5iKukxP",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "thread",
+        "operation": "addLabels",
+        "threadId": "={{ $(\"Resolve Category Label\").item.json.threadId }}",
+        "labelIds": [
+          "={{ $(\"Create Label\").item.json.id }}"
+        ]
+      },
+      "id": "4602df8d-5dfc-4e6c-9b64-2c3984cba7a7",
+      "name": "Apply New Label",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1328,
+        400
+      ],
+      "webhookId": "1b8a8737-752e-46f3-a182-72da87a1dac1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QL2sMwJHO5iKukxP",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "attach-check",
+              "leftValue": "={{ $json.attachmentCount }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "352846de-a318-42af-9a33-ee71930c5da1",
+      "name": "Has Attachments?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        432,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $json.parentFolderName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive",
+          "cachedResultName": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1aX9VgQKM99nE-ouUPvtLoT1lryELyX9Y",
+          "mode": "list",
+          "cachedResultName": "PDS",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1aX9VgQKM99nE-ouUPvtLoT1lryELyX9Y"
+        },
+        "options": {}
+      },
+      "id": "a468453a-1370-4542-8673-b2a9a5e6259d",
+      "name": "Create Parent Folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        656,
+        1344
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "s0GocCt8hG9GkmhY",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $(\"Prepare Email Data\").item.json.senderFolderName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive",
+          "cachedResultName": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.id }}"
+        },
+        "options": {}
+      },
+      "id": "658ef076-2e7b-4fdd-8dd9-1ebad7a8b2a9",
+      "name": "Create Sender Folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        656,
+        960
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "s0GocCt8hG9GkmhY",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Sender subfolders were created in-order for each attachment-bearing email.\nconst subfolders = $('Create Sender Folder').all();\n\n// The attachment-bearing prepared emails, in the same order the IF passed them.\nconst prepared = $('Prepare Email Data').all().filter(p => p.json && p.json.attachmentCount > 0);\n\n// Emit one item per attachment, carrying the single binary under 'data'.\nconst out = [];\nfor (let i = 0; i < prepared.length; i++) {\n  const sub = subfolders[i];\n  if (!sub || !sub.json || !sub.json.id) continue;\n  const folderId = sub.json.id;\n  const bin = prepared[i].binary || {};\n  for (const key of Object.keys(bin)) {\n    const b = bin[key];\n    out.push({\n      json: {\n        folderId: folderId,\n        fileName: b.fileName || b.filename || key,\n        messageId: prepared[i].json.messageId,\n        senderName: prepared[i].json.senderName,\n      },\n      binary: { data: b },\n    });\n  }\n}\nreturn out;"
+      },
+      "id": "fb55e92d-f80f-4e16-85fb-7b7b053ddeab",
+      "name": "Split Attachments",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "name": "={{ $json.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive",
+          "cachedResultName": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.folderId }}"
+        },
+        "options": {}
+      },
+      "id": "f631f402-e2d9-4c21-be67-833907b6540a",
+      "name": "Upload Attachment",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1104,
+        960
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "s0GocCt8hG9GkmhY",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Extract Email Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Email Info": {
+      "main": [
+        [
+          {
+            "node": "Prepare Email Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Extract Email Info",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Email Data": {
+      "main": [
+        [
+          {
+            "node": "Append Sender Info",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Labels",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Has Attachments?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append Sender Info": {
+      "main": [
+        [
+          {
+            "node": "Mark as Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Labels": {
+      "main": [
+        [
+          {
+            "node": "Resolve Category Label",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resolve Category Label": {
+      "main": [
+        [
+          {
+            "node": "Label Exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Label Exists?": {
+      "main": [
+        [
+          {
+            "node": "Apply Existing Label",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Label",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Label": {
+      "main": [
+        [
+          {
+            "node": "Apply New Label",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Attachments?": {
+      "main": [
+        [
+          {
+            "node": "Create Parent Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Parent Folder": {
+      "main": [
+        [
+          {
+            "node": "Create Sender Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Sender Folder": {
+      "main": [
+        [
+          {
+            "node": "Split Attachments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Attachments": {
+      "main": [
+        [
+          {
+            "node": "Upload Attachment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "2186632e-9195-4e83-8bd6-99d6d2952d1f",
+  "meta": {
+    "instanceId": "5597df8bee556c4cca87365e1f2cb6ee3e4c2cb1e787d687b88b94e94aa55fcc"
+  },
+  "nodeGroups": [
+    {
+      "id": "e67e08cc-7ae9-4fd6-80ad-07ba2dcf0a9e",
+      "name": "Ingest & Classify",
+      "nodeIds": [
+        "ed8e19ff-3e9e-40cd-b829-b8762a42aa86",
+        "914f244b-7fda-4fdf-b08f-a4402c2c4502",
+        "e39e73f7-eca7-44e0-8216-44e0ead6a9dd"
+      ],
+      "description": "Use an AI model to extract sender, subject, date and classify each email into PDS-Assessment, Client-Inquiries or Support-Tickets."
+    },
+    {
+      "id": "662990d5-379a-4255-a68d-e3b0aa8c256a",
+      "name": "Log to Sheet",
+      "nodeIds": [
+        "32d9abd8-16d1-40ef-81de-bb4f90770f45",
+        "c5ab9b04-5faa-4008-b71f-603eee54c709"
+      ],
+      "description": "Append each email with clean, human-readable column titles to Google Sheets, then mark it as read so it is not reprocessed."
+    },
+    {
+      "id": "c6d563e5-eb89-47a0-be68-24b74773ea78",
+      "name": "Manage Labels",
+      "nodeIds": [
+        "3e9b425f-19fa-48ec-a2b3-0d68fc51eb80",
+        "de339f96-391f-4a31-9944-f734c564cafa",
+        "77a23d52-3711-4cef-a1fc-eb7b8f812554",
+        "125e646b-3144-420b-adb0-9abe6f8b8f6b",
+        "2a9c8857-e1ca-4ac7-8585-a42472730a35",
+        "4602df8d-5dfc-4e6c-9b64-2c3984cba7a7"
+      ],
+      "description": "Look up the AI category label, create it in Gmail if it does not exist, and apply it to the email thread."
+    },
+    {
+      "id": "586cdcdf-bfd3-45df-8579-68afc88cbf04",
+      "name": "Store Attachments",
+      "nodeIds": [
+        "352846de-a318-42af-9a33-ee71930c5da1",
+        "a468453a-1370-4542-8673-b2a9a5e6259d",
+        "658ef076-2e7b-4fdd-8dd9-1ebad7a8b2a9",
+        "fb55e92d-f80f-4e16-85fb-7b7b053ddeab",
+        "f631f402-e2d9-4c21-be67-833907b6540a"
+      ],
+      "description": "For emails with attachments, create a category+date parent folder, a sender-named subfolder, and upload each attachment under its original filena"
+    }
+  ],
+  "id": "FQ68Xv3rpi2wiYRP",
+  "tags": []
+}

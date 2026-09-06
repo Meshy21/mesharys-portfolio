@@ -298,5 +298,104 @@ export const projects: Project[] = [
         description: 'Built high-security activity logs and combined them with secure PDF generators to instantly compile and email employee payslips.'
       }
     ]
+  },
+  {
+    slug: 'n8n-gmail-email-pipeline',
+    title: 'n8n AI-Powered Email Processing Pipeline',
+    description: 'Automated inbound Gmail ingestion using OpenAI to classify email categories, managing Gmail labels, logging senders to Google Sheets, and archiving attachments to Google Drive in parallel.',
+    longDescription: 'n8n AI-Powered Email Processing Pipeline is a production-grade automation workflow built in n8n demonstrating AI classification, idempotent resource management, conditional branching, and parallel Google Workspace integration.\n\nWorkflow Execution & Architecture:\n\n1. Inbound Ingestion & OpenAI Classification:\nTriggers on every inbound Gmail message. An OpenAI Chat Model extracts email content and assigns a category label dynamically, eliminating hardcoded rules.\n\n2. Parallel Branch Fan-out:\n- Log to Sheet: Appends sender info to a Google Sheets correspondence audit log and marks the email as read in Gmail.\n- Manage Labels: Fetches Gmail labels, resolves category, checks if label exists, and either applies the existing label or creates a new label then applies it (idempotent).\n- Store Attachments: Evaluates whether attachments exist. If true, checks/provisions a sender-specific Google Drive directory and uploads attachments.',
+    challenges: 'Designing idempotent label and folder creation logic to prevent duplicate labels and directories during repeat executions required careful conditional branching. Fanning out three execution pipelines in parallel after OpenAI classification maintained high throughput and low execution latency.',
+    learnings: 'Mastered n8n workflow design, AI-driven routing, parallel branch management, and Google Workspace (Gmail, Drive, Sheets) OAuth2 API integrations.',
+    image: 'https://i.ibb.co/VY5yMCF3/image.png',
+    imageHint: 'n8n Gmail AI Email Processing Pipeline Overview',
+    gallery: [
+      { url: 'https://i.ibb.co/VY5yMCF3/image.png', hint: 'n8n Gmail AI Email Processing Pipeline Workflow Overview' }
+    ],
+    tags: ['Automation', 'n8n', 'OpenAI', 'Gmail', 'Google Drive', 'Google Sheets', 'AI'],
+    github: null,
+    live: '/workflows/n8n-gmail-email-pipeline.json',
+    metrics: [
+      { label: 'Platform', value: 'n8n v1.x', description: 'Self-hosted workflow automation engine' },
+      { label: 'AI Engine', value: 'OpenAI Chat', description: 'Dynamic email classification model' },
+      { label: 'Fan-out', value: '3 Parallel Branches', description: 'Simultaneous logging, labeling, and storage' },
+      { label: 'Resource Guards', value: '100% Idempotent', description: 'Prevents duplicate Gmail labels & Drive folders' },
+      { label: 'Complexity Score', value: '9.1 / 10', description: 'Multi-branch fanout with AI routing & OAuth2 APIs' }
+    ],
+    timeline: [
+      {
+        phase: 'Phase 1: Ingestion & AI Classification',
+        duration: 'Step 1',
+        title: 'Gmail Ingestion & OpenAI Routing',
+        description: 'Listens for incoming emails and extracts categories dynamically using OpenAI.'
+      },
+      {
+        phase: 'Phase 2: Audit Logging',
+        duration: 'Branch 1',
+        title: 'Google Sheets Sender Logging',
+        description: 'Appends sender data to correspondence sheet and marks message as read.'
+      },
+      {
+        phase: 'Phase 3: Label Management',
+        duration: 'Branch 2',
+        title: 'Idempotent Label Provisioning',
+        description: 'Checks existing Gmail labels and dynamically creates or applies category tags.'
+      },
+      {
+        phase: 'Phase 4: Attachment Archival',
+        duration: 'Branch 3',
+        title: 'Sender Directory & File Upload',
+        description: 'Provisions sender folder in Google Drive and uploads files asynchronously.'
+      }
+    ]
+  },
+  {
+    slug: 'n8n-telegram-receipt-engine',
+    title: 'n8n Telegram Receipt Processing & Expense Logging Engine',
+    description: 'Intercepts mobile receipt photos via Telegram Webhook, uses Google Gemini multimodal vision (temp=0) to extract merchant, amount, and date into Google Sheets, and archives timestamped receipts in Google Drive.',
+    longDescription: 'n8n Telegram Receipt Processing & Expense Logging Engine is a multimodal vision automation workflow built in n8n. It allows users to snap receipt photos from Telegram and instantly log structured financial data into Google Sheets while archiving files in Google Drive.\n\nWorkflow Execution & Architecture:\n\n1. Ingestion & Multimodal Vision Extraction:\nInterception via Telegram Webhook. Binary payload is passed to Google Gemini vision configured with temperature=0 and a strict JSON prompt contract (merchant_name, amount, date).\n\n2. Expense Audit Logging:\nParsed JSON data is automatically appended to a central expense tracking table in Google Sheets.\n\n3. Binary State Bridging & Drive Archival:\nSearches Google Drive for a date-partitioned folder ("YYYY-MM-DD"). If missing, provisions the folder on demand. Uses an Edit Fields node to re-attach binary context across conditional branches, uploading receipts as timestamped files ("receipt_YYYY-MM-DD_HHmmss.ext").',
+    challenges: 'Solving binary payload state loss when branching across n8n conditional (If) nodes. Solved by implementing an Edit Fields bridge node to re-attach binary payload streams before Google Drive upload.',
+    learnings: 'Gained deep expertise in n8n binary data manipulation, Google Gemini multimodal vision zero-temperature prompt structuring, and idempotent cloud storage folder provisioning.',
+    image: 'https://i.ibb.co/dYDbj6p/image.png',
+    imageHint: 'n8n Telegram Receipt Processing Engine Overview',
+    gallery: [
+      { url: 'https://i.ibb.co/dYDbj6p/image.png', hint: 'n8n Telegram Receipt Processing Engine Workflow Overview' }
+    ],
+    tags: ['Automation', 'n8n', 'Gemini AI', 'Telegram', 'Google Drive', 'Google Sheets', 'AI Vision'],
+    github: null,
+    live: '/workflows/n8n-telegram-receipt-engine.json',
+    metrics: [
+      { label: 'Platform', value: 'n8n v1.x', description: 'Self-hosted workflow engine' },
+      { label: 'Vision Model', value: 'Gemini (Temp=0)', description: 'Deterministic multimodal JSON extraction' },
+      { label: 'Ingestion', value: 'Telegram Webhook', description: 'Instant mobile photo ingestion' },
+      { label: 'Payload Bridge', value: 'Binary Re-attachment', description: 'Edit Fields node bridges state across branches' },
+      { label: 'Complexity Score', value: '9.2 / 10', description: 'Multimodal vision with binary state management' }
+    ],
+    timeline: [
+      {
+        phase: 'Phase 1: Ingestion',
+        duration: 'Step 1',
+        title: 'Telegram Photo Webhook Ingestion',
+        description: 'Receives image payloads directly from Telegram client messages.'
+      },
+      {
+        phase: 'Phase 2: Vision OCR',
+        duration: 'Step 2',
+        title: 'Gemini Multimodal Data Extraction',
+        description: 'Extracts merchant name, transaction date, and total amount with zero-temperature JSON enforcement.'
+      },
+      {
+        phase: 'Phase 3: Audit Logging',
+        duration: 'Step 3',
+        title: 'Google Sheets Expense Logging',
+        description: 'Parses JSON output and appends structured rows into expense ledger.'
+      },
+      {
+        phase: 'Phase 4: Cloud Storage',
+        duration: 'Step 4',
+        title: 'Idempotent Drive Archival & Binary Bridge',
+        description: 'Re-attaches binary data via Edit Fields node and uploads timestamped receipt file into daily Drive folder.'
+      }
+    ]
   }
 ];
+

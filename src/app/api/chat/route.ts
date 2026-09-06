@@ -52,7 +52,8 @@ function isPortfolioRelevant(text: string): boolean {
     'email', 'phone', 'resume', 'cv', 'github', 'linkedin', 'payroll', 'syncsolve',
     'wood', 'knot', 'braille', 'conbraillient', 'yolo', 'flutter', 'next.js', 'fastapi',
     'hire', 'work', 'job', 'developer', 'engineer', 'stack', 'tech', 'about', 'services',
-    'location', 'makati', 'philippines', 'education', 'degree', 'qualification'
+    'location', 'makati', 'philippines', 'education', 'degree', 'qualification',
+    'n8n', 'automation', 'workflow', 'telegram', 'receipt', 'gmail', 'pipeline', 'bot'
   ];
   return portfolioKeywords.some((kw) => lower.includes(kw));
 }
@@ -141,7 +142,7 @@ export async function POST(req: NextRequest) {
 
     if (!apiKey) {
       return NextResponse.json({
-        text: 'The Gemini API key is not currently configured on the server. Please add GEMINI_API_KEY in your environment variables to enable live AI responses.',
+        text: 'The Gemini API key is not currently configured on the server. Please set GEMINI_API_KEY in your environment variables to enable live AI responses.',
       });
     }
 
@@ -162,8 +163,8 @@ CRITICAL DIRECTIVES:
 - Keep all answers concise, friendly, and under 3-4 sentences whenever possible.
 
 Background Summary:
-- Meshary A. Aquino is a Computer Engineer, IT Specialist, and Full-Stack Developer based in Makati City, Philippines.
-- Specializes in full-stack web applications, edge AI & computer vision, mobile apps (Flutter/Dart), and database systems.
+- Meshary A. Aquino is a Computer Engineer, IT Specialist, Full-Stack Developer, and Automation Engineer based in Makati City, Philippines.
+- Specializes in full-stack web applications, edge AI & computer vision, workflow automation (n8n, OpenAI, Gemini), mobile apps (Flutter/Dart), and database systems.
 
 Contact Info & Links:
 - Email: meshary.aquino21@gmail.com
@@ -173,30 +174,51 @@ Contact Info & Links:
 - Resume: /resume.pdf
 - GitHub: https://github.com/Meshy21
 
-Key Projects:
+Key Showcase Projects:
 1. Enterprise Online Secured Payroll Web App (Next.js 14, FastAPI, PostgreSQL/SQLite, Tax math, SSS 2025, AES-256): https://github.com/Meshy21/payroll-online-web | Demo: https://payroll-online-web.vercel.app/
 2. SyncSolve API — Conflict Resolution Engine (LWW, Vector Clock, JSON Delta): https://scratch-anye.onrender.com
-3. Wood Knot Detection Mobile App (YOLOv8, ONNX, TFLite, Flutter, <45ms latency): https://github.com/Meshy21/woodknot
-4. Braille Haptic Reader (Raspberry Pi 4, YOLOv5 OCR, custom solenoids, 97.82% accuracy)
-5. Custom Payroll Management System (Python, PyQt6, PostgreSQL)
+3. n8n AI-Powered Email Processing Pipeline (n8n, OpenAI Chat Model, Gmail, Google Drive, Google Sheets parallel fanout, 100% idempotent)
+4. n8n Telegram Receipt Processing Engine (n8n, Google Gemini Vision temp=0, Telegram Webhook, Google Sheets expense log, Google Drive binary re-attachment)
+5. Wood Knot Detection Mobile App (YOLOv8, ONNX, TFLite, Flutter, <45ms latency): https://github.com/Meshy21/woodknot
+6. Braille Haptic Reader (Raspberry Pi 4, YOLOv5 OCR, custom solenoids, 97.82% accuracy)
+7. Custom Payroll Management System (Python, PyQt6, PostgreSQL)
 
 Core Technical Skills:
+- Automation & Workflows: n8n, OpenAI API, Gemini Vision API, Webhooks, Google Workspace APIs
 - Languages: Python, TypeScript, JavaScript, Dart, PHP, SQL
 - Frameworks: Next.js, React, Remix, FastAPI, Flutter, PyQt6
 - AI / Vision: YOLOv8, YOLOv5, TensorFlow Lite, ONNX, OpenCV
 - Systems: PostgreSQL, Firestore, Docker, Raspberry Pi, Render`;
 
-    // History Context Truncation: Only send the last 4 messages (2 conversation turns) to minimize input tokens
-    const recentMessages = sanitizedMessages.slice(-4);
+    // Ensure valid role structure for Gemini contents (must start with 'user' and alternate)
+    const cleanedContents: { role: 'user' | 'model'; parts: { text: string }[] }[] = [];
+    for (const m of sanitizedMessages) {
+      if (cleanedContents.length === 0) {
+        if (m.role === 'user') {
+          cleanedContents.push({ role: 'user', parts: [{ text: m.text }] });
+        }
+      } else {
+        const last = cleanedContents[cleanedContents.length - 1];
+        if (last.role === m.role) {
+          last.parts[0].text += '\n' + m.text;
+        } else {
+          cleanedContents.push({ role: m.role, parts: [{ text: m.text }] });
+        }
+      }
+    }
 
-    const formattedContents = recentMessages.map((m) => ({
-      role: m.role,
-      parts: [{ text: m.text }],
-    }));
+    let finalContents = cleanedContents.slice(-6);
+    while (finalContents.length > 0 && finalContents[0].role !== 'user') {
+      finalContents.shift();
+    }
+
+    if (finalContents.length === 0 && latestUserMessage) {
+      finalContents = [{ role: 'user', parts: [{ text: latestUserMessage }] }];
+    }
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.6-flash',
-      contents: formattedContents,
+      model: 'gemini-2.5-flash',
+      contents: finalContents,
       config: {
         systemInstruction,
         temperature: 0.3,
@@ -210,9 +232,8 @@ Core Technical Skills:
   } catch (error: any) {
     console.error('Gemini API Route Exception:', error);
     return NextResponse.json(
-      { error: 'An error occurred while communicating with the AI service. Please try again later.' },
+      { error: error?.message || 'An error occurred while communicating with the AI service. Please try again later.' },
       { status: 500 }
     );
   }
 }
-

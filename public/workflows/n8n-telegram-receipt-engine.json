@@ -1,0 +1,372 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {
+          "download": true
+        }
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        -176
+      ],
+      "id": "d01ef890-8c0f-4b9a-9dcd-d53c20cd4c87",
+      "name": "Telegram Trigger",
+      "webhookId": "727b0947-9494-4938-a2ac-c2ccf007da2b",
+      "credentials": {
+        "telegramApi": {
+          "id": "g46tN2kN4LHiU4Ck",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-flash-latest",
+          "mode": "list",
+          "cachedResultName": "models/gemini-flash-latest"
+        },
+        "text": "Analyze the attached image of this receipt and extract the following key details:\n- Merchant Name\n- Total Amount\n- Date of Transaction\n\nCRITICAL INSTRUCTIONS:\n- Extract EXACTLY what is printed on the receipt.\n- DO NOT guess, calculate, or hallucinate information.\n- If multiple amounts are listed, extract the final total charged.\n- If a value cannot be found clearly, return null for that key.\n\nReturn the extracted data ONLY as a valid, flat JSON object using exactly these keys: \"merchant_name\", \"amount\", and \"date\". Do not include any markdown formatting, backticks, code blocks, or explanations.",
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        -176
+      ],
+      "id": "3fea274c-d4c1-48ec-9485-de710d959884",
+      "name": "Analyze an image",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "HuOwsGcYk0vtRVYM",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1hC8moLS_MwYj-x02BV79Qv66Y02RuE9Wwk1NB5y9Urg",
+          "mode": "list",
+          "cachedResultName": "Receipt Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hC8moLS_MwYj-x02BV79Qv66Y02RuE9Wwk1NB5y9Urg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Receipts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hC8moLS_MwYj-x02BV79Qv66Y02RuE9Wwk1NB5y9Urg/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Merchant Name": "={{ JSON.parse($json.content.parts[0].text).merchant_name }}",
+            "Amount": "={{ JSON.parse($json.content.parts[0].text).amount }}",
+            "Date": "={{ JSON.parse($json.content.parts[0].text).date }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Merchant Name",
+              "displayName": "Merchant Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Amount",
+              "displayName": "Amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        448,
+        -272
+      ],
+      "id": "33615539-d615-4b04-991e-4bf63aa2601f",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "P95crowaBDRJszxo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $now.format('yyyy-MM-dd') }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1qNRhb_A4_5DrJyXLHRyXTujVRY5x---n",
+          "mode": "list",
+          "cachedResultName": "Receipts",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1qNRhb_A4_5DrJyXLHRyXTujVRY5x---n"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        896,
+        0
+      ],
+      "id": "6646ddf0-3472-454c-80c8-caddfd0503b2",
+      "name": "Create folder",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "s0GocCt8hG9GkmhY",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "=receipt_{{ $now.format('yyyy-MM-dd_HHmmss') }}.{{ $binary.data.fileExtension }}",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1344,
+        -80
+      ],
+      "id": "e4940446-0967-4300-9994-3c0b18de5f4b",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "s0GocCt8hG9GkmhY",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d7732b3f-2970-4731-b0ab-da85ba980efd",
+              "name": "data",
+              "value": "={{ $('Telegram Trigger').item.binary.data }}",
+              "type": "binary"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1120,
+        -80
+      ],
+      "id": "6537a869-cb90-4a2a-ad12-46c4447e58f0",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "=name = '{{ $now.format('yyyy-MM-dd') }}' and mimeType = 'application/vnd.google-apps.folder'",
+        "filter": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        448,
+        -80
+      ],
+      "id": "64812052-a679-4fd1-a1d7-f11a3f314219",
+      "name": "Search files and folders",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "s0GocCt8hG9GkmhY",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1634674f-0378-4b47-8af5-99913681a19e",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        672,
+        -80
+      ],
+      "id": "2df806d4-9495-4815-abfe-4b0195829a5c",
+      "name": "If"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Analyze an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze an image": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create folder": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "f5fa2739-000f-45c7-afe2-c7b67c145bf7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5597df8bee556c4cca87365e1f2cb6ee3e4c2cb1e787d687b88b94e94aa55fcc"
+  },
+  "nodeGroups": [],
+  "id": "aku6aoOMNGuPldXD",
+  "tags": []
+}

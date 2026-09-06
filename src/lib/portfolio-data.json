@@ -131,6 +131,38 @@
       "tags": ["Desktop App", "Python", "PyQt", "PostgreSQL"],
       "github": "",
       "live": ""
+    },
+    {
+      "slug": "n8n-gmail-email-pipeline",
+      "title": "n8n AI-Powered Email Processing Pipeline",
+      "description": "Automated inbound Gmail ingestion using OpenAI to classify email categories, managing Gmail labels, logging senders to Google Sheets, and archiving attachments to Google Drive in parallel.",
+      "longDescription": "n8n AI-Powered Email Processing Pipeline is a production-grade automation workflow built in n8n demonstrating AI classification, idempotent resource management, conditional branching, and parallel Google Workspace integration.",
+      "challenges": "Designing idempotent label and folder creation logic to prevent duplicate labels and directories during repeat executions.",
+      "learnings": "Mastered n8n workflow design, AI-driven routing, parallel branch management, and Google Workspace OAuth2 API integrations.",
+      "image": "https://i.ibb.co/VY5yMCF3/image.png",
+      "imageHint": "n8n Gmail AI Email Processing Pipeline Overview",
+      "gallery": [
+        { "url": "https://i.ibb.co/VY5yMCF3/image.png", "hint": "n8n Gmail AI Email Processing Pipeline Workflow Overview" }
+      ],
+      "tags": ["Automation", "n8n", "OpenAI", "Gmail", "Google Drive", "Google Sheets", "AI"],
+      "github": "",
+      "live": "/workflows/n8n-gmail-email-pipeline.json"
+    },
+    {
+      "slug": "n8n-telegram-receipt-engine",
+      "title": "n8n Telegram Receipt Processing & Expense Logging Engine",
+      "description": "Intercepts mobile receipt photos via Telegram Webhook, uses Google Gemini multimodal vision (temp=0) to extract merchant, amount, and date into Google Sheets, and archives timestamped receipts in Google Drive.",
+      "longDescription": "n8n Telegram Receipt Processing & Expense Logging Engine is a multimodal vision automation workflow built in n8n. It allows users to snap receipt photos from Telegram and instantly log structured financial data into Google Sheets while archiving files in Google Drive.",
+      "challenges": "Solving binary payload state loss when branching across n8n conditional (If) nodes via Edit Fields bridge node.",
+      "learnings": "Gained deep expertise in n8n binary data manipulation, Google Gemini multimodal vision zero-temperature prompt structuring, and idempotent cloud storage folder provisioning.",
+      "image": "https://i.ibb.co/dYDbj6p/image.png",
+      "imageHint": "n8n Telegram Receipt Processing Engine Overview",
+      "gallery": [
+        { "url": "https://i.ibb.co/dYDbj6p/image.png", "hint": "n8n Telegram Receipt Processing Engine Workflow Overview" }
+      ],
+      "tags": ["Automation", "n8n", "Gemini AI", "Telegram", "Google Drive", "Google Sheets", "AI Vision"],
+      "github": "",
+      "live": "/workflows/n8n-telegram-receipt-engine.json"
     }
   ],
   "contact": {
