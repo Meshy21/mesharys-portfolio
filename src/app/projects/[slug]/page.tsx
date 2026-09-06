@@ -4,7 +4,7 @@ import { projects } from '@/lib/projects';
 import Image from 'next/image';
 import { notFound, useParams } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Github, ExternalLink, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ArrowLeft, Github, ExternalLink, ChevronLeft, ChevronRight, X, FileCode, FileText } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useCallback, useEffect } from 'react';
 
@@ -365,7 +365,7 @@ export default function ProjectPage() {
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-border text-sm font-medium text-foreground hover:border-primary/40 hover:text-primary transition-all"
               >
                 <Github className="h-4 w-4" />
-                Source Code
+                {project.githubLabel || 'Source Code'}
               </Link>
             )}
             {project.live && (
@@ -375,8 +375,19 @@ export default function ProjectPage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-all"
               >
-                <ExternalLink className="h-4 w-4" />
-                Live Demo
+                {project.liveLabel ? <FileCode className="h-4 w-4" /> : <ExternalLink className="h-4 w-4" />}
+                {project.liveLabel || 'Live Demo'}
+              </Link>
+            )}
+            {project.readmeUrl && (
+              <Link
+                href={project.readmeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-border text-sm font-medium text-foreground hover:border-primary/40 hover:text-primary transition-all"
+              >
+                <FileText className="h-4 w-4" />
+                {project.readmeLabel || 'README.md'}
               </Link>
             )}
           </div>
