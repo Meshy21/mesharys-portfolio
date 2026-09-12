@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { Menu, FileText } from 'lucide-react';
+import { Menu, FileText, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { useEffect, useState } from 'react';
 import ResumeModal from '@/components/ResumeModal';
+import ScheduleModal from '@/components/ScheduleModal';
 
 const navLinks = [
   { name: 'Projects', href: '#projects' },
@@ -47,7 +48,7 @@ export default function Header() {
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -58,11 +59,22 @@ export default function Header() {
             </Link>
           ))}
 
+          {/* Schedule Meeting Button */}
+          <ScheduleModal>
+            <button
+              type="button"
+              className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold px-3.5 py-1.5 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 shadow-sm hover:shadow-primary/20 hover:scale-105 cursor-pointer"
+            >
+              <Calendar className="h-3.5 w-3.5" />
+              <span>Book Call</span>
+            </button>
+          </ScheduleModal>
+
           {/* Glossy Copper Resume Button */}
           <ResumeModal>
             <button
               type="button"
-              className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold px-4 py-2 rounded-full border border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-sm hover:shadow-primary/20 hover:scale-105 cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold px-3.5 py-1.5 rounded-full border border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-sm hover:shadow-primary/20 hover:scale-105 cursor-pointer"
             >
               <FileText className="h-3.5 w-3.5" />
               <span>Resume</span>
@@ -97,17 +109,30 @@ export default function Header() {
                     </Link>
                   </SheetClose>
                 ))}
-                <SheetClose asChild>
-                  <ResumeModal>
-                    <button
-                      type="button"
-                      className="inline-flex items-center justify-center gap-2 text-sm font-mono font-semibold px-4 py-2.5 rounded-full border border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground transition-all text-center mt-4 w-full cursor-pointer"
-                    >
-                      <FileText className="h-4 w-4" />
-                      <span>View Resume</span>
-                    </button>
-                  </ResumeModal>
-                </SheetClose>
+                <div className="flex flex-col gap-3 pt-4 border-t border-border/50">
+                  <SheetClose asChild>
+                    <ScheduleModal>
+                      <button
+                        type="button"
+                        className="inline-flex items-center justify-center gap-2 text-sm font-mono font-semibold px-4 py-2.5 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all text-center w-full cursor-pointer shadow-md"
+                      >
+                        <Calendar className="h-4 w-4" />
+                        <span>Schedule Call</span>
+                      </button>
+                    </ScheduleModal>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <ResumeModal>
+                      <button
+                        type="button"
+                        className="inline-flex items-center justify-center gap-2 text-sm font-mono font-semibold px-4 py-2.5 rounded-full border border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground transition-all text-center w-full cursor-pointer"
+                      >
+                        <FileText className="h-4 w-4" />
+                        <span>View Resume</span>
+                      </button>
+                    </ResumeModal>
+                  </SheetClose>
+                </div>
               </div>
             </SheetContent>
           </Sheet>
@@ -116,3 +141,4 @@ export default function Header() {
     </header>
   );
 }
+

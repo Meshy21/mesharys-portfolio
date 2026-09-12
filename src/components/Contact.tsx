@@ -1,9 +1,10 @@
 'use client';
 
-import { Mail, MapPin, Phone, Linkedin, Github, FileText } from 'lucide-react';
+import { Mail, MapPin, Phone, Linkedin, Github, FileText, Calendar, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 import ResumeModal from '@/components/ResumeModal';
+import ScheduleModal from '@/components/ScheduleModal';
 
 interface ContactLink {
   icon: typeof Mail;
@@ -14,6 +15,12 @@ interface ContactLink {
 }
 
 const contactLinks: ContactLink[] = [
+  {
+    icon: Calendar,
+    label: 'Meeting',
+    value: 'Schedule via Calendly',
+    href: '#',
+  },
   {
     icon: Mail,
     label: 'Email',
@@ -69,6 +76,16 @@ function ContactRow({ link, isLast }: { link: ContactLink; isLast: boolean }) {
     !isLast ? 'border-b border-border/30' : ''
   }`;
 
+  if (link.label === 'Meeting') {
+    return (
+      <ScheduleModal>
+        <button type="button" className={`w-full text-left cursor-pointer ${className}`}>
+          {content}
+        </button>
+      </ScheduleModal>
+    );
+  }
+
   if (link.label === 'Resume') {
     return (
       <ResumeModal>
@@ -115,6 +132,30 @@ export default function Contact() {
           </p>
         </div>
 
+        {/* Schedule a Meeting Banner CTA */}
+        <div className="max-w-lg mx-auto mb-8 p-6 rounded-2xl bg-gradient-to-b from-card to-card/60 border border-primary/30 shadow-xl backdrop-blur-md relative overflow-hidden text-center group hover:border-primary/60 transition-all duration-300">
+          <div className="absolute -top-12 -right-12 w-28 h-28 bg-primary/10 rounded-full blur-xl pointer-events-none" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono mb-3">
+            <Sparkles className="h-3 w-3 text-amber-400" />
+            <span>Fast &amp; Direct</span>
+          </div>
+          <h3 className="text-lg font-headline font-bold text-foreground mb-1">
+            Want to schedule a quick meeting?
+          </h3>
+          <p className="text-xs sm:text-sm text-muted-foreground mb-4 max-w-sm mx-auto">
+            Select a slot on my Calendly for a 1-on-1 intro or technical discussion.
+          </p>
+          <ScheduleModal>
+            <button
+              type="button"
+              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-primary text-primary-foreground font-semibold text-xs sm:text-sm shadow-md shadow-primary/25 hover:shadow-primary/40 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            >
+              <Calendar className="h-4 w-4" />
+              <span>Schedule Call with Meshary</span>
+            </button>
+          </ScheduleModal>
+        </div>
+
         {/* Location badge */}
         <div className="flex justify-center mb-8">
           <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-card border border-border/60">
@@ -137,3 +178,4 @@ export default function Contact() {
     </section>
   );
 }
+

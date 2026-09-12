@@ -2,10 +2,11 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, FileText, Terminal, Cpu, Sparkles } from 'lucide-react';
+import { ArrowRight, FileText, Terminal, Cpu, Sparkles, Calendar } from 'lucide-react';
 import images from '@/app/lib/placeholder-images.json';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 import ResumeModal from '@/components/ResumeModal';
+import ScheduleModal from '@/components/ScheduleModal';
 
 const stats = [
   { value: '6+', label: 'Engineered Systems' },
@@ -84,18 +85,30 @@ export default function Hero() {
                 <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Link>
 
-              {/* EYE-CATCHING RESUME POPUP BUTTON */}
-              <ResumeModal>
+              {/* EYE-CATCHING CALENDLY SCHEDULE BUTTON */}
+              <ScheduleModal>
                 <button
                   type="button"
                   className="group relative inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm font-semibold text-foreground bg-card border-2 border-primary/50 hover:border-primary transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-primary/20 hover:scale-[1.02] active:scale-[0.97] border-glow-copper overflow-hidden touch-manipulation min-h-[44px] cursor-pointer"
                 >
                   <div className="absolute inset-0 shimmer opacity-50 pointer-events-none" />
+                  <Calendar className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
+                  <span>Schedule Call</span>
+                </button>
+              </ScheduleModal>
+
+              {/* EYE-CATCHING RESUME POPUP BUTTON */}
+              <ResumeModal>
+                <button
+                  type="button"
+                  className="group relative inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm font-semibold text-muted-foreground hover:text-foreground bg-card/60 border border-border/80 hover:border-primary/50 transition-all duration-300 shadow-sm hover:scale-[1.02] active:scale-[0.97] touch-manipulation min-h-[44px] cursor-pointer"
+                >
                   <FileText className="h-4 w-4 text-primary group-hover:translate-y-0.5 transition-transform" />
                   <span>View Resume</span>
                 </button>
               </ResumeModal>
             </div>
+
 
             {/* Quick Stats Grid */}
             <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-6 max-w-lg">
