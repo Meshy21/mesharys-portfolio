@@ -4,6 +4,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Plus_Jakarta_Sans, Outfit } from 'next/font/google';
 import Chatbot from '@/components/Chatbot';
+import FloatingNav from '@/components/FloatingNav';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -44,7 +45,9 @@ export default function RootLayout({
         {children}
         <Toaster />
         <Chatbot />
+        <FloatingNav />
       </body>
     </html>
   );
 }
+
