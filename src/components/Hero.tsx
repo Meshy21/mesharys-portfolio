@@ -2,16 +2,32 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, FileText, Terminal, Cpu, Sparkles, Calendar } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, FileText, Terminal, Cpu, Sparkles, Calendar, ExternalLink, Code2, FolderGit2 } from 'lucide-react';
 import images from '@/app/lib/placeholder-images.json';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 import ResumeModal from '@/components/ResumeModal';
 import ScheduleModal from '@/components/ScheduleModal';
 
-const stats = [
-  { value: '6+', label: 'Engineered Systems' },
-  { value: '3', label: 'Edge AI Pipelines' },
-  { value: '10K+', label: 'Training Samples' },
+// Every item here is confirmable in one click — no self-reported counts.
+const proofLinks = [
+  {
+    label: 'Live Demo',
+    value: 'Payroll App',
+    href: 'https://payroll-online-web.vercel.app/',
+    icon: ExternalLink,
+  },
+  {
+    label: 'Source Code',
+    value: 'payroll-online-web',
+    href: 'https://github.com/Meshy21/payroll-online-web',
+    icon: Code2,
+  },
+  {
+    label: 'GitHub',
+    value: '@Meshy21',
+    href: 'https://github.com/Meshy21',
+    icon: FolderGit2,
+  },
 ];
 
 export default function Hero() {
@@ -110,21 +126,31 @@ export default function Hero() {
             </div>
 
 
-            {/* Quick Stats Grid */}
-            <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-6 max-w-lg">
-              {stats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="bg-card/70 border border-border/60 rounded-xl p-2.5 sm:p-3.5 backdrop-blur-sm hover:border-primary/40 transition-colors text-center sm:text-left"
-                >
-                  <span className="font-headline text-xl sm:text-2xl lg:text-3xl font-bold text-foreground block tracking-tight">
-                    {stat.value}
-                  </span>
-                  <span className="text-[9px] sm:text-[11px] font-mono text-muted-foreground uppercase tracking-wider block mt-0.5 leading-tight">
-                    {stat.label}
-                  </span>
-                </div>
-              ))}
+            {/* Verifiable proof links — each one opens the real thing */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 pt-6 max-w-lg">
+              {proofLinks.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-2.5 bg-card/70 border border-border/60 rounded-xl p-3 sm:p-3.5 backdrop-blur-sm hover:border-primary/50 hover:bg-card transition-all min-h-[44px] touch-manipulation"
+                  >
+                    <Icon className="h-4 w-4 text-primary shrink-0" />
+                    <span className="min-w-0 flex-1">
+                      <span className="text-[9px] sm:text-[10px] font-mono text-muted-foreground uppercase tracking-wider block leading-tight">
+                        {item.label}
+                      </span>
+                      <span className="font-headline text-sm font-bold text-foreground block truncate group-hover:text-primary transition-colors">
+                        {item.value}
+                      </span>
+                    </span>
+                    <ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground/50 shrink-0 group-hover:text-primary group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
+                  </a>
+                );
+              })}
             </div>
           </div>
 

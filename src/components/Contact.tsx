@@ -160,7 +160,7 @@ export default function Contact() {
         <div className="flex justify-center mb-8">
           <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-card border border-border/60">
             <MapPin className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium text-foreground">Makati City, Metro Manila</span>
+            <span className="text-sm font-medium text-foreground">Philippines &middot; Open to remote</span>
           </div>
         </div>
 

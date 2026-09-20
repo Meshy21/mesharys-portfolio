@@ -8,7 +8,7 @@ import { ArrowRight } from 'lucide-react';
 import { projects } from '@/lib/projects';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 
-const categories = ['All', 'Web App', 'Automation', 'Mobile App', 'Desktop App', 'AI', 'IoT'];
+const categories = ['All', 'AI / LLM', 'Web App', 'Mobile App', 'Desktop App', 'AI', 'IoT'];
 
 export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState('All');

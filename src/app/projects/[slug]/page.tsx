@@ -277,6 +277,16 @@ export default function ProjectPage() {
               </h2>
               <p className="text-muted-foreground text-base leading-relaxed">{project.learnings}</p>
             </div>
+
+            {project.retrospective && (
+              <div className="rounded-2xl border border-border/60 bg-card/50 p-5 sm:p-6">
+                <h2 className="font-headline text-2xl font-bold tracking-tight mb-3 text-foreground flex items-center gap-3">
+                  <span className="h-5 w-1 bg-primary rounded-full" />
+                  What I&apos;d Do Differently
+                </h2>
+                <p className="text-muted-foreground text-base leading-relaxed">{project.retrospective}</p>
+              </div>
+            )}
           </div>
 
           {/* Timeline */}

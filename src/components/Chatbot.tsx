@@ -206,7 +206,7 @@ export default function Chatbot() {
               <div className="flex items-center gap-2">
                 <h3 className="font-headline font-bold text-sm text-foreground">Meshary AI</h3>
                 <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
-                  Gemini 3.6
+                  Gemini 2.5 Flash
                 </span>
               </div>
               <p className="text-[11px] text-muted-foreground flex items-center gap-1">
