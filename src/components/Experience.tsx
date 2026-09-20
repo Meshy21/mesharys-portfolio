@@ -18,19 +18,6 @@ interface ExperienceItem {
 
 const experiences: ExperienceItem[] = [
   {
-    id: 'abubakar-it-specialist',
-    title: 'IT Specialist',
-    company: 'M. Abubakar Construction and Engineering',
-    location: 'Zamboanga City',
-    period: 'June 2025 – June 2026',
-    tags: ['Python', 'PyQt6', 'PostgreSQL', 'RBAC', 'Git', 'Database Schema'],
-    bullets: [
-      'Cut document and certificate reconciliation from three days to under four hours by designing a normalized PostgreSQL schema and building the tracking system that replaced a shared-spreadsheet process, with authentication and role-based access control across three user tiers.',
-      'Removed 15+ hours of weekly manual data entry from a payroll cycle covering 50+ employees by building a payroll application end to end (Python, PyQt6), automating computation, statutory deductions and payslip generation.',
-      'Shipped to production across two live systems with zero downtime by owning the full Git workflow — feature branching, code review and versioned releases.'
-    ]
-  },
-  {
     id: 'freelance-software-engineer',
     title: 'Freelance Software Engineer',
     company: 'Part-time, Concurrent',
@@ -41,6 +28,19 @@ const experiences: ExperienceItem[] = [
     bullets: [
       'Delivered low-latency video and messaging for two user roles on LearnMate, a cross-platform tutoring app, by designing the Firebase data model, authentication and role-based access, and implementing WebRTC signalling. Dart, Flutter, Firebase.',
       'Achieved on-device inference for Wood Knot Detection as sole engineer, by training a YOLOv8 detector on a 12,000-image dataset and building the ONNX-to-TFLite pipeline. Python, TensorFlow Lite.'
+    ]
+  },
+  {
+    id: 'abubakar-it-specialist',
+    title: 'IT Specialist',
+    company: 'M. Abubakar Construction and Engineering',
+    location: 'Zamboanga City',
+    period: 'June 2025 – June 2026',
+    tags: ['Python', 'PyQt6', 'PostgreSQL', 'RBAC', 'Git', 'Database Schema'],
+    bullets: [
+      'Cut document and certificate reconciliation from three days to under four hours by designing a normalized PostgreSQL schema and building the tracking system that replaced a shared-spreadsheet process, with authentication and role-based access control across three user tiers.',
+      'Removed 15+ hours of weekly manual data entry from a payroll cycle covering 50+ employees by building a payroll application end to end (Python, PyQt6), automating computation, statutory deductions and payslip generation.',
+      'Shipped to production across two live systems with zero downtime by owning the full Git workflow — feature branching, code review and versioned releases.'
     ]
   },
   {

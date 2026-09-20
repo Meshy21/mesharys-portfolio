@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
@@ -22,6 +22,11 @@ export const metadata: Metadata = {
   title: 'Meshary A. Aquino | Computer Engineer & Full-Stack Developer',
   description:
     'Portfolio of Meshary A. Aquino, Computer Engineer specializing in backend APIs, mobile development, edge AI, and database architecture.',
+};
+
+// Matches --background in globals.css so mobile browser chrome blends with the page
+export const viewport: Viewport = {
+  themeColor: '#080C16',
 };
 
 const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID || 'f54f12c9-a5ad-4282-a4d1-ad3621b88a8e';

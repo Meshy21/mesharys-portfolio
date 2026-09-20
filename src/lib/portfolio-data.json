@@ -69,9 +69,19 @@
       "longDescription": "Learnmate is an Android-based mobile application designed to streamline remote learning and tutoring. It enables tutors and tutees to connect, communicate, and collaborate through an intuitive interface that supports session booking, in-app messaging, and video conferencing — all from a mobile device. The goal was to create a seamless and accessible platform for education, breaking down geographical barriers.",
       "challenges": "One of the main challenges was implementing a reliable and low-latency video conferencing feature within the app. Integrating the Agora SDK required careful handling of state management and native platform differences. Another challenge was designing an intuitive booking system that could handle multiple time zones and tutor availability.",
       "learnings": "This project was a deep dive into cross-platform mobile development with Flutter and Dart. I gained significant experience with real-time communication technologies and third-party SDK integration. I also learned a lot about UX/UI design for mobile applications and the importance of user feedback in the development cycle.",
-      "image": "https://i.ibb.co/pB0sL53q/9da9f7d7-4f51-44e4-b003-c95f647bd3c1-1.jpg",
-      "imageHint": "mobile learning",
+      "image": "/projects/learnmate/hero.jpg",
+      "imageHint": "LearnMate tutee, tutor and admin screens",
       "gallery": [
+        { "url": "/projects/learnmate/tutee-enrolled-classes.jpg", "hint": "Tutee dashboard — enrolled classes with tutor, learning goal and GCash payment" },
+        { "url": "/projects/learnmate/tutor-request-feed.jpg", "hint": "Tutor home feed — open tutee requests by subject and grade level" },
+        { "url": "/projects/learnmate/admin-dashboard.jpg", "hint": "Admin console — user and lesson statistics with pending tutor approvals" },
+        { "url": "/projects/learnmate/tutee-post-composer.jpg", "hint": "Post composer — tutees publish a subject-tagged request for help" },
+        { "url": "/projects/learnmate/my-posts.jpg", "hint": "My Posts — a tutee's active tutoring requests" },
+        { "url": "/projects/learnmate/chat-thread.jpg", "hint": "In-app chat thread between a tutor and a tutee" },
+        { "url": "/projects/learnmate/tutor-application.jpg", "hint": "Tutor application — credential upload (diploma / TOR) and commitment screening" },
+        { "url": "/projects/learnmate/otp-verification.jpg", "hint": "Phone number verification via one-time passcode" },
+        { "url": "/projects/learnmate/subject-preferences.jpg", "hint": "Profile preferences — subjects of interest that drive tutor matching" },
+        { "url": "/projects/learnmate/role-selection.jpg", "hint": "Role selection at signup — tutor or tutee" },
         { "url": "https://i.ibb.co/zTCvzWd6/signaling_flow.png", "hint": "Learnmate WebRTC & Agora signaling flow diagram" }
       ],
       "videos": [
