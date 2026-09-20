@@ -180,9 +180,9 @@ export async function GET() {
       },
       {
         id: '3',
-        repo: 'syncsolve-api',
-        repoUrl: 'https://github.com/Meshy21',
-        message: 'refactor: vector clock causality engine performance tuning',
+        repo: 'woodknot',
+        repoUrl: 'https://github.com/Meshy21/woodknot',
+        message: 'perf: tune TFLite inference loop for lower frame latency',
         date: new Date(Date.now() - 3600000 * 72).toISOString(),
       },
     ];

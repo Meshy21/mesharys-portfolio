@@ -137,7 +137,7 @@ npm run start
 | Project | Category | Stack |
 |---------|----------|-------|
 | **Enterprise Payroll Web App** — BIR & Statutory Compliance | Web App / Security | Next.js, FastAPI, PostgreSQL, Tailwind |
-| **SyncSolve API** — Conflict Resolution Engine | API / Web App | Python, FastAPI, Distributed Systems |
+| **n8n Automation Workflows** — Email & Receipt Pipelines | Automation / AI | n8n, OpenAI, Gemini Vision, Google Workspace |
 | **Wood Knot Detection** — On-Device AI | Mobile / AI | YOLOv8, TensorFlow Lite, Flutter |
 | **Braille Haptic Reader** — Capstone | IoT / AI | YOLOv5, Raspberry Pi, Python |
 | **Custom Payroll System** — Desktop App | Desktop App | Python, PyQt6, PostgreSQL |

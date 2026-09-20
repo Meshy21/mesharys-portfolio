@@ -14,7 +14,7 @@ interface Message {
 const PRESET_PROMPTS = [
   'What are Meshary\'s main technical skills?',
   'Tell me about the n8n automation workflows.',
-  'Tell me about the SyncSolve API project.',
+  'Tell me about the enterprise payroll web app.',
   'What edge AI & vision projects has he built?'
 ];
 
