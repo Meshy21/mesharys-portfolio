@@ -51,6 +51,7 @@ function isPortfolioRelevant(text: string): boolean {
     'meshary', 'aquino', 'skill', 'project', 'experience', 'background', 'contact',
     'email', 'phone', 'resume', 'cv', 'github', 'linkedin', 'payroll',
     'wood', 'knot', 'braille', 'conbraillient', 'yolo', 'flutter', 'next.js', 'fastapi',
+    'learnmate', 'tutoring', 'agora', 'webrtc',
     'hire', 'work', 'job', 'developer', 'engineer', 'stack', 'tech', 'about', 'services',
     'location', 'makati', 'philippines', 'education', 'degree', 'qualification',
     'n8n', 'automation', 'workflow', 'telegram', 'receipt', 'gmail', 'pipeline', 'bot'
@@ -176,11 +177,12 @@ Contact Info & Links:
 
 Key Showcase Projects:
 1. Enterprise Online Secured Payroll Web App (Next.js 14, FastAPI, PostgreSQL/SQLite, Tax math, SSS 2025, AES-256): https://github.com/Meshy21/payroll-online-web | Demo: https://payroll-online-web.vercel.app/
-2. n8n AI-Powered Email Processing Pipeline (n8n, OpenAI Chat Model, Gmail, Google Drive, Google Sheets parallel fanout, 100% idempotent)
-3. n8n Telegram Receipt Processing Engine (n8n, Google Gemini Vision temp=0, Telegram Webhook, Google Sheets expense log, Google Drive binary re-attachment)
-4. Wood Knot Detection Mobile App (YOLOv8, ONNX, TFLite, Flutter, <45ms latency): https://github.com/Meshy21/woodknot
-5. Braille Haptic Reader (Raspberry Pi 4, YOLOv5 OCR, custom solenoids, 97.82% accuracy)
-6. Custom Payroll Management System (Python, PyQt6, PostgreSQL)
+2. LearnMate (Mobile-Based Android App) — remote tutoring platform with session booking, in-app messaging and live video (Flutter, Dart, Firebase, Agora RTC / WebRTC signalling)
+3. n8n AI-Powered Email Processing Pipeline (n8n, OpenAI Chat Model, Gmail, Google Drive, Google Sheets parallel fanout, 100% idempotent)
+4. n8n Telegram Receipt Processing Engine (n8n, Google Gemini Vision temp=0, Telegram Webhook, Google Sheets expense log, Google Drive binary re-attachment)
+5. Wood Knot Detection Mobile App (YOLOv8, ONNX, TFLite, Flutter, <45ms latency): https://github.com/Meshy21/woodknot
+6. Braille Haptic Reader (Raspberry Pi 4, YOLOv5 OCR, custom solenoids, 97.82% accuracy)
+7. Custom Payroll Management System (Python, PyQt6, PostgreSQL)
 
 Core Technical Skills:
 - Automation & Workflows: n8n, OpenAI API, Gemini Vision API, Webhooks, Google Workspace APIs

@@ -63,6 +63,26 @@
       "live": "https://payroll-online-web.vercel.app/"
     },
     {
+      "slug": "learnmate",
+      "title": "LearnMate (Mobile-Based Android App)",
+      "description": "An Android app to streamline remote learning with session booking, messaging, and video conferencing.",
+      "longDescription": "Learnmate is an Android-based mobile application designed to streamline remote learning and tutoring. It enables tutors and tutees to connect, communicate, and collaborate through an intuitive interface that supports session booking, in-app messaging, and video conferencing — all from a mobile device. The goal was to create a seamless and accessible platform for education, breaking down geographical barriers.",
+      "challenges": "One of the main challenges was implementing a reliable and low-latency video conferencing feature within the app. Integrating the Agora SDK required careful handling of state management and native platform differences. Another challenge was designing an intuitive booking system that could handle multiple time zones and tutor availability.",
+      "learnings": "This project was a deep dive into cross-platform mobile development with Flutter and Dart. I gained significant experience with real-time communication technologies and third-party SDK integration. I also learned a lot about UX/UI design for mobile applications and the importance of user feedback in the development cycle.",
+      "image": "https://i.ibb.co/pB0sL53q/9da9f7d7-4f51-44e4-b003-c95f647bd3c1-1.jpg",
+      "imageHint": "mobile learning",
+      "gallery": [
+        { "url": "https://i.ibb.co/zTCvzWd6/signaling_flow.png", "hint": "Learnmate WebRTC & Agora signaling flow diagram" }
+      ],
+      "videos": [
+        "https://youtu.be/FhnaQuVrfIk",
+        "https://youtu.be/aFihW9-FOl4"
+      ],
+      "tags": ["Mobile App", "Dart", "Flutter", "Agora"],
+      "github": "",
+      "live": ""
+    },
+    {
       "slug": "wood-knot-detection",
       "title": "Wood Knot Detection App",
       "description": "An on-device, real-time app identifying wood knots using a YOLOv8 model trained on 10,000+ images, optimized via ONNX, and run on TensorFlow Lite.",

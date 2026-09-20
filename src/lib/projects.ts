@@ -95,6 +95,60 @@ export const projects: Project[] = [
     ]
   },
   {
+    slug: 'learnmate',
+    title: 'LearnMate (Mobile-Based Android App)',
+    description:
+      'An Android app to streamline remote learning with session booking, messaging, and video conferencing.',
+    longDescription:
+      'Learnmate is an Android-based mobile application designed to streamline remote learning and tutoring. It enables tutors and tutees to connect, communicate, and collaborate through an intuitive interface that supports session booking, in-app messaging, and video conferencing — all from a mobile device. The goal was to create a seamless and accessible platform for education, breaking down geographical barriers.',
+    challenges: 'One of the main challenges was implementing a reliable and low-latency video conferencing feature within the app. Integrating the Agora SDK required careful handling of state management and native platform differences. Another challenge was designing an intuitive booking system that could handle multiple time zones and tutor availability.',
+    learnings: 'This project was a deep dive into cross-platform mobile development with Flutter and Dart. I gained significant experience with real-time communication technologies and third-party SDK integration. I also learned a lot about UX/UI design for mobile applications and the importance of user feedback in the development cycle.',
+    image: images.learnmateMain,
+    imageHint: 'mobile learning',
+    gallery: [
+      { url: 'https://i.ibb.co/zTCvzWd6/signaling_flow.png', hint: 'Learnmate WebRTC & Agora signaling flow diagram' }
+    ],
+    videos: [
+      'https://youtu.be/FhnaQuVrfIk',
+      'https://youtu.be/aFihW9-FOl4'
+    ],
+    tags: ['Mobile App', 'Dart', 'Flutter', 'Agora'],
+    github: null,
+    live: null,
+    metrics: [
+      { label: 'Codebase Scale', value: '~8,500 LOC', description: 'Highly modular Flutter & Dart codebase' },
+      { label: 'Development Time', value: '120 Hours', description: 'End-to-end design, implementation & QA' },
+      { label: 'Complexity Score', value: '8.5 / 10', description: 'Real-time multi-user coordination & video streams' },
+      { label: 'Core Modules', value: '12 Modules', description: 'Session bookings, in-app messaging, Agora video SDK' }
+    ],
+    timeline: [
+      {
+        phase: 'Phase 1: Wireframing & UX Map',
+        duration: 'Week 1',
+        title: 'Requirement Gathering & UX Architecture',
+        description: 'Designed key mobile views and mapped out tutor-student appointment and video stream session flows.'
+      },
+      {
+        phase: 'Phase 2: Core Frontend & Client Setup',
+        duration: 'Weeks 2-3',
+        title: 'Flutter UI Composition & Local Caching',
+        description: 'Developed highly modular components in Dart, establishing responsive client layouts and internal application routing.'
+      },
+      {
+        phase: 'Phase 3: Real-Time Engine & Live streams',
+        duration: 'Week 4',
+        title: 'Agora RTC Native Integration & Firestore Hooks',
+        description: 'Wired up the Agora SDK wrapper for stable on-device live video tutoring feeds and coupled session metadata with cloud triggers.'
+      },
+      {
+        phase: 'Phase 4: Optimization, Security & QA',
+        duration: 'Week 5',
+        title: 'Stress Testing & Performance Fine-Tuning',
+        description: 'Debugged low-bandwidth exceptions and tuned device audio latency, resulting in a successful release candidate.'
+      }
+    ]
+  },
+  {
     slug: 'wood-knot-detection',
     title: 'Wood Knot Detection App',
     description: 'An on-device, real-time app identifying wood knots using a YOLOv8 model trained on 10,000+ images, optimized via ONNX, and run on TensorFlow Lite.',
