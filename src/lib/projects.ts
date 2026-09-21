@@ -1,5 +1,3 @@
-import images from '@/app/lib/placeholder-images.json';
-
 export interface ProjectMetric {
   label: string;
   value: string;
@@ -278,7 +276,7 @@ export const projects: Project[] = [
     learnings: 'Through this project, I mastered the end-to-end edge AI pipeline. I gained deep experience in custom dataset curation (annotating over 10,000 images), hyperparameter tuning during YOLOv8 training across multiple epochs, cross-framework model translation using ONNX, and quantized hardware-accelerated inference with TFLite in Flutter. It proved that deep learning models can be effectively compacted and deployed directly to the edge with high reliability.',
     // DRAFT: drafted from this project's existing copy - review and rewrite in your own words
     retrospective: 'The accuracy figures come from a split of the dataset I collected myself, so they describe how the model performs on wood that resembles what I photographed rather than on a mill floor. I would hold out a genuinely independent test set before training instead of reporting on the same distribution I curated. I also confirmed that accuracy \'held up\' after integer quantization by eye; a per-class comparison between the float and quantized models would have told me what the 85% size reduction actually cost, which is the number that matters when deciding whether the trade was worth it.',
-    image: images.woodKnotMain,
+    image: 'https://i.ibb.co/tw9ntCnW/fd56b489-d02d-4fa3-b3d7-24963ae7812d-1.png',
     imageHint: 'wood detection',
     gallery: [
       { url: 'https://i.ibb.co/rNj98hm/57eddd60-ec3a-4c1e-bc25-80333fc1b024.jpg', hint: 'wood knot detection on device' },
@@ -331,7 +329,7 @@ export const projects: Project[] = [
     learnings: 'This project taught me a great deal about the practical application of machine learning models on edge devices. I learned about optimizing deep learning models for performance, working with hardware interfaces, and building a complete, end-to-end system that serves a real-world purpose.',
     // DRAFT: drafted from this project's existing copy - review and rewrite in your own words
     retrospective: '97.82% is character-level accuracy on test images I chose, and that flatters the system. For someone reading by touch, what matters is whether a line comes through intelligibly, and a single wrong character inside a word is far more disruptive than the percentage implies. I would report word-level accuracy and test with visually impaired users rather than optimising a metric I picked myself. Technically, capture, OCR and haptic output shared one thread budget and I fought the 1.2s latency head-on; decoupling capture from playback with a queue would have let the reader start feeling output before the frame finished processing.',
-    image: images.brailleReaderMain,
+    image: 'https://i.ibb.co/3mYZWPgY/image-2025-09-06-230239249.png',
     imageHint: 'braille reader device',
     gallery: [
       { url: 'https://i.ibb.co/zWdb3tRW/image-2026-07-10-150400735.png', hint: 'braille reader physical prototype' },
@@ -384,17 +382,17 @@ export const projects: Project[] = [
     learnings: 'Through this project, I honed my skills in Python application development and GUI design with PyQt. I gained valuable experience in database management with PostgreSQL, including designing robust schemas for financial data. It also provided a deep understanding of the complexities involved in building business-critical software where accuracy and security are non-negotiable.',
     // DRAFT: drafted from this project's existing copy - review and rewrite in your own words
     retrospective: 'Building it as a PyQt desktop client bound to a PostgreSQL instance meant every deployment was a manual install on a specific machine — and the web payroll system I built later is the same problem solved the way it should have been. The calculation logic also lived directly in the GUI event handlers, so the tax rules could not be exercised without driving the interface. I would extract the payroll math into a pure, separately tested module first and treat the GUI as one possible front end rather than the program itself.',
-    image: images.customPayrollMain,
+    image: 'https://i.ibb.co/7tcTbT7t/image-2026-02-25-105816398.png',
     imageHint: 'payroll software',
     gallery: [
-      { url: images.customPayrollGallery1, hint: 'employee records' },
-      { url: images.customPayrollGallery2, hint: 'report generation' },
-      { url: (images as any).customPayrollGallery3, hint: 'payroll calculation' },
-      { url: (images as any).customPayrollGallery4, hint: 'settings page' },
-      { url: (images as any).customPayrollGallery5, hint: 'login screen' },
-      { url: (images as any).customPayrollGallery6, hint: 'payslip view' },
-      { url: (images as any).customPayrollGallery7, hint: 'dashboard analytics' },
-      { url: (images as any).customPayrollGallery8, hint: 'user permissions' }
+      { url: 'https://i.ibb.co/C3FnN7dB/image.png', hint: 'employee records' },
+      { url: 'https://i.ibb.co/LDSqmJkr/image.png', hint: 'report generation' },
+      { url: 'https://i.ibb.co/XrFjcTmy/image.png', hint: 'payroll calculation' },
+      { url: 'https://i.ibb.co/5xn5p6HL/image.png', hint: 'settings page' },
+      { url: 'https://i.ibb.co/xSqrYy0W/image.png', hint: 'login screen' },
+      { url: 'https://i.ibb.co/4R3Xb1Gz/image.png', hint: 'payslip view' },
+      { url: 'https://i.ibb.co/WWgMdr8h/image.png', hint: 'dashboard analytics' },
+      { url: 'https://i.ibb.co/j9x5JWzT/image.png', hint: 'user permissions' }
     ],
     tags: ['Desktop App', 'Python', 'PyQt', 'PostgreSQL'],
     github: null,

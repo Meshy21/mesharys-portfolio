@@ -1,5 +1,22 @@
 import { GoogleGenAI } from '@google/genai';
 import { NextRequest, NextResponse } from 'next/server';
+import {
+  scanInput,
+  scanOutput,
+  neutralize,
+  BLOCKED_INPUT_REPLY,
+  BLOCKED_OUTPUT_REPLY,
+} from '@/lib/guardrails';
+import {
+  retrieve,
+  buildContextBlock,
+  RETRIEVAL_SYSTEM_PROMPT,
+  UNGROUNDED_REPLY,
+} from '@/lib/rag/retrieve';
+import { createGeminiEmbedder } from '@/lib/rag/embed';
+import { isProductionIndex } from '@/lib/rag/index-guard';
+import type { CorpusIndex } from '@/lib/rag/types';
+import corpusIndex from '@/lib/rag/corpus-index.json';
 
 // Strict in-memory rate limiter per IP (6 requests per 60 seconds)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
@@ -114,8 +131,9 @@ export async function POST(req: NextRequest) {
       }
 
       const cleanRole = m.role === 'user' ? 'user' : 'model';
-      // Cap at 250 chars max to prevent long input token waste
-      const cleanText = m.text.slice(0, 250).trim();
+      // GUARDRAIL — input layer. Neutralises invisible characters, homoglyphs,
+      // spaced-out keywords and forged chat-template markers, and caps length.
+      const cleanText = neutralize(m.text);
 
       if (cleanText.length > 0) {
         sanitizedMessages.push({ role: cleanRole, text: cleanText });
@@ -130,6 +148,25 @@ export async function POST(req: NextRequest) {
     }
 
     const latestUserMessage = sanitizedMessages.filter((m) => m.role === 'user').pop()?.text || '';
+
+    // ZERO TOKEN FILTER 0: prompt-injection defense. Runs against a normalised
+    // copy of the ORIGINAL text, so obfuscated payloads are caught before the
+    // model is ever called. See src/lib/guardrails.test.ts for the attack corpus.
+    const rawLatest = [...messages].reverse().find((m) => m?.role === 'user')?.text ?? '';
+    const inputScan = scanInput(typeof rawLatest === 'string' ? rawLatest : '');
+
+    if (!inputScan.safe) {
+      console.warn('[guardrails] input blocked', {
+        rules: inputScan.findings.map((f) => f.rule),
+      });
+      return NextResponse.json({ text: BLOCKED_INPUT_REPLY });
+    }
+
+    if (inputScan.findings.length > 0) {
+      console.info('[guardrails] input neutralized', {
+        rules: inputScan.findings.map((f) => f.rule),
+      });
+    }
 
     // ZERO TOKEN FILTER 1: Instant response for simple greetings
     if (GREETING_PATTERNS.test(latestUserMessage)) {
@@ -165,6 +202,61 @@ export async function POST(req: NextRequest) {
         },
       },
     });
+
+    /* ---------------------------------------------------------------------
+     * RETRIEVAL. When a production index is present, answers are grounded in
+     * retrieved chunks and anything below the similarity threshold is refused
+     * outright — no model call, no guessing. Until then the route falls back
+     * to the prompt-grounded path below. See src/lib/rag/index-guard.ts.
+     * ------------------------------------------------------------------- */
+    let retrievedContext: string | null = null;
+
+    if (isProductionIndex(corpusIndex)) {
+      const result = await retrieve(
+        latestUserMessage,
+        corpusIndex as CorpusIndex,
+        createGeminiEmbedder(apiKey),
+      );
+
+      console.info('[rag] retrieval', {
+        grounded: result.grounded,
+        topScore: Number(result.topScore.toFixed(3)),
+        threshold: result.threshold,
+        sources: result.matches.map((m) => m.chunk.id),
+      });
+
+      if (!result.grounded) {
+        return NextResponse.json({ text: UNGROUNDED_REPLY });
+      }
+
+      retrievedContext = buildContextBlock(result.matches);
+    } else {
+      console.warn('[rag] no production index — falling back to prompt grounding. Run `npm run rag:index`.');
+    }
+
+    if (retrievedContext) {
+      const response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: [{ role: 'user', parts: [{ text: latestUserMessage }] }],
+        config: {
+          systemInstruction: `${RETRIEVAL_SYSTEM_PROMPT}\n\nCONTEXT:\n${retrievedContext}`,
+          temperature: 0.2,
+          maxOutputTokens: 300,
+        },
+      });
+
+      const grounded = response.text || "I'm sorry, I couldn't process your request right now.";
+      const groundedScan = scanOutput(grounded);
+
+      if (!groundedScan.safe) {
+        console.error('[guardrails] output blocked', {
+          rules: groundedScan.findings.map((f) => f.rule),
+        });
+        return NextResponse.json({ text: BLOCKED_OUTPUT_REPLY });
+      }
+
+      return NextResponse.json({ text: groundedScan.redacted });
+    }
 
     const systemInstruction = `You are Meshary AI, an intelligent, conversational portfolio assistant for Meshary A. Aquino.
 Your sole role is to help visitors, recruiters, and collaborators learn about Meshary's skills, projects, and professional background.
@@ -248,7 +340,24 @@ Core Technical Skills:
 
     const replyText = response.text || "I'm sorry, I couldn't process your request right now.";
 
-    return NextResponse.json({ text: replyText });
+    // GUARDRAIL — output layer. Redacts third-party PII and blocks the reply
+    // outright if it carries credentials or leaked system-prompt text.
+    const outputScan = scanOutput(replyText);
+
+    if (!outputScan.safe) {
+      console.error('[guardrails] output blocked', {
+        rules: outputScan.findings.map((f) => f.rule),
+      });
+      return NextResponse.json({ text: BLOCKED_OUTPUT_REPLY });
+    }
+
+    if (outputScan.findings.length > 0) {
+      console.warn('[guardrails] output redacted', {
+        rules: outputScan.findings.map((f) => f.rule),
+      });
+    }
+
+    return NextResponse.json({ text: outputScan.redacted });
   } catch (error: any) {
     console.error('Gemini API Route Exception:', error);
     return NextResponse.json(
