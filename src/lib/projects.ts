@@ -38,6 +38,57 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: 'resort-pos-management-system',
+    title: 'Resort POS: Offline-First Resort Management & Audit System',
+    description: 'A full-stack, offline-capable Point of Sale (POS) and property management system for resorts featuring 30s Cloudflare Workers edge sync, SHA-256 HMAC cryptographic audit ledgers, ESP32 IoT gate counter integration, and browser-based AI desk monitoring.',
+    longDescription: 'Resort POS & Management System is a full-stack, offline-first Point of Sale (POS) and property management system engineered specifically for cash-heavy resorts and hospitality venues.\n\nBuilt to operate seamlessly during local internet outages while mirroring data to a Cloudflare Workers + D1 serverless cloud every 30 seconds for remote owner visibility, its primary innovation is an anti-skimming architecture that cryptographically secures transactions and cross-references sales against physical gate entries and housekeeping statuses.\n\nKey Technical & Architectural Pillars:\n\n1. Local-First Edge Synchronization:\nEngineered a resilient local server environment using Node.js and SQLite running locally on the resort network (LAN). Transactions complete instantly with zero internet latency, while a background synchronization daemon pushes incremental changes to a Cloudflare Workers + D1 serverless edge database every 30 seconds for remote owner monitoring.\n\n2. Cryptographic Audit Trail & Signed QR Receipts:\nImplemented a SHA-256 hash-chained audit log that makes local database tampering mathematically impossible to hide. Every generated guest receipt carries an HMAC-signed QR code that gate guards and guests scan to verify exact items and total amounts paid, instantly exposing forged or altered physical receipts.\n\n3. IoT Gate Counter & Hardware Telemetry:\nDeveloped custom C++ firmware for an ESP32 microcontroller that independently counts vehicle entries and exits using inductive loops and arm switches. The system automatically cross-references gate sensor pulses against scanned QR receipts to flag undocumented entries, tailgating, or gate holding.\n\n4. On-Device AI Desk Attendance Monitoring:\nIntegrated Google MediaPipe (EfficientDet-Lite) directly into the browser to run real-time, offline computer vision via desk webcams. Automatically flags unattended desk periods or camera tamper events without storing or transmitting any video footage, adhering to Philippine Data Privacy Act (RA 10173) mandates.\n\n5. Anti-Skimming Decentralized Workflow:\nDecentralizes operational control across isolated user roles (Front Desk Cashier, Gate Guard, Housekeeping). If a cashier collects cash off-the-books, the gate scan fails. If cashier and gate collude, housekeeping flags unbilled usage on release. Every workflow traps fraudulent behavior.\n\n6. Philippine Regulatory & Statutory Compliance:\nSupports BIR TRAIN Law tax compliance, mandatory Senior Citizen/PWD statutory discounts (20% discount + ID tracking), and role-based data masking.',
+    challenges: 'Architecting an offline-first synchronization engine between a local SQLite database and Cloudflare D1 edge database while guaranteeing an unbroken SHA-256 hash-chained audit trail. Solved by implementing strict transaction-level HMAC signatures, no-delete SQLite database triggers, and audit ledger state validation on every edge push.',
+    learnings: 'Mastered offline-first local network architecture, SHA-256 cryptographic audit chains, Cloudflare Workers & D1 serverless edge deployment, embedded ESP32 C++ hardware telemetry, and on-device MediaPipe computer vision integration.',
+    retrospective: 'Relying on a 30-second polling interval for cloud replication created brief synchronization lag between physical desk check-ins and remote owner dashboard updates during high-density gate queues. I would replace polling with a WebSocket/WebRTC fallback connection when online to push instant live events. Additionally, transitioning the ESP32 hardware telemetry from raw socket byte payloads to an MQTT publish-subscribe architecture over TLS would simplify multi-gate hardware expansion.',
+    image: 'https://i.ibb.co/53RHsb2/image-2026-10-07-222720606.png',
+    imageHint: 'Resort POS Front-Desk & Unit Availability Dashboard',
+    gallery: [
+      { url: 'https://i.ibb.co/53RHsb2/image-2026-10-07-222720606.png', hint: 'Resort POS Front-Desk & Unit Availability Dashboard' },
+      { url: 'https://i.ibb.co/twGH67vn/image.png', hint: 'Earnings Analytics & Cloud Owner Dashboard' },
+      { url: 'https://i.ibb.co/n8qgfc38/image.png', hint: 'Mobile Staff Interface & QR Receipt Verification' }
+    ],
+    tags: ['Web App', 'Node.js', 'Cloudflare Workers', 'SQLite', 'IoT', 'AI', 'Security', 'C++'],
+    github: null,
+    live: null,
+    metrics: [
+      { label: 'Architecture', value: 'Offline-First Edge', description: 'Local SQLite + Cloudflare D1 30s background sync engine' },
+      { label: 'Security Grade', value: 'SHA-256 HMAC', description: 'Cryptographic hash-chained audit log & signed QR receipts' },
+      { label: 'Hardware IoT', value: 'ESP32 C++ Gate', description: 'Automated vehicle loop & lift counter with tamper detection' },
+      { label: 'On-Device AI', value: 'MediaPipe Vision', description: 'Offline in-browser person detection for staff attendance' }
+    ],
+    timeline: [
+      {
+        phase: 'Phase 1: Local Core & Hash Ledgers',
+        duration: 'Weeks 1-2',
+        title: 'SQLite POS Engine & SHA-256 Audit Chains',
+        description: 'Engineered high-speed local Express.js/SQLite backend with trigger-enforced immutable ledgers and SHA-256 hash chains.'
+      },
+      {
+        phase: 'Phase 2: Edge Sync & Replication',
+        duration: 'Weeks 3-4',
+        title: 'Cloudflare Workers & D1 Mirroring',
+        description: 'Built incremental edge sync pushing resort sales metrics and audit logs to Cloudflare D1 every 30 seconds.'
+      },
+      {
+        phase: 'Phase 3: Hardware IoT & Browser AI',
+        duration: 'Weeks 5-6',
+        title: 'ESP32 Firmware & MediaPipe Monitor',
+        description: 'Programmed ESP32 C++ inductive loop gate counters and embedded Google MediaPipe vision into cashier UI for offline staff monitoring.'
+      },
+      {
+        phase: 'Phase 4: Multi-Role UI & Compliance',
+        duration: 'Weeks 7-8',
+        title: 'Role-Based Frontends & Statutory Compliance',
+        description: 'Designed tailored interfaces for Cashier, Gate, and Housekeeping roles with BIR Senior/PWD discount compliance.'
+      }
+    ]
+  },
+  {
     slug: 'n8n-gmail-email-pipeline',
     title: 'n8n AI-Powered Email Processing Pipeline',
     description: 'Automated inbound Gmail ingestion using OpenAI to classify email categories, managing Gmail labels, logging senders to Google Sheets, and archiving attachments to Google Drive in parallel.',
