@@ -1,0 +1,73 @@
+# Meshary A. Aquino — Portfolio & Systems Architecture
+
+> Meshary A. Aquino is a Computer Engineer, IT Specialist, and Full-Stack Systems Engineer specializing in offline-first architectures, embedded IoT hardware telemetry, edge AI / computer vision, mobile development (Flutter/Dart), and enterprise web applications (Next.js, FastAPI, Node.js).
+
+## Core Technical Expertise
+- **Languages**: TypeScript, JavaScript, Python, Dart, C/C++, PHP, SQL
+- **Frontend & Frameworks**: Next.js, React, Tailwind CSS, HTML5/CSS3 (Vanilla no-build)
+- **Backend & Edge**: Node.js, Express.js, FastAPI (Python), Cloudflare Workers, Cloudflare D1 (Serverless SQL)
+- **Databases & Storage**: PostgreSQL, SQLite, Firebase, Supabase, Redis
+- **Mobile & Embedded IoT**: Flutter, Dart, ESP32 Microcontrollers, C++ Firmware, WebRTC, Agora SDK
+- **AI & Computer Vision**: Google MediaPipe (On-device vision), YOLOv5 / YOLOv8, TensorFlow Lite, ONNX, OpenAI API, Gemini Vision API
+- **Security & Compliance**: SHA-256 HMAC cryptographic audit ledgers, AES-256 Fernet field encryption, JWT RBAC, BIR statutory compliance, Data Privacy Act (RA 10173)
+
+---
+
+## Featured Engineering Projects
+
+### 1. [Resort POS: Offline-First Resort Management & Audit System](/projects/resort-pos-management-system)
+- **Overview**: Full-stack, offline-first Point of Sale (POS) and property management system engineered for cash-heavy resorts. Features local LAN operation, 30-second Cloudflare Workers/D1 edge sync, and an anti-skimming architecture.
+- **Key Architecture**:
+  - SHA-256 hash-chained immutable audit ledgers and HMAC-signed QR receipts.
+  - ESP32 microcontroller with custom C++ firmware for automated vehicle loop & gate lift counting.
+  - Google MediaPipe (EfficientDet-Lite) running offline in-browser person detection for cashier desk attendance.
+  - Role-based separation (Cashier, Gate Guard, Housekeeping) to expose employee skimming.
+  - BIR TRAIN Law and Senior Citizen/PWD statutory discount tracking.
+- **Tech Stack**: Node.js, Express, SQLite, Cloudflare Workers & D1, ESP32 (C++), MediaPipe, HTML/JS/CSS.
+
+### 2. [n8n AI-Powered Email Processing Pipeline](/projects/n8n-gmail-email-pipeline)
+- **Overview**: Production-grade n8n workflow automating inbound Gmail ingestion, OpenAI category classification, idempotent label creation, and parallel Google Drive attachment archival.
+- **Tech Stack**: n8n, OpenAI Chat Model, Gmail API, Google Drive API, Google Sheets API.
+
+### 3. [n8n Telegram Receipt Processing & Expense Logging Engine](/projects/n8n-telegram-receipt-engine)
+- **Overview**: Mobile receipt expense processing system using Telegram Webhooks and Google Gemini Multimodal Vision (temp=0) for structured expense extraction into Google Sheets and timestamped Drive storage.
+- **Tech Stack**: n8n, Google Gemini Vision API, Telegram Bot API, Google Drive API, Google Sheets API.
+
+### 4. [Enterprise Online Secured Payroll Web Application](/projects/payroll-online-web)
+- **Overview**: Full-stack Philippine corporate payroll system automating BIR TRAIN tax exemption schedules, 2025 SSS MSC brackets, PhilHealth 5% ceilings, and Pag-IBIG Circular 460. Uses AES-256 Fernet field encryption for sensitive PII.
+- **Tech Stack**: Next.js 14 (App Router), FastAPI (Python 3.10+), Pydantic v2, PostgreSQL, Tailwind CSS, AES-256 Fernet.
+
+### 5. [LearnMate — Mobile Tutoring & Video Conferencing App](/projects/learnmate)
+- **Overview**: Android mobile application connecting tutors and tutees with real-time session booking, in-app messaging, Agora live video tutoring feeds, and admin approval workflows.
+- **Tech Stack**: Dart, Flutter, Agora RTC SDK, Firebase Firestore, Firebase Auth, GCash integration.
+
+### 6. [Wood Knot Detection App — Real-Time Edge AI](/projects/wood-knot-detection)
+- **Overview**: On-device real-time object detection app identifying wood defects on lumber. Trained YOLOv8 on 10,000+ custom annotated images, converted through ONNX, and quantized to TensorFlow Lite (<45ms inference).
+- **Tech Stack**: Flutter, Dart, YOLOv8, PyTorch, ONNX, TensorFlow Lite (TFLite).
+
+### 7. [Braille Haptic Reader — Capstone IoT Project](/projects/braille-haptic-reader)
+- **Overview**: OCR-to-Braille translation pipeline on Raspberry Pi using YOLOv5 paragraph detection, OCR text extraction, and a 3D-printed haptic cell array output achieving 97.82% accuracy.
+- **Tech Stack**: Raspberry Pi 4, Python, YOLOv5, OpenCV, Tesseract OCR, Solenoid Haptic Actuators.
+
+### 8. [Custom Desktop Payroll System](/projects/custom-payroll-system)
+- **Overview**: Bespoke desktop application automating complex payroll calculations, tax deductions, and transaction-safe PostgreSQL reporting.
+- **Tech Stack**: Python, PyQt6, PostgreSQL, PDF Generation.
+
+---
+
+## Professional Work Experience
+
+- **Freelance Software Engineer** (Sept 2024 – Present)
+  - Engineered cross-platform mobile apps (LearnMate) with WebRTC/Firebase and edge computer vision models (WoodKnot TFLite).
+- **IT Specialist — M. Abubakar Construction and Engineering** (June 2025 – June 2026)
+  - Architected normalized PostgreSQL schema cutting document reconciliation from 3 days to <4 hours.
+  - Built custom Python/PyQt6 payroll system automating calculations for 50+ workers, saving 15+ hours weekly.
+- **Software Developer Intern — Regional Trial Court, Region 9** (August 2024 – April 2025)
+  - Developed offline-first desktop client with bi-directional synchronization, maintaining continuous court operations during network outages.
+
+---
+
+## Contact & Links
+- **Full LLM Context**: [llms-full.txt](/llms-full.txt)
+- **GitHub**: [github.com/Meshy21](https://github.com/Meshy21)
+- **Email**: mesharyaquino@gmail.com

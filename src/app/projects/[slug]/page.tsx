@@ -56,11 +56,13 @@ export default function ProjectPage() {
     notFound();
   }
 
-  // Combine main image + gallery images for the hero slideshow
+  // Combine main image + gallery images for the hero slideshow, ensuring all URLs are strictly unique
   const allImages = [
     { url: project.image, hint: project.imageHint },
-    ...(project.gallery || []),
-  ];
+    ...(project.gallery || [])
+  ].filter((item, index, self) => 
+    index === self.findIndex((t) => t.url === item.url)
+  );
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % allImages.length);

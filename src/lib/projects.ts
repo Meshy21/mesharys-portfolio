@@ -48,7 +48,6 @@ export const projects: Project[] = [
     image: 'https://i.ibb.co/53RHsb2/image-2026-10-07-222720606.png',
     imageHint: 'Resort POS Front-Desk & Unit Availability Dashboard',
     gallery: [
-      { url: 'https://i.ibb.co/53RHsb2/image-2026-10-07-222720606.png', hint: 'Resort POS Front-Desk & Unit Availability Dashboard' },
       { url: 'https://i.ibb.co/twGH67vn/image.png', hint: 'Earnings Analytics & Cloud Owner Dashboard' },
       { url: 'https://i.ibb.co/n8qgfc38/image.png', hint: 'Mobile Staff Interface & QR Receipt Verification' }
     ],
@@ -100,7 +99,6 @@ export const projects: Project[] = [
     image: 'https://i.ibb.co/Mkp5T6vs/image.png',
     imageHint: 'n8n Gmail AI Email Processing Pipeline Overview',
     gallery: [
-      { url: 'https://i.ibb.co/Mkp5T6vs/image.png', hint: 'n8n Gmail AI Email Processing Pipeline Workflow Overview' },
       { url: 'https://i.ibb.co/ympGCjJF/image.png', hint: 'n8n Gmail AI Email Processing Pipeline Execution Details' }
     ],
     tags: ['AI / LLM', 'n8n', 'OpenAI', 'Gmail', 'Google Drive', 'Google Sheets', 'AI'],
@@ -153,9 +151,7 @@ export const projects: Project[] = [
     retrospective: 'Temperature 0 makes the extraction deterministic, not correct. A blurry or folded receipt still returns confidently wrong values that land straight in the expense sheet with nothing flagging them. I would add a validation pass — does the amount parse, is the date plausible, does the merchant string look like a name — and push failures to a review queue instead of the ledger. The binary-payload loss I fixed with an Edit Fields bridge node was also a symptom rather than the disease: I was branching before the upload, and restructuring the order would have removed the problem instead of working around it.',
     image: 'https://i.ibb.co/bgVQWvCn/image.png',
     imageHint: 'n8n Telegram Receipt Processing Engine Overview',
-    gallery: [
-      { url: 'https://i.ibb.co/bgVQWvCn/image.png', hint: 'n8n Telegram Receipt Processing Engine Workflow Overview' }
-    ],
+    gallery: [],
     tags: ['AI / LLM', 'n8n', 'Gemini AI', 'Telegram', 'Google Drive', 'Google Sheets', 'AI Vision'],
     github: null,
     live: '/workflows/n8n-telegram-receipt-engine.json',
@@ -207,7 +203,6 @@ export const projects: Project[] = [
     image: 'https://i.ibb.co/Kz0TVHX4/image.png',
     imageHint: 'Enterprise Secured Payroll Web Application Dashboard',
     gallery: [
-      { url: 'https://i.ibb.co/Kz0TVHX4/image.png', hint: 'Main Executive Payroll Dashboard' },
       { url: 'https://i.ibb.co/0V1C9f3p/image.png', hint: 'Employee Records & AES-256 Encrypted Profile Management' },
       { url: 'https://i.ibb.co/rRL8KHW2/image.png', hint: 'Automated BIR & Statutory Tax Calculation Breakdown' },
       { url: 'https://i.ibb.co/Vspkk0S/image.png', hint: 'Print-Ready Individual Payslip Export' },

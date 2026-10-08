@@ -1,0 +1,91 @@
+# Meshary A. Aquino — Full Portfolio & Technical Knowledge Base
+
+> Meshary A. Aquino is a Computer Engineer, IT Specialist, and Full-Stack Systems Engineer specializing in offline-first architectures, embedded IoT hardware telemetry, edge AI / computer vision, mobile development (Flutter/Dart), and enterprise web applications (Next.js, FastAPI, Node.js).
+
+## Core Technical Expertise
+- **Languages**: TypeScript, JavaScript, Python, Dart, C/C++, PHP, SQL
+- **Frontend & Frameworks**: Next.js, React, Tailwind CSS, HTML5/CSS3 (Vanilla no-build)
+- **Backend & Edge**: Node.js, Express.js, FastAPI (Python), Cloudflare Workers, Cloudflare D1 (Serverless SQL)
+- **Databases & Storage**: PostgreSQL, SQLite, Firebase, Supabase, Redis
+- **Mobile & Embedded IoT**: Flutter, Dart, ESP32 Microcontrollers, C++ Firmware, WebRTC, Agora SDK
+- **AI & Computer Vision**: Google MediaPipe (On-device vision), YOLOv5 / YOLOv8, TensorFlow Lite, ONNX, OpenAI API, Gemini Vision API
+- **Security & Compliance**: SHA-256 HMAC cryptographic audit ledgers, AES-256 Fernet field encryption, JWT RBAC, BIR statutory compliance, Data Privacy Act (RA 10173)
+
+---
+
+## Complete Project Catalog
+
+### 1. Resort POS: Offline-First Resort Management & Audit System
+- **URL**: /projects/resort-pos-management-system
+- **Description**: A full-stack, offline-capable Point of Sale (POS) and property management system for resorts featuring 30s Cloudflare Workers edge sync, SHA-256 HMAC cryptographic audit ledgers, ESP32 IoT gate counter integration, and browser-based AI desk monitoring.
+- **Detailed Overview**: Resort POS & Management System is a full-stack, offline-first Point of Sale (POS) and property management system engineered specifically for cash-heavy resorts and hospitality venues. Built to operate seamlessly during local internet outages while mirroring data to a Cloudflare Workers + D1 serverless cloud every 30 seconds for remote owner visibility, its primary innovation is an anti-skimming architecture that cryptographically secures transactions and cross-references sales against physical gate entries and housekeeping statuses.
+- **Technical Achievements**:
+  1. Local-First Edge Synchronization: Resilient local network server (Node.js + SQLite) syncing incrementally to Cloudflare Workers + D1 every 30 seconds.
+  2. Cryptographic Audit Trail & Signed Receipts: SHA-256 hash-chained audit log with HMAC-signed QR code receipts verified by gate guards and guests.
+  3. IoT Gate Counter & Hardware Telemetry: Custom C++ firmware for ESP32 microcontroller tallying vehicle entries via inductive loops and arm switches.
+  4. On-Device AI Desk Attendance Monitoring: Browser-based Google MediaPipe (EfficientDet-Lite) computer vision monitoring cashier attendance offline.
+  5. Anti-Skimming Decentralized Workflow: Role isolation across Cashier, Gate Guard, and Housekeeping to catch cash skimming or unbilled occupancy.
+  6. Philippine Statutory Compliance: BIR TRAIN Law tax rules, Senior Citizen/PWD statutory discount tracking (20% discount + ID logs), and Data Privacy Act (RA 10173) compliance.
+- **Tech Stack**: Node.js, Express, SQLite, Cloudflare Workers, Cloudflare D1, ESP32 (C++), Google MediaPipe, HTML/JS/CSS.
+
+### 2. n8n AI-Powered Email Processing Pipeline
+- **URL**: /projects/n8n-gmail-email-pipeline
+- **Description**: Automated inbound Gmail ingestion using OpenAI to classify email categories, managing Gmail labels, logging senders to Google Sheets, and archiving attachments to Google Drive in parallel.
+- **Detailed Overview**: Production-grade automation workflow built in n8n demonstrating AI classification, idempotent resource management, conditional branching, and parallel Google Workspace integration.
+- **Tech Stack**: n8n, OpenAI Chat Model, Gmail API, Google Drive API, Google Sheets API.
+
+### 3. n8n Telegram Receipt Processing & Expense Logging Engine
+- **URL**: /projects/n8n-telegram-receipt-engine
+- **Description**: Intercepts mobile receipt photos via Telegram Webhook, uses Google Gemini multimodal vision (temp=0) to extract merchant, amount, and date into Google Sheets, and archives timestamped receipts in Google Drive.
+- **Tech Stack**: n8n, Google Gemini Vision API, Telegram Bot API, Google Drive API, Google Sheets API.
+
+### 4. Enterprise Online Secured Payroll Web Application
+- **URL**: /projects/payroll-online-web
+- **Description**: A full-stack, enterprise-grade payroll web app with Next.js 14, FastAPI (Python), TailwindCSS, and PostgreSQL/SQLite. Automates BIR Withholding Tax calculations, statutory contribution tables (SSS 2025, PhilHealth 5%, Pag-IBIG Circular 460), AES-256 field encryption, and 1-payslip-per-page print exports.
+- **Tech Stack**: Next.js 14, FastAPI (Python), PostgreSQL, Pydantic v2, AES-256 Fernet Encryption, Tailwind CSS.
+
+### 5. LearnMate (Mobile-Based Android App)
+- **URL**: /projects/learnmate
+- **Description**: An Android app to streamline remote learning with session booking, messaging, and video conferencing built with Flutter, Dart, and Agora RTC SDK.
+- **Tech Stack**: Dart, Flutter, Agora RTC SDK, Firebase Firestore, Firebase Auth.
+
+### 6. Wood Knot Detection App
+- **URL**: /projects/wood-knot-detection
+- **Description**: An on-device, real-time app identifying wood knots using a YOLOv8 model trained on 10,000+ images, optimized via ONNX, and run on TensorFlow Lite.
+- **Tech Stack**: Flutter, Dart, YOLOv8, PyTorch, ONNX, TensorFlow Lite.
+
+### 7. Capstone: Braille Haptic Reader
+- **URL**: /projects/braille-haptic-reader
+- **Description**: An OCR-to-Braille translation pipeline on Raspberry Pi using YOLOv5 for visually impaired users.
+- **Tech Stack**: Raspberry Pi 4, Python, YOLOv5, OpenCV, Tesseract OCR, Solenoid Haptic Actuators.
+
+### 8. Custom Payroll Management System
+- **URL**: /projects/custom-payroll-system
+- **Description**: A bespoke desktop payroll system using Python and PyQt for precise, efficient financial management.
+- **Tech Stack**: Python, PyQt6, PostgreSQL.
+
+---
+
+## Professional Work Experience
+
+### Freelance Software Engineer
+- **Period**: September 2024 – Present | Remote
+- Delivered low-latency video and messaging for two user roles on LearnMate (Flutter/Firebase/Agora).
+- Achieved real-time on-device inference for Wood Knot Detection (YOLOv8, ONNX, TensorFlow Lite).
+
+### IT Specialist — M. Abubakar Construction and Engineering
+- **Period**: June 2025 – June 2026 | Zamboanga City
+- Normalized PostgreSQL schema cutting document reconciliation from 3 days to under 4 hours.
+- Built end-to-end PyQt6 payroll application covering 50+ employees, saving 15+ hours weekly.
+
+### Software Developer Intern — Regional Trial Court, Region 9
+- **Period**: August 2024 – April 2025 | Zamboanga City
+- Built offline-first desktop client with bi-directional cloud sync maintaining continuous court operations during network outages.
+- Reconciled 1,000+ legal records with zero data loss using conflict resolution algorithms.
+
+---
+
+## Contact Information
+- **Email**: mesharyaquino@gmail.com
+- **GitHub**: https://github.com/Meshy21
+- **LinkedIn**: https://linkedin.com/in/meshary-aquino

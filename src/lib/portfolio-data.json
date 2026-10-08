@@ -48,7 +48,6 @@
       "image": "https://i.ibb.co/53RHsb2/image-2026-10-07-222720606.png",
       "imageHint": "Resort POS Front-Desk & Unit Availability Dashboard",
       "gallery": [
-        { "url": "https://i.ibb.co/53RHsb2/image-2026-10-07-222720606.png", "hint": "Resort POS Front-Desk & Unit Availability Dashboard" },
         { "url": "https://i.ibb.co/twGH67vn/image.png", "hint": "Earnings Analytics & Cloud Owner Dashboard" },
         { "url": "https://i.ibb.co/n8qgfc38/image.png", "hint": "Mobile Staff Interface & QR Receipt Verification" }
       ],
@@ -66,7 +65,6 @@
       "image": "https://i.ibb.co/Kz0TVHX4/image.png",
       "imageHint": "Enterprise Secured Payroll Web Application Dashboard",
       "gallery": [
-        { "url": "https://i.ibb.co/Kz0TVHX4/image.png", "hint": "Main Executive Payroll Dashboard" },
         { "url": "https://i.ibb.co/0V1C9f3p/image.png", "hint": "Employee Records & AES-256 Encrypted Profile Management" },
         { "url": "https://i.ibb.co/rRL8KHW2/image.png", "hint": "Automated BIR & Statutory Tax Calculation Breakdown" },
         { "url": "https://i.ibb.co/Vspkk0S/image.png", "hint": "Print-Ready Individual Payslip Export" },
@@ -174,7 +172,6 @@
       "image": "https://i.ibb.co/Mkp5T6vs/image.png",
       "imageHint": "n8n Gmail AI Email Processing Pipeline Overview",
       "gallery": [
-        { "url": "https://i.ibb.co/Mkp5T6vs/image.png", "hint": "n8n Gmail AI Email Processing Pipeline Workflow Overview" },
         { "url": "https://i.ibb.co/ympGCjJF/image.png", "hint": "n8n Gmail AI Email Processing Pipeline Execution Details" }
       ],
       "tags": ["Automation", "n8n", "OpenAI", "Gmail", "Google Drive", "Google Sheets", "AI"],

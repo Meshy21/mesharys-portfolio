@@ -1,0 +1,12 @@
+# User-agent directives for web crawlers and LLM search agents
+User-agent: *
+Allow: /
+
+# AI & LLM friendly index files
+Allow: /llms.txt
+Allow: /llms-full.txt
+
+# Disallow dynamic API routes from indexing
+Disallow: /api/
+
+Sitemap: https://mesharyaquino.com/sitemap.xml
